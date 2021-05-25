@@ -14,7 +14,7 @@ String uid;
 String userEmail;
 String stdId;
 
-    Future<User> signInWithGoogle(BuildContext context) async {
+Future<User> signInWithGoogle(BuildContext context) async {
   // Initialize Firebase
   await Firebase.initializeApp();
   User user;
@@ -37,31 +37,61 @@ String stdId;
   if(mail != 'handong.edu'){
     print(context);
     handong(context);
-    FirebaseAuth.instance.signOut();
     signOutGoogle();
+    FirebaseAuth.instance.signOut();
+
     return null;
   }
   else if (user != null) {
 
-    print(mail);
+    //print(mail);
     uid = user.uid;
     stdId = user.email.split('@')[0];
-    print(uid);
-    name = user.displayName;
+
+    //print(uid);
+    name = stdId[1]+stdId[2]+user.displayName.split('학부생')[0];
+
     print(name);
     userEmail = user.email;
     imageUrl = user.photoURL;
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    //존재하는지 확인하고
-    //불러와서 time에 플러스하기 + type 받아오기
-    firestore.collection('Users').doc(stdId).set({
+    var UserData = await firestore.collection('Users').doc(uid).get();
+
+    final snapShot = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(stdId) // varuId in your case
+        .get();
+
+    if (snapShot == null || !snapShot.exists) {
+      // Document with id == varuId doesn't exist.
+      firestore.collection('Users').doc(stdId).set({
         'email': userEmail,
         'name' : name,
         'studentId': stdId,
         'time' : 0,
         'type' : "tutee"
-    });
+      });
+      // You can add data to Firebase Firestore here
+    }
+    else{
+      print("It is exist!");
+    }
+
+
+    // if(UserData.data() != null){
+    //   //Here The User's UserID already existed in Firestore , Perform What You want!!
+    // }
+    // else{
+    //   //Here The User's UserID doesn't yet exists in Firestore , Perform What You want!!
+    //   firestore.collection('Users').doc(stdId).set({
+    //     'email': userEmail,
+    //     'name' : name,
+    //     'studentId': stdId,
+    //     'time' : 0,
+    //     'type' : "tutee"
+    //   });
+    // }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('auth', true);
@@ -77,12 +107,14 @@ void signOutGoogle() async {
   final UserCredential userCredential = null;
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('auth', false);
+  //setState(() {
+    uid = null;
+    name = null;
+    userEmail = null;
+    imageUrl = null;
+    stdId = null;
+  //});
 
-  uid = null;
-  name = null;
-  userEmail = null;
-  imageUrl = null;
-  stdId = null;
 
   print("User signed out of Google account");
 }
@@ -108,6 +140,21 @@ Future getUser() async {
   }
 }
 
+// String name;
+// String imageUrl;
+// String uid;
+// String userEmail;
+// String stdId;
+
+String get_name(){
+  return name;
+}
+
+String get_stdId(){
+  return stdId;
+}
+
+
 void handong(BuildContext context){
   var alert = AlertDialog(
     title: Text('오류'),
@@ -118,4 +165,9 @@ void handong(BuildContext context){
     return alert;
   }
   );
+}
+
+void signOutGoogle_2() async{
+  await googleSignIn.signOut();
+  print("User Sign Out");
 }

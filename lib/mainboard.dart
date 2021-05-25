@@ -30,10 +30,12 @@ class mainboard extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () => Navigator.push(context,
+          onPressed: () =>
+
+              Navigator.push(context,
             MaterialPageRoute(
               // fullscreenDialog: true,
-              builder: (context) => makeRoom(),
+              builder: (context) => new makeRoom(),
             ),
           )
         ),
@@ -49,3 +51,4 @@ class mainboard extends StatelessWidget {
     );
   }
 }
+

@@ -37,7 +37,16 @@ class _AuthDialogState extends State<AuthDialog> {
                 color: const Color(0X9BC7DA),
                 padding: EdgeInsets.only(bottom: 50)
               ),
-
+              // Container(
+              //     child: Center(child: IconButton(
+              //       icon: new Icon(Icons.arrow_back_ios, color: Colors.orange),
+              //       onPressed: () => {
+              //         signOutGoogle(),
+              //       },
+              //     ),),
+              //     color: const Color(0X9BC7DA),
+              //     padding: EdgeInsets.only(bottom: 50)
+              // ),
             ],
           ),
         )
@@ -74,17 +83,17 @@ class _GoogleButtonState extends State<GoogleButton> {
           elevation: 0,
         ),
         onPressed: () async {
-          setState(() async {
+          setState(() {
             _isProcessing = true;
           });
-          //await googleSignIn.disconnect();
+          //print("PRessed!!");
           await signInWithGoogle(context).then((result) {
             print(result);
-            if(result == null){
-
-              //signOutGoogle();
-              //FirebaseAuth.instance.signOut();
-            }
+            // if(result == null){
+            //
+            //   //signOutGoogle();
+            //   //FirebaseAuth.instance.signOut();
+            // }
             if (result != null) {
               //Navigator.of(context).pop();
               Navigator.push(context,
