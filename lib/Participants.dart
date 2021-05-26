@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:histutor/controller/SessionController.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/state/Database.dart';
-import 'package:histutor/state/ApplicationState.dart';
 import 'package:provider/provider.dart';
 
 class Participants extends StatelessWidget {

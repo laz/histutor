@@ -5,10 +5,12 @@ import 'package:histutor/controller/SessionController.dart';
 import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
+import 'package:histutor/state/Authentication.dart';
 import 'package:histutor/state/Database.dart';
-import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/Participants.dart';
 import 'package:provider/provider.dart';
+
+import 'model/User.dart';
 
 class histutor extends StatefulWidget {
   const histutor({Key key}) : super(key: key);
@@ -23,11 +25,19 @@ class _histutorState extends State<histutor> {
   @override
   Widget build(BuildContext context) {
     List<Session> sessions = Provider.of<List<Session>>(context);
-  print('done');
+    User user = Provider.of<User>(context);
+    print('histutor rebuild');
+
     return Scaffold(
-      appBar: AppBar(title: Text('hitutor')),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () => Authentication().signOut(),
+        ),
+        title: Text('hitutor')
+      ),
       // catchError?
-      body: sessions != null
+      body: sessions != null && user != null
           ? ListView.builder(
               itemCount: sessions.length,
               itemBuilder: (context, index) {

@@ -32,21 +32,6 @@ class Database {
           .map((chat) => Chat.fromFirebase(chat)).toList());
   }
 
-  // Stream<QuerySnapshot> getSessions() {
-  //   return sessionReference.snapshots();
-  // }
-
-  // Stream<QuerySnapshot> getSessionParticipantss(String sessionIndex) {
-  //   return sessionReference
-  //       .doc(sessionIndex)
-  //       .collection('Participants')
-  //       .snapshots();
-  // }
-
-  // Stream<QuerySnapshot> getSessionChats(String sessionIndex) {
-  //   return sessionReference.doc(sessionIndex).collection('Chats').snapshots();
-  // }
-
   // TODO: User
 
 }
