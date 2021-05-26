@@ -1,10 +1,17 @@
-
 import 'package:flutter/material.dart';
-import 'package:histutor/state/ApplicationState.dart';
 import 'screens/page.dart';
 
-class histutor extends StatelessWidget {
+
+
+class histutor extends StatefulWidget {
   const histutor({Key key}) : super(key: key);
+
+  @override
+  _histutorState createState() => _histutorState();
+}
+
+class _histutorState extends State<histutor> {
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -14,27 +21,6 @@ class histutor extends StatelessWidget {
         backgroundColor: Color(0xff9BC7DA),
         primaryColor: Color(0xff9BC7DA),
       ),
-    );/*
-      home: Scaffold(
-        appBar: AppBar(
-            title: Text('histutor')
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('body')
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.wb_sunny),
-          onPressed: () {
-            ApplicationState applicationState = ApplicationState();
-            applicationState.addParticipant();
-          },
-        ),
-      ),
-    */
+    );
   }
 }
