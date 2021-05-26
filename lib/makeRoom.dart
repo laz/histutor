@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:histutor/utils/authentication.dart';
 
-import 'mainboard.dart';
+import 'histutor.dart';
 
 
 
@@ -172,7 +172,7 @@ class _roomMakerState extends State<roomMaker> {
                         Navigator.push(context,
                             MaterialPageRoute(
                             // fullscreenDialog: true,
-                            builder: (context) => mainboard(),
+                            builder: (context) => histutor(),
                       ));
                       }
                       else{
@@ -203,7 +203,7 @@ class _roomMakerState extends State<roomMaker> {
                         Navigator.push(context,
                             MaterialPageRoute(
                               // fullscreenDialog: true,
-                              builder: (context) => mainboard(),
+                              builder: (context) => histutor(),
                             ));
                       }
                     },
