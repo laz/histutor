@@ -10,6 +10,8 @@ import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/Participants.dart';
 import 'package:provider/provider.dart';
 
+import 'makeRoom.dart';
+
 class histutor extends StatefulWidget {
   const histutor({Key key}) : super(key: key);
 
@@ -94,10 +96,13 @@ class _histutorState extends State<histutor> {
       // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          print(sessions.length);
-          SessionController().addSession(sessions.length);
-        },
+          onPressed: () =>
+              Navigator.push(context,
+                MaterialPageRoute(
+                  // fullscreenDialog: true,
+                  builder: (context) => new makeRoom(),
+                ),
+              )
       ),
       // floatingActionButton: Consumer<SessionController>(
       //   builder: (context, sessionController, _) => FloatingActionButton(
