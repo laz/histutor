@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:histutor/state/ApplicationState.dart';
-
+import 'screens/page.dart';
 
 class histutor extends StatelessWidget {
   const histutor({Key key}) : super(key: key);
@@ -9,9 +9,15 @@ class histutor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: HomePage(),
+      theme: ThemeData(
+        backgroundColor: Color(0xff9BC7DA),
+        primaryColor: Color(0xff9BC7DA),
+      ),
+    );/*
       home: Scaffold(
         appBar: AppBar(
-            title: Text('hitutor')
+            title: Text('histutor')
         ),
         body: Center(
           child: Column(
@@ -29,6 +35,6 @@ class histutor extends StatelessWidget {
           },
         ),
       ),
-    );
+    */
   }
 }
