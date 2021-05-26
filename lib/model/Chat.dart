@@ -11,4 +11,12 @@ class Chat {
     @required this.text,
     @required this.from,
   });
+
+  factory Chat.fromFirebase(DocumentSnapshot snapshot) {
+    Map data = snapshot.data();
+    return Chat(
+      text: data['text'],
+      from: data['from'],
+    );
+  }
 }

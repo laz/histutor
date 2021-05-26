@@ -7,8 +7,8 @@ class Session {
   final String tutorName;
   final String sessionName;
   final String category;
-  final DateTime sessionStart;
-  final DateTime sessionEnd;
+  final Timestamp sessionStart;
+  final Timestamp sessionEnd;
   Timestamp createdTime;
 
   Session({
@@ -20,4 +20,17 @@ class Session {
     @required this.category,
     @required this.createdTime,
   });
+
+  factory Session.fromFirebase(DocumentSnapshot snapshot) {
+    Map data = snapshot.data();
+    return Session(
+      sessionIndex: data['sessionIndex'],
+      tutorName: data['tutorName'],
+      sessionName: data['sessionName'],
+      sessionStart: data['sessionStart'],
+      sessionEnd: data['sessionEnd'],
+      category: data['category'],
+      createdTime: data['createdTime'],
+    );
+  }
 }
