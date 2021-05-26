@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:histutor/utils/authentication.dart';
 
 import '../histutor.dart';
+import '../mainboard.dart';
 
 BuildContext context_;
 
@@ -97,7 +99,7 @@ class _GoogleButtonState extends State<GoogleButton> {
               Navigator.push(context,
                   MaterialPageRoute(
                    // fullscreenDialog: true,
-                    builder: (context) => histutor(),
+                    builder: (context) => mainboard(),
                   ),
               );
               // Navigator.of(context).pushReplacement(

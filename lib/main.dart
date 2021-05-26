@@ -9,8 +9,6 @@ import 'package:histutor/state/Authentication.dart';
 import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 
-import 'Login.dart';
-
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +20,7 @@ void main() async {
       StreamProvider<List<Session>>.value(value: Database().getSessions())
     ],
     child: MaterialApp(
-      home: Login(),
+      home: histutor(),
     ),
   ));
 }
