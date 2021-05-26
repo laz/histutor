@@ -22,7 +22,10 @@ class Authentication extends ChangeNotifier {
   }
 
   Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount googleUser = await GoogleSignIn(scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ]).signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
