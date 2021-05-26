@@ -195,6 +195,7 @@ class _roomMakerState extends State<roomMaker> {
                         'tutorName' : tutor_name,
                         'zoomLink' : _zoomlink.text,
                         'offline' : _offsession.text,
+                          'On_Off' : true,
                         }),
                         });
 
