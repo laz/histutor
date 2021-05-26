@@ -12,4 +12,13 @@ class Participant {
     @required this.entrance,
     @required this.name,
   });
+
+  factory Participant.fromFirebase(DocumentSnapshot snapshot) {
+    Map data = snapshot.data();
+    return Participant(
+      studentId: data['studentId'],
+      entrance: data['entrance'],
+      name: data['name']
+    );
+  }
 }
