@@ -5,6 +5,7 @@ import 'package:histutor/histutor.dart';
 import 'package:histutor/model/Session.dart';
 import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/state/Authentication.dart';
+
 import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 
