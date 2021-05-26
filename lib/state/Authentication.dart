@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:histutor/model/User.dart' as model;
 
-class Authentication extends ChangeNotifier{
-
+class Authentication extends ChangeNotifier {
   User _auth;
   User get auth => _auth;
 
@@ -40,9 +39,9 @@ class Authentication extends ChangeNotifier{
     String studentId = _auth.email.split('@')[0];
 
     final snapshot = await FirebaseFirestore.instance
-    .collection('Users')
-    .doc(studentId)
-    .get();
+        .collection('Users')
+        .doc(studentId)
+        .get();
 
     // first time login
     if (!snapshot.exists) {

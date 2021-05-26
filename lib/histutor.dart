@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:histutor/Chatting.dart';
+import 'package:histutor/Mypage.dart';
 import 'package:histutor/controller/SessionController.dart';
 import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
@@ -34,7 +35,15 @@ class _histutorState extends State<histutor> {
           icon: Icon(Icons.logout),
           onPressed: () => Authentication().signOut(),
         ),
-        title: Text('hitutor')
+        title: Text('hitutor'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Mypage()));
+              })
+        ],
       ),
       // catchError?
       body: sessions != null && user != null
@@ -45,63 +54,33 @@ class _histutorState extends State<histutor> {
                   title: Text(sessions[index].sessionName),
                   subtitle: Text(sessions[index].sessionIndex.toString()),
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         // order by
-                        builder: (context) => StreamProvider<List<Participant>>.value(
-                          value: Database().getSessionParticipants(sessions[index].sessionIndex),
-                            child: Participants(sessionIndex: sessions[index].sessionIndex)
-                        )
-                      )
-                    );
+                        builder: (context) =>
+                            StreamProvider<List<Participant>>.value(
+                                value: Database().getSessionParticipants(
+                                    sessions[index].sessionIndex),
+                                child: Participants(
+                                    sessionIndex:
+                                        sessions[index].sessionIndex))));
                   },
                   trailing: IconButton(
                     icon: Icon(Icons.chat),
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => StreamProvider<List<Chat>>.value(
-                                value: Database().getSessionChats(sessions[index].sessionIndex),
-                                  child: Chatting(sessionIndex: sessions[index].sessionIndex)
-                              )
-                          )
-                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              StreamProvider<List<Chat>>.value(
+                                  value: Database().getSessionChats(
+                                      sessions[index].sessionIndex),
+                                  child: Chatting(
+                                      sessionIndex:
+                                          sessions[index].sessionIndex))));
                     },
                   ),
                 );
               },
             )
           : CircularProgressIndicator(),
-      // body: StreamBuilder<QuerySnapshot>(
-      //   stream: Database().getSessions(),
-      //   builder: (context, sessions) {
-      //     if(sessions.hasError)
-      //       return Text('Oops, something went wrong...');
-      //     else if(sessions.hasData) {
-      //       if(sessions.data.docs.isEmpty)
-      //         return Text('No Sessions...');
-      //       else
-      //         return ListView.builder(
-      //           itemCount: sessions.data.docs.length,
-      //           itemBuilder: (context, index) {
-      //             return ListTile(
-      //               title: Text(sessions.data.docs[index].id),
-      //               onTap: () {
-      //                 Navigator.of(context).push(
-      //                   MaterialPageRoute(
-      //                     builder: (context) => TestPage(sessionIndex: sessions.data.docs[index].id.toString(),)
-      //                   )
-      //                 );
-      //                 // print(sessions.data.docs[index].data().toString());
-      //               },
-      //             );
-      //           },
-      //         );
-      //     }
-      //     else
-      //       return CircularProgressIndicator();
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -109,15 +88,6 @@ class _histutorState extends State<histutor> {
           SessionController().addSession(sessions.length);
         },
       ),
-      // floatingActionButton: Consumer<SessionController>(
-      //   builder: (context, sessionController, _) => FloatingActionButton(
-      //     child: Icon(Icons.wb_sunny),
-      //     onPressed: () {
-      //       print(sessions.length);
-      //       sessionController.addSession(sessions.length);
-      //     },
-      //   ),
-      // ),
     );
   }
 }

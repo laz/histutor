@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:histutor/controller/SessionController.dart';
 import 'package:histutor/model/Chat.dart';
 import 'package:provider/provider.dart';
 
 class Chatting extends StatelessWidget {
-
   final int sessionIndex;
 
   const Chatting({Key key, @required this.sessionIndex}) : super(key: key);
@@ -21,14 +19,14 @@ class Chatting extends StatelessWidget {
       ),
       body: chats != null
           ? ListView.builder(
-        itemCount: chats.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(chats[index].from),
-            subtitle: Text(chats[index].text),
-          );
-        },
-      )
+              itemCount: chats.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(chats[index].from),
+                  subtitle: Text(chats[index].text),
+                );
+              },
+            )
           : CircularProgressIndicator(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

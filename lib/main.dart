@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:histutor/histutor.dart';
 import 'package:histutor/model/Session.dart';
+import 'package:histutor/model/Subsession.dart';
 import 'package:histutor/state/Authentication.dart';
 import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +24,10 @@ void main() async {
         catchError: (context, _) => null,
       ),
     ],
-    child: MaterialApp(
-      home: LoginPage(),
-    ),
+    // child: MaterialApp(
+    //   home: LoginPage(),
+    // ),
+    child: LoginPage(),
   ));
 }
 
@@ -37,19 +39,31 @@ class LoginPage extends StatelessWidget {
     User auth = Provider.of<User>(context);
 
     if (auth == null) {
-      return Container(
-          alignment: Alignment.center,
-          child: TextButton(
-              child: Text('Google signin'),
-              onPressed: () async {
-                await Authentication().signInWithGoogle();
-              }));
+      return MaterialApp(
+        home: Container(
+            alignment: Alignment.center,
+            child: TextButton(
+                child: Text('Google signin'),
+                onPressed: () async {
+                  await Authentication().signInWithGoogle();
+                })),
+      );
     } else {
       if (auth != null) {
-        return StreamProvider<model.User>.value(
-            value: Authentication().getUser(auth.email.split('@')[0]),
-            catchError: (context, _) => null,
-            child: histutor());
+        String studentId = auth.email.split('@')[0];
+        return MultiProvider(
+          providers: [
+            StreamProvider<model.User>.value(
+              value: Authentication().getUser(studentId),
+              catchError: (context, _) => null,
+            ),
+            StreamProvider<List<Subsession>>.value(
+              value: Database().getUserSessions(studentId),
+              catchError: (context, _) => null,
+            ),
+          ],
+          child: MaterialApp(home: histutor()),
+        );
       } else
         return CircularProgressIndicator();
     }
