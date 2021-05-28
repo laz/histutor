@@ -18,6 +18,7 @@ class SessionPage extends StatefulWidget {
 class _SessionPageState extends State<SessionPage> {
   @override
   Widget build(BuildContext context) {
+    List<Session> sessions = Provider.of<List<Session>>(context);
     return Container(
       child: Padding(
         padding: EdgeInsets.fromLTRB(125, 0, 145, 0),

@@ -21,8 +21,12 @@ void main() async {
       // catchError?
       StreamProvider<List<Session>>.value(value: Database().getSessions())
     ],
-    child: MaterialApp(
-      home: Login(),
-    ),
-  ));
+    child: ChangeNotifierProvider<Authentication>(
+      create: (context) => Authentication(),
+      child: ChangeNotifierProvider<ApplicationState>(
+        create: (context) => ApplicationState(),
+        child: Login(),
+      ),
+  ))
+  );
 }

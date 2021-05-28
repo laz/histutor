@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'model/Session.dart';
 import 'screens/page.dart';
 
 
@@ -15,6 +17,7 @@ class _HISTUTORState extends State<HISTUTOR> {
 
   @override
   Widget build(BuildContext context) {
+    List<Session> sessions = Provider.of<List<Session>>(context);
     return MaterialApp(
       home: HomePage(),
       theme: ThemeData(
