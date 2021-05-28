@@ -67,6 +67,7 @@ class _AuthDialogState extends State<AuthDialog> {
                           ),
                           Padding(padding: EdgeInsets.only(bottom: 11)),
                           Container(
+
                             alignment: Alignment(0.0, 0.0),
                             height: 74,
                             width: 311,
@@ -76,11 +77,21 @@ class _AuthDialogState extends State<AuthDialog> {
                                 Image.asset('assets/g.png',
                                   width:32,
                                   height: 31,),
+                                Padding(padding:const EdgeInsets.only(right : 15) ),
                                 GoogleButton(),
                               ],
                             ),
-                            color: const Color(0xffF4CACA),
                             //padding: EdgeInsets.only(bottom: 50)
+                            decoration: BoxDecoration(
+                              color: const Color(0xffF4CACA),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                              ),
+                            ),
+
                           ),
                         ],
                       ),
@@ -130,7 +141,6 @@ class _GoogleButtonState extends State<GoogleButton> {
           setState(() {
             _isProcessing = true;
           });
-          //print("PRessed!!");
           await signInWithGoogle(context).then((result) {
             print(result);
             if (result != null) {
@@ -161,11 +171,7 @@ class _GoogleButtonState extends State<GoogleButton> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Image(
-              //   image: AssetImage("assets/images/google_logo.png"),
-              //   height: 30.0,
-              // ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
                     'Sign in with Google',
@@ -173,6 +179,14 @@ class _GoogleButtonState extends State<GoogleButton> {
                         fontSize: 20,
                         color: Colors.black,
                         fontFamily: 'Quicksand')
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
                 ),
               )
             ],
