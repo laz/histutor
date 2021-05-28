@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer<ApplicationState>(
       builder: (context, applicationState, _){
         return Scaffold(
-            backgroundColor: Color(0xff9BC7DA),
+            backgroundColor: Color(0xfffef2f2),
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60.0),
               child: (applicationState.isAdmin) ? AdminAppBar() : UserAppBar(),
@@ -50,6 +50,5 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-
   }
 }

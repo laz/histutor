@@ -63,7 +63,7 @@ class _TutorListState extends State<TutorList> {
               child: ElevatedButton(
                 //onPressed: (),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
                 ),
                 child: Text(
                   "강등",
@@ -76,7 +76,7 @@ class _TutorListState extends State<TutorList> {
             child: (isAdmin) ? Container() :ElevatedButton(
               //onPressed: (),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
               ),
               child: Text(
                 "관리자 지정",

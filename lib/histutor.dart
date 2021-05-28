@@ -18,8 +18,8 @@ class _histutorState extends State<histutor> {
     return MaterialApp(
       home: HomePage(),
       theme: ThemeData(
-        backgroundColor: Color(0xff9BC7DA),
-        primaryColor: Color(0xff9BC7DA),
+        backgroundColor: Color(0xffede2df),
+        primaryColor: Color(0xffede2df),
       ),
     );
   }
