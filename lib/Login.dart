@@ -8,6 +8,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Color(0xff9BC7DA),
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,

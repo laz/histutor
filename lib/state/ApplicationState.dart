@@ -7,9 +7,23 @@ import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
 
 class ApplicationState extends ChangeNotifier {
-
+  bool isAdmin = false;
+  int selectedPage = 0;
+  int selectedAdminPage = 0;
+  int selectedMyPage = 0;
   // function prototypes
-
+  void changeSelectedPage(int num){
+    selectedPage = num;
+    notifyListeners();
+  }
+  void changeSelectedAdminPage(int num){
+    selectedAdminPage = num;
+    notifyListeners();
+  }
+  void changeSelectedMyPage(int num){
+    selectedMyPage = num;
+    notifyListeners();
+  }
   User user = User(
     name: 'Joowon Park',
     studentId: 216002931,
