@@ -30,7 +30,7 @@ class _SessionPageState extends State<SessionPage> {
             ),
             Consumer<ApplicationState>(
               builder: (context, applicationState, _){
-                return selectMyPage(0);
+                return selectMyPage();
               },
             )
 
@@ -40,23 +40,12 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 }
-Widget selectMyPage(int selectedNum) {
-  switch (selectedNum) {
-    case 0: // to session
+Widget selectMyPage() {// to session
       return Container(
         width: 1167,
         height: 534,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
         child: SessionListPage(), //Session list 넣기
-      );    // case 1: // my page
-  //   return Container(
-  //     width: 1167,
-  //     height: 534,
-  //     alignment: Alignment.topLeft,
-  //     color: Color(0xffFFFFFF),
-  //     child: nicknameChangePage(),
-  //   );
-
-  }
+      );
 }

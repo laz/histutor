@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:histutor/Chatting.dart';
+import 'package:histutor/model/Chat.dart';
+import 'package:histutor/model/Session.dart';
+import 'package:histutor/state/Database.dart';
+import 'package:provider/provider.dart';
 
 class Sessions extends StatefulWidget {
+  List<Session> sessions;
+
   int idx;
   Sessions({
+    this.sessions,
     this.idx
   });
   @override
@@ -43,30 +51,39 @@ class _SessionsState extends State<Sessions> {
       children: [
         Container(
           width: 100,
-          child: Text("33"),
+          child: Text(widget.idx.toString()),
         ),
         Container(
           width: 200,
-          child: Text("종료"),
+          child: Text(widget.sessions[widget.idx].category),
         ),
         Container(
           width: 300,
-          child: Text("소프트웨어 공학 티에이세션"),
+          child: Text(widget.sessions[widget.idx].sessionName),
         ),
         Container(
           width: 100,
-          child: Text("18김유영"),
+          child: Text(widget.sessions[widget.idx].tutorName),
         ),
         Container(
           width: 200,
-          child: Text("2022-02-02"),
+          child: Text(widget.sessions[widget.idx].sessionStart.toDate().day.toString()),
         ),
         Padding(
             padding: EdgeInsets.only(right: 100),
             child: Container(
               width: 100,
               child: ElevatedButton(
-                //onPressed: (),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => StreamProvider<List<Chat>>.value(
+                              value: Database().getSessionChats(widget.sessions[widget.idx].sessionIndex),
+                              child: Chatting(sessionIndex: widget.sessions[widget.idx].sessionIndex)
+                          )
+                      )
+                  );
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                 ),

@@ -16,28 +16,32 @@ class SessionListPage extends StatefulWidget {
 class _SessionListPageState extends State<SessionListPage> {
   @override
   Widget build(BuildContext context) {
-    //List<Session> sessions = Provider.of<List<Session>>(context);
-    print('done');
-    //그냥 provider가 지금 안되는구나,,
+    List<Session> sessions = Provider.of<List<Session>>(context);
     return Container(
         padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: Consumer<ApplicationState>(
           builder: (context, applicationState, _){
-            return selectSessionPage();
+            return selectSessionPage(sessions);
           },
         )
     );
   }
 }
-Widget selectSessionPage(){
+Widget selectSessionPage(List<Session> sessions){
+  print(sessions);
       return ListView.separated(
-          itemBuilder: ( _, int index){
+          itemBuilder: (context, int index){
+            print(sessions[index].category.compareTo("종료")==1);
             return Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: Sessions(idx: index),
+              child:
+              sessions[index].category.compareTo("종료")==1?
+             // sessions[index].category.compareTo("종료")==true?
+              Sessions(sessions: sessions,idx: index)
+                  : null
             );
           },
-          separatorBuilder: (_, int index) => const Divider(),
-          itemCount: 11
+          separatorBuilder: (context, int index) => sessions[index].category.compareTo("종료")==1? const Divider(): Container(),
+          itemCount: sessions.length
       );
 }
