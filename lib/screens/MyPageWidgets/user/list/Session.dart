@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:histutor/Chatting.dart';
 import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Session.dart';
+import 'package:histutor/model/User.dart';
 import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class Sessions extends StatefulWidget {
   List<Session> sessions;
@@ -19,7 +21,10 @@ class Sessions extends StatefulWidget {
 
 class _SessionsState extends State<Sessions> {
   @override
+
   Widget build(BuildContext context) {
+    var outputFormat = DateFormat('yyyy-MM-dd');
+    var outputDate = outputFormat.format(widget.sessions[widget.idx].sessionStart.toDate());
     bool isAdmin = false;
     if(widget.idx == 0){
       return Row(
@@ -67,7 +72,7 @@ class _SessionsState extends State<Sessions> {
         ),
         Container(
           width: 200,
-          child: Text(widget.sessions[widget.idx].sessionStart.toDate().day.toString()),
+          child: Text(outputDate),
         ),
         Padding(
             padding: EdgeInsets.only(right: 100),

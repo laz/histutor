@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/model/Session.dart';
+import 'package:histutor/model/User.dart';
 import 'package:histutor/screens/MyPageWidgets/admin/list/tutorList.dart';
 import 'package:histutor/screens/MyPageWidgets/user/list/Session.dart';
 import 'package:histutor/state/ApplicationState.dart';
@@ -19,29 +20,28 @@ class _SessionListPageState extends State<SessionListPage> {
     List<Session> sessions = Provider.of<List<Session>>(context);
     return Container(
         padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-        child: Consumer<ApplicationState>(
+        child: sessions != null
+        ?Consumer<ApplicationState>(
           builder: (context, applicationState, _){
             return selectSessionPage(sessions);
           },
         )
+            :CircularProgressIndicator()
     );
   }
 }
 Widget selectSessionPage(List<Session> sessions){
-  print(sessions);
-      return ListView.separated(
-          itemBuilder: (context, int index){
-            print(sessions[index].category.compareTo("종료")==1);
-            return Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child:
-              sessions[index].category.compareTo("종료")==1?
-             // sessions[index].category.compareTo("종료")==true?
-              Sessions(sessions: sessions,idx: index)
-                  : null
-            );
-          },
-          separatorBuilder: (context, int index) => sessions[index].category.compareTo("종료")==1? const Divider(): Container(),
-          itemCount: sessions.length
-      );
+        return ListView.separated(
+            itemBuilder: (context, int index){
+              return Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child:
+                  sessions[index].category.compareTo("종료")==1?
+                  Sessions(sessions: sessions,idx: index)
+                      : null
+              );
+            },
+            separatorBuilder: (context, int index) => sessions[index].category.compareTo("종료")==1? const Divider(): Container(),
+            itemCount: sessions.length
+        );
 }
