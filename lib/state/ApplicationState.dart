@@ -5,12 +5,17 @@ import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
+import 'package:histutor/model/User.dart' as model;
+import 'package:histutor/state/Database.dart';
 
 class ApplicationState extends ChangeNotifier {
   bool isAdmin = false;
   int selectedPage = 0;
   int selectedAdminPage = 0;
   int selectedMyPage = 0;
+  List<model.User> tuteeList;
+  List<model.User> tutorList;
+
   // function prototypes
   void changeSelectedPage(int num){
     selectedPage = num;

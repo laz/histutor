@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class User {
+class Tutee {
   final String name;
   final int studentId;
   final String email;
   final int time;
   final String type;
 
-  User({
+  Tutee({
     @required this.name,
     @required this.studentId,
     @required this.email,
@@ -16,9 +16,10 @@ class User {
     @required this.type,
   });
 
-  factory User.fromFirebase(DocumentSnapshot snapshot) {
+  factory Tutee.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
-    return User(
+    print("tutee" + data['email']);
+    return Tutee(
       name: data['name'],
       email: data['email'],
       studentId: data['studentId'],

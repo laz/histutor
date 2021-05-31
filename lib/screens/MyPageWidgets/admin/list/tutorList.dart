@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:histutor/controller/UserController.dart';
+import 'package:histutor/state/ApplicationState.dart';
+import 'package:provider/provider.dart';
+
+import 'package:histutor/controller/UserController.dart';
+import 'package:histutor/model/Tutor.dart';
+import 'package:histutor/model/User.dart';
 
 class TutorList extends StatefulWidget {
   int idx;
+  List<Tutor> tutorList;
   TutorList({
-    this.idx
+    this.idx,
+    this.tutorList,
   });
   @override
   _TutorListState createState() => _TutorListState();
@@ -12,7 +21,6 @@ class TutorList extends StatefulWidget {
 class _TutorListState extends State<TutorList> {
   @override
   Widget build(BuildContext context) {
-    bool isAdmin = false;
     if(widget.idx == 0){
       return Row(
         children: [
@@ -46,22 +54,24 @@ class _TutorListState extends State<TutorList> {
       children: [
         Container(
           width: 100,
-          child: Text("33"),
+          child: Text(widget.idx.toString()),
         ),
         Container(
           width: 200,
-          child: Text("16박주원"),
+          child: Text(widget.tutorList[widget.idx-1].name.toString()),
         ),
         Container(
           width: 400,
-          child: Text("21600293@handong.edu"),
+          child: Text(widget.tutorList[widget.idx-1].email.toString()),
         ),
         Padding(
             padding: EdgeInsets.only(right: 100),
             child: Container(
               width: 100,
               child: ElevatedButton(
-                //onPressed: (),
+                onPressed: (){
+                  UserController().changeUserType(widget.tutorList[widget.idx-1].studentId.toString(), "tutee");
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
                 ),
@@ -73,8 +83,10 @@ class _TutorListState extends State<TutorList> {
         ),
         Container(
             width: 100,
-            child: (isAdmin) ? Container() :ElevatedButton(
-              //onPressed: (),
+            child: ElevatedButton(
+              onPressed: (){
+                UserController().changeUserType(widget.tutorList[widget.idx-1].studentId.toString(), "admin");
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
               ),

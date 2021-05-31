@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/state/ApplicationState.dart';
 import 'package:provider/provider.dart';
-import 'package:histutor/model/Tutee.dart' ;
+import 'package:histutor/model/Subsession.dart' ;
 
-class TuteeStatus extends StatefulWidget {
+class TuteeSessionList extends StatefulWidget {
   int idx;
-  List<Tutee> tuteeList;
-  TuteeStatus({
+  List<Subsession> sessionList;
+  TuteeSessionList({
     this.idx,
-    this.tuteeList,
+    this.sessionList,
   });
   @override
-  _TuteeStatusState createState() => _TuteeStatusState();
+  TuteeSessionListState createState() => TuteeSessionListState();
 }
 
-class _TuteeStatusState extends State<TuteeStatus> {
+class TuteeSessionListState extends State<TuteeSessionList> {
   @override
   Widget build(BuildContext context) {
     if(widget.idx == 0){
@@ -26,11 +26,15 @@ class _TuteeStatusState extends State<TuteeStatus> {
           ),
           Container(
             width: 800,
-            child: Text("튜티"),
+            child: Text("방_이름"),
           ),
           Container(
             width: 100,
-            child: Text("시간"),
+            child: Text("튜터"),
+          ),
+          Container(
+            width: 100,
+            child: Text("참여일"),
           )
         ],
       );
@@ -43,11 +47,15 @@ class _TuteeStatusState extends State<TuteeStatus> {
         ),
         Container(
           width: 800,
-          child: Text(widget.tuteeList[widget.idx-1].name),
+          child: Text(widget.sessionList[widget.idx-1].sessionName),
         ),
         Container(
           width: 100,
-          child: Text(widget.tuteeList[widget.idx-1].time.toString()),
+          child: Text(widget.sessionList[widget.idx-1].tutorName),
+        ),
+        Container(
+          width: 100,
+          child: Text(widget.sessionList[widget.idx-1].date.toDate().toString()),
         ),
       ],
     );
