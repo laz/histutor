@@ -7,7 +7,7 @@ class User {
   final String email;
   final int time;
   final String type;
- // final String Uid;
+  final String Uid;
 
   User({
     @required this.name,
@@ -15,7 +15,7 @@ class User {
     @required this.email,
     @required this.time,
     @required this.type,
-   // @required this.Uid,
+    @required this.Uid,
   });
 
   factory User.fromFirebase(DocumentSnapshot snapshot) {
@@ -26,7 +26,7 @@ class User {
       studentId: data['studentId'],
       time: data['time'],
       type: data['type'],
-      //Uid: data['Uid'],
+      Uid: data['Uid'],
     );
   }
 }
