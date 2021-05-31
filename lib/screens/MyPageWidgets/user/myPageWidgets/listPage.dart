@@ -40,8 +40,10 @@ class _ListPageState extends State<ListPage> {
 }
 Widget myPageSessionList(int selectedNum, BuildContext context, List<Subsession> sessions, User user){
    // tutor status
+
   if(user.type == "tutor") {
-    return (sessions != null) ? ListView.separated(
+    return (sessions != null) ? (sessions.isEmpty) ? (Text("No Session")) :
+    ListView.separated(
       itemBuilder: (_, int index) {
         return Padding(
           padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -53,7 +55,8 @@ Widget myPageSessionList(int selectedNum, BuildContext context, List<Subsession>
     ) : Align(child: CircularProgressIndicator());
   }
   else {
-    return (sessions != null) ? ListView.separated(
+    return (sessions != null) ? (sessions.isEmpty) ? (Text("No Session")) :
+    ListView.separated(
       itemBuilder: (_, int index) {
         print(sessions[0].sessionName);
         return Padding(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:histutor/utils/authentication.dart';
 
+import '../HISTUTOR_.dart';
 import '../histutor.dart';
 
 BuildContext context_;
@@ -14,42 +15,98 @@ class AuthDialog extends StatefulWidget {
 class _AuthDialogState extends State<AuthDialog> {
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: SingleChildScrollView(
-        child: Container(
-          height: 380.0,
-          width: 540.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'HISTUTOR'
+
+    return Scaffold(
+      backgroundColor: Color(0xff9BC7DA),
+      body: Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        child: SingleChildScrollView(
+            child: Container(
+                height: 558.0,
+                width: 385.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15.0),
+                    bottomRight: Radius.circular(15.0),
+                    topLeft: Radius.circular(15.0),
+                    topRight: Radius.circular(15.0),
                   ),
                 ),
-              ),
-              Container(
-                child: Center(child: GoogleButton()),
-                color: const Color(0X9BC7DA),
-                padding: EdgeInsets.only(bottom: 50)
-              ),
-              // Container(
-              //     child: Center(child: IconButton(
-              //       icon: new Icon(Icons.arrow_back_ios, color: Colors.orange),
-              //       onPressed: () => {
-              //         signOutGoogle(),
-              //       },
-              //     ),),
-              //     color: const Color(0X9BC7DA),
-              //     padding: EdgeInsets.only(bottom: 50)
-              // ),
-            ],
-          ),
-        )
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 540.0,
+                      width: 368.0,
+                      decoration: BoxDecoration(
+                        color: Color(0xffEBEBEB),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15.0),
+                          bottomRight: Radius.circular(15.0),
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment(0.0, 0.0),
+                            width:223,
+                            height: 92,
+                            child: Text("HISTUTOR",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                  fontFamily: 'MontserratSubrayada'),),
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 11)),
+                          Container(
+
+                            alignment: Alignment(0.0, 0.0),
+                            height: 74,
+                            width: 311,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/g.png',
+                                  width:32,
+                                  height: 31,),
+                                Padding(padding:const EdgeInsets.only(right : 15) ),
+                                GoogleButton(),
+                              ],
+                            ),
+                            //padding: EdgeInsets.only(bottom: 50)
+                            decoration: BoxDecoration(
+                              color: const Color(0xffF4CACA),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                              ),
+                            ),
+
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+
+
+
+            )
+        ),
       ),
     );
+
+
   }
 }
 
@@ -67,16 +124,16 @@ class _GoogleButtonState extends State<GoogleButton> {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.blueGrey, width: 3),
+          side: BorderSide(color: Color(0xffF4CACA), width: 45),
         ),
-        color: Colors.white,
+        color: Color(0xffF4CACA),
       ),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          primary: Colors.blueGrey.shade100,
+          primary: Color(0xffF4CACA),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: Colors.blueGrey, width: 3),
+            side: BorderSide(color: Color(0xffF4CACA), width: 45),
           ),
           elevation: 0,
         ),
@@ -84,28 +141,16 @@ class _GoogleButtonState extends State<GoogleButton> {
           setState(() {
             _isProcessing = true;
           });
-          //print("PRessed!!");
           await signInWithGoogle(context).then((result) {
             print(result);
-            // if(result == null){
-            //
-            //   //signOutGoogle();
-            //   //FirebaseAuth.instance.signOut();
-            // }
             if (result != null) {
               //Navigator.of(context).pop();
               Navigator.push(context,
-                  MaterialPageRoute(
-                   // fullscreenDialog: true,
-                    builder: (context) => histutor(),
-                  ),
+                MaterialPageRoute(
+                  // fullscreenDialog: true,
+                  builder: (context) => HISTUTOR(),
+                ),
               );
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //    // fullscreenDialog: true,
-              //     builder: (context) => histutor(),
-              //   ),
-              // );
             }
           }).catchError((error) {
             print('Registration Error: $error');
@@ -126,17 +171,21 @@ class _GoogleButtonState extends State<GoogleButton> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Image(
-              //   image: AssetImage("assets/images/google_logo.png"),
-              //   height: 30.0,
-              // ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Continue with Google',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.blueGrey,
+                    'Sign in with Google',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontFamily: 'Quicksand')
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
                 ),
               )
@@ -146,9 +195,5 @@ class _GoogleButtonState extends State<GoogleButton> {
       ),
     );
   }
-
-
-
-
 }
 

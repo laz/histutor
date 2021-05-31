@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 
 import 'myPageWidgets/nicknameChange.dart';
 import 'myPageWidgets/topButtons.dart';
+<<<<<<< HEAD
 import 'package:histutor/screens/MyPageWidgets/user/myPageWidgets/listPage.dart';
+=======
+>>>>>>> 9fba2dda9e8fc772f45301575cb52ddc555bb08f
 
 class MyPage extends StatefulWidget {
   @override
@@ -45,7 +48,11 @@ Widget selectMyPage(int selectedNum) {
         height: 534,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
+<<<<<<< HEAD
         child: ListPage(),
+=======
+        child: nicknameChangePage(),
+>>>>>>> 9fba2dda9e8fc772f45301575cb52ddc555bb08f
       );
     case 1: // my page
       return Container(
@@ -53,7 +60,11 @@ Widget selectMyPage(int selectedNum) {
         height: 534,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
+<<<<<<< HEAD
         child: NicknameChangePage(),
+=======
+        child: nicknameChangePage(),
+>>>>>>> 9fba2dda9e8fc772f45301575cb52ddc555bb08f
       );
   }
 }

@@ -34,5 +34,8 @@ Widget bodyPage(){
     color: Color(0xffFFFFFF),
     child: ListPage(),
   );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9fba2dda9e8fc772f45301575cb52ddc555bb08f
 }

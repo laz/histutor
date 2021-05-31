@@ -13,9 +13,12 @@ class ApplicationState extends ChangeNotifier {
   int selectedPage = 0;
   int selectedAdminPage = 0;
   int selectedMyPage = 0;
+<<<<<<< HEAD
   List<model.User> tuteeList;
   List<model.User> tutorList;
 
+=======
+>>>>>>> 9fba2dda9e8fc772f45301575cb52ddc555bb08f
   // function prototypes
   void changeSelectedPage(int num){
     selectedPage = num;

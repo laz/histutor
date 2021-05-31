@@ -40,6 +40,7 @@ class Authentication extends ChangeNotifier {
     _auth = userCredential.user;
 
     String studentId = _auth.email.split('@')[0];
+    String name = studentId[1]+studentId[2]+_auth.displayName.split('학부생')[0];
 
     final snapshot = await FirebaseFirestore.instance
         .collection('Users')
@@ -48,9 +49,11 @@ class Authentication extends ChangeNotifier {
 
     // first time login
     if (!snapshot.exists) {
+
       await FirebaseFirestore.instance.collection('Users').doc(studentId).set({
+        'Uid': _auth.uid,
         'email': _auth.email,
-        'name': _auth.displayName,
+        'name': name,
         'studentId': int.parse(studentId),
         'time': 0,
         'type': 'tutee'
