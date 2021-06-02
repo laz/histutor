@@ -14,6 +14,13 @@ class Database {
   CollectionReference userReference =
       FirebaseFirestore.instance.collection('Users');
 
+  Stream<Session> getSession(int sessionIndex) {
+    return sessionReference
+        .doc(sessionIndex.toString())
+        .snapshots()
+        .map((session) => Session.fromFirebase(session));
+  }
+
   // order by?
   Stream<List<Session>> getSessions() {
     return sessionReference.snapshots().map((sessions) =>
@@ -25,6 +32,7 @@ class Database {
     return sessionReference
         .doc(sessionIndex.toString())
         .collection('Participants')
+        .orderBy('entrance')
         .snapshots()
         .map((participants) => participants.docs
             .map((participant) => Participant.fromFirebase(participant))
@@ -35,6 +43,7 @@ class Database {
     return sessionReference
         .doc(sessionIndex.toString())
         .collection('Chats')
+        .orderBy('time')
         .snapshots()
         .map((chats) =>
             chats.docs.map((chat) => Chat.fromFirebase(chat)).toList());
@@ -45,13 +54,15 @@ class Database {
     return userReference.snapshots().map(
         (users) => users.docs.map((user) => User.fromFirebase(user)).toList());
   }
+
   Stream<List<Tutor>> getTutors() {
     return userReference.where("type", isEqualTo: "tutor").snapshots().map(
-            (users) => users.docs.map((user) => Tutor.fromFirebase(user)).toList());
+        (users) => users.docs.map((user) => Tutor.fromFirebase(user)).toList());
   }
+
   Stream<List<Tutee>> getTutees() {
     return userReference.where("type", isEqualTo: "tutee").snapshots().map(
-            (users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
+        (users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
   }
 
   Stream<List<Subsession>> getUserSessions(String studentId) {

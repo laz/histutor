@@ -31,17 +31,58 @@ class _SessionListPageState extends State<SessionListPage> {
   }
 }
 Widget selectSessionPage(List<Session> sessions){
-        return ListView.separated(
-            itemBuilder: (context, int index){
-              return Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child:
-                  sessions[index].category.compareTo("종료")==1?
-                  Sessions(sessions: sessions,idx: index)
-                      : null
-              );
-            },
-            separatorBuilder: (context, int index) => sessions[index].category.compareTo("종료")==1? const Divider(): Container(),
-            itemCount: sessions.length
-        );
+  return
+    Column(
+      children: [
+        Container(
+            child:
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child:                 Row(
+                children: [
+                  Container(
+                    width: 100,
+                    child: Text("NO."),
+                  ),
+                  Container(
+                    width: 200,
+                    child: Text("STATUS"),
+                  ),
+                  Container(
+                    width: 300,
+                    child: Text("방 이름"),
+                  ),
+                  Container(
+                    width: 100,
+                    child: Text("작성"),
+                  ),
+                  Container(
+                    width: 200,
+                    child: Text("작성일"),
+                  )
+                ],
+              ),
+            )
+        ),
+        Divider(),
+        Expanded(child:
+        SizedBox(
+          height: 485,
+          child: ListView.separated(
+              itemBuilder: (context, int index){
+                return Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child:
+                    sessions[index].category.compareTo("종료")==1?
+                    Sessions(sessions: sessions,idx: index)
+                        : null
+                );
+              },
+              separatorBuilder: (context, int index) => sessions[index].category.compareTo("종료")==1? const Divider(): Container(),
+              itemCount: sessions.length
+          ),
+        ))
+      ],
+    );
+
 }

@@ -27,7 +27,7 @@ class Participants extends StatelessWidget {
                   title: Text(participants[index].studentId.toString()),
                   // ternary op to ensure not null for every field value?????
                   subtitle: participants[index].entrance != null
-                      ? Text(participants[index].entrance.toDate().toString())
+                      ? Text('${participants[index].entrance.toDate().toString()}')
                       : Text(''),
                 );
               },

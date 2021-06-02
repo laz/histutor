@@ -207,7 +207,7 @@ class _roomMakerState extends State<roomMaker> {
                                     Timestamp t_start = Timestamp.fromDate(_starttime);
                                     Timestamp t_end = Timestamp.fromDate(_endtime);
                                     FirebaseFirestore firestore = FirebaseFirestore.instance;
-                                    firestore.collection('Sessions').add(
+                                    firestore.collection('Sessions').doc((sessions.length).toString()).set(
                                         {'category': "진행중",
                                           'createTime' : Timestamp.fromDate(_datetime),
                                           'sessionStart' : t_start,
@@ -217,6 +217,7 @@ class _roomMakerState extends State<roomMaker> {
                                           'zoomLink' : _zoomlink.text,
                                           'offline' : _offsession.text,
                                           'Uid': user.Uid,
+                                          'sessionIndex': sessions.length,
                                         });
                                   }
                                   Navigator.of(context).pop();
