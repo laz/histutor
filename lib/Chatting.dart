@@ -82,7 +82,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     studentId = auth.studentId.toString();
     name = auth.name;
 
-    return session.category.compareTo('종료') != 1
+    return session.category.compareTo('종료') == 1
         ? Scaffold(
             appBar: AppBar(
               title: Text('Chats'),
@@ -134,7 +134,6 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                     ? Column(
                                         children: [
                                           for (var p in participants)
-                                            if (p.uid != session.tutorUid)
                                               Text(p.name)
                                         ],
                                       )
@@ -280,7 +279,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   _isComposing = text.isNotEmpty;
                 });
               },
-              onSubmitted: _isComposing ? _handleSubmitted : null,
+              // onSubmitted: _isComposing ? _handleSubmitted : null,
               decoration: InputDecoration.collapsed(hintText: 'Send a message'),
               focusNode: _focusNode,
             ),
@@ -289,7 +288,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
               margin: EdgeInsets.symmetric(horizontal: 4.0),
               child: CupertinoButton(
                 onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
+                    ? () => _handleSubmitted(_textController.text, name)
                     : null,
                 child: Icon(Icons.send),
               ))
@@ -298,13 +297,13 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     );
   }
 
-  void _handleSubmitted(String text) {
+  void _handleSubmitted(String text, String name) {
     _textController.clear();
     setState(() {
       _isComposing = false;
     });
     var message = ChatMessage(
-      name: '18김유영',
+      name: name,
       text: text,
       animationController: AnimationController(
         duration: const Duration(milliseconds: 30),
