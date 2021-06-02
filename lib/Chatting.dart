@@ -205,9 +205,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           child: ElevatedButton(
             onPressed: () {
               if (p.uid != session.tutorUid)
-                addChatMessage(p.name + '님 차례입니다:)');
+                addChatMessage(p.name + '님 차례입니다:)', p.name);
               else
-                addChatMessage('현재 진행할 튜티가 없습니다:(');
+                addChatMessage('현재 진행할 튜티가 없습니다:(', p.name);
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
@@ -311,19 +311,19 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
       ),
     );
     setState(() {
-      addChatMessage(text);
+      addChatMessage(text, name);
     });
     _focusNode.requestFocus();
     message.animationController.forward();
   }
 
-  Future<DocumentReference> addChatMessage(String text) {
+  Future<DocumentReference> addChatMessage(String text, String name) {
     return FirebaseFirestore.instance
         .collection('Sessions')
         .doc(sessionIndex.toString())
         .collection('Chats')
         .add({
-      'from': '18김유영',
+      'from': name,
       'text': text,
       'time': FieldValue.serverTimestamp(),
     });
