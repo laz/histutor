@@ -5,8 +5,6 @@ import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
-import 'package:histutor/screens/MyPageWidgets/user/myPageWidgets/SessionList.dart';
-import 'package:histutor/screens/MyPageWidgets/user/sessionPage.dart';
 import 'package:provider/provider.dart';
 
 import 'model/Session.dart';
@@ -144,72 +142,27 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                               ],
                             ),
                             SizedBox(height: 50.0),
+                            if (auth.Uid == session.tutorUid)
+                              _buildTutorButton(participants[0], session),
+
                             Container(
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (participants[0].uid != session.tutorUid)
-                                    addChatMessage(
-                                        participants[0].name + '님 차례입니다:)');
-                                  else
-                                    addChatMessage('현재 진행할 튜티가 없습니다:(');
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Color(0xff9BC7DA)),
-                                ),
-                                child: Text(
-                                  "시작",
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20.0),
-                            Container(
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Navigator.push(context,
-                                  //   MaterialPageRoute(
-                                  //     // fullscreenDialog: true,
-                                  //     builder: (context) => new timePage(),
-                                  //   ),
-                                  // );
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Color(0xff9BC7DA)),
-                                ),
-                                child: Text(
-                                  "시간 기록",
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20.0),
-                            Container(
-                              width: 100,
+                              width: 300,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  await FirebaseFirestore.instance
-                                      .collection('Sessions')
-                                      .doc(sessionIndex.toString())
-                                      .update({
-                                    'category': "종료",
-                                  });
+                                  await FirebaseFirestore.instance.collection('Sessions')
+                                  .doc(sessionIndex.toString()).collection('Participants')
+                                  .doc(auth.studentId.toString()).delete();
                                   Navigator.of(context).pop();
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => SessionPage()),
-                                  // );
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Color(0xff9BC7DA)),
+                                  backgroundColor:
+                                  MaterialStateProperty.all(Color(0xff9BC7DA)),
                                 ),
                                 child: Text(
-                                  "세션 종료",
+                                  "나가기",
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         )
                       : CircularProgressIndicator(),
@@ -230,10 +183,6 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   child: ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //       builder: (context) => SessionPage()),
-                      // );
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -247,6 +196,75 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
               ],
             )),
           );
+  }
+
+  Widget _buildTutorButton(Participant p, Session session) {
+    return Column(
+      children: [
+        Container(
+          width: 100,
+          child: ElevatedButton(
+            onPressed: () {
+              if (p.uid != session.tutorUid)
+                addChatMessage(p.name + '님 차례입니다:)');
+              else
+                addChatMessage('현재 진행할 튜티가 없습니다:(');
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+            ),
+            child: Text(
+              "시작",
+            ),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Container(
+          width: 100,
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //   MaterialPageRoute(
+              //     // fullscreenDialog: true,
+              //     builder: (context) => new timePage(),
+              //   ),
+              // );
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+            ),
+            child: Text(
+              "시간 기록",
+            ),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Container(
+          width: 100,
+          child: ElevatedButton(
+            onPressed: () async {
+              await FirebaseFirestore.instance
+                  .collection('Sessions')
+                  .doc(sessionIndex.toString())
+                  .update({
+                'category': "종료",
+              });
+              Navigator.of(context).pop();
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //       builder: (context) => SessionPage()),
+              // );
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+            ),
+            child: Text(
+              "세션 종료",
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildTextComposer() {

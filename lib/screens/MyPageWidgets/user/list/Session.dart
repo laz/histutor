@@ -21,7 +21,6 @@ class Sessions extends StatefulWidget {
 class _SessionsState extends State<Sessions> {
   @override
   Widget build(BuildContext context) {
-
     User auth = Provider.of<User>(context);
 
     var outputFormat = DateFormat('yyyy-MM-dd');
@@ -57,33 +56,39 @@ class _SessionsState extends State<Sessions> {
               width: 100,
               child: ElevatedButton(
                 onPressed: () async {
-                  await FirebaseFirestore.instance.collection('Sessions').doc(widget.sessions[widget.idx].sessionIndex.toString())
-                  .collection('Participants').doc(auth.studentId.toString()).set({
-                    'entrance': FieldValue.serverTimestamp(),
-                    'name': auth.name,
-                    'studentId': auth.studentId,
-                    'uid': auth.Uid,
-                  });
+                  if (auth.Uid != widget.sessions[widget.idx].tutorUid)
+                    await FirebaseFirestore.instance
+                        .collection('Sessions')
+                        .doc(
+                            widget.sessions[widget.idx].sessionIndex.toString())
+                        .collection('Participants')
+                        .doc(auth.studentId.toString())
+                        .set({
+                      'entrance': FieldValue.serverTimestamp(),
+                      'name': auth.name,
+                      'studentId': auth.studentId,
+                      'uid': auth.Uid,
+                    });
 
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return MultiProvider(
-                            providers: [
-                              StreamProvider<List<Chat>>.value(
-                                  value: Database().getSessionChats(
-                                      widget.sessions[widget.idx].sessionIndex)),
-                              StreamProvider<Session>.value(
-                                  value: Database().getSession(widget
-                                      .sessions[widget.idx].sessionIndex)),
-                              StreamProvider<List<Participant>>.value(
-                                  value: Database().getSessionParticipants(widget
-                                      .sessions[widget.idx].sessionIndex)),
-                            ],
-                        child: Chatting(
-                            sessionIndex: widget
-                                .sessions[widget.idx].sessionIndex),
-                          );
-                      }));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return MultiProvider(
+                      providers: [
+                        StreamProvider<List<Chat>>.value(
+                            value: Database().getSessionChats(
+                                widget.sessions[widget.idx].sessionIndex)),
+                        StreamProvider<Session>.value(
+                            value: Database().getSession(
+                                widget.sessions[widget.idx].sessionIndex)),
+                        StreamProvider<List<Participant>>.value(
+                            value: Database().getSessionParticipants(
+                                widget.sessions[widget.idx].sessionIndex)),
+                      ],
+                      child: Chatting(
+                          sessionIndex:
+                              widget.sessions[widget.idx].sessionIndex),
+                    );
+                  }));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
