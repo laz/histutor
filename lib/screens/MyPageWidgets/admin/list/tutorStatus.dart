@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:histutor/state/ApplicationState.dart';
-import 'package:provider/provider.dart';
 import 'package:histutor/model/Tutor.dart';
 
-class TutorStatus extends StatefulWidget {
-  int idx;
-  List<Tutor> tutorList;
-  TutorStatus({
-    this.idx,
-    this.tutorList,
-  });
-  @override
-  _TutorStatusState createState() => _TutorStatusState();
-}
+class TutorStatus extends StatelessWidget {
+  const TutorStatus({Key key, @required this.idx, @required this.tutorList})
+      : super(key: key);
+  final int idx;
+  final List<Tutor> tutorList;
 
-class _TutorStatusState extends State<TutorStatus> {
   @override
   Widget build(BuildContext context) {
-    if(widget.idx == 0){
+    if (idx == 0) {
       return Row(
         children: [
           Container(
@@ -39,15 +31,15 @@ class _TutorStatusState extends State<TutorStatus> {
       children: [
         Container(
           width: 100,
-          child: Text(widget.idx.toString()),
+          child: Text(idx.toString()),
         ),
         Container(
           width: 800,
-          child: Text(widget.tutorList[widget.idx-1].name),
+          child: Text(tutorList[idx - 1].name),
         ),
         Container(
           width: 100,
-          child: Text(widget.tutorList[widget.idx-1].time.toString()),
+          child: Text(tutorList[idx - 1].time.toString()),
         ),
       ],
     );

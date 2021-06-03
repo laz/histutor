@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'topButtons.dart';
 import 'listPage.dart';
 
-class AdminBody extends StatefulWidget {
-  @override
-  _AdminBodyState createState() => _AdminBodyState();
-}
+class AdminBody extends StatelessWidget {
+  const AdminBody({Key key}) : super(key: key);
 
-class _AdminBodyState extends State<AdminBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
         padding: EdgeInsets.fromLTRB(125, 0, 145, 0),
-        child:  Column(
+        child: Column(
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child : TopButton(),
+              child: TopButton(),
             ),
             bodyPage(),
           ],
@@ -26,7 +23,8 @@ class _AdminBodyState extends State<AdminBody> {
     );
   }
 }
-Widget bodyPage(){
+
+Widget bodyPage() {
   return Container(
     width: 1167,
     height: 534,
@@ -34,5 +32,4 @@ Widget bodyPage(){
     color: Color(0xffFFFFFF),
     child: ListPage(),
   );
-
 }

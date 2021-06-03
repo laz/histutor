@@ -7,7 +7,7 @@ import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
 
-import 'model/Session.dart';
+import '../../../../model/Session.dart';
 
 class ChatMessage extends StatelessWidget {
   ChatMessage({this.name, this.text, this.animationController});
@@ -94,12 +94,12 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                             .doc(auth.studentId.toString())
                             .delete();
 
-                      if(auth.Uid != session.tutorUid)
+                      if (auth.Uid != session.tutorUid)
                         await FirebaseFirestore.instance
-                        .collection('Users')
-                        .doc(auth.studentId.toString())
-                        .collection('Sessions')
-                        .add({
+                            .collection('Users')
+                            .doc(auth.studentId.toString())
+                            .collection('Sessions')
+                            .add({
                           'date': FieldValue.serverTimestamp(),
                           'sessionName': session.sessionName,
                           'time': 0,
@@ -165,7 +165,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                   ],
                                 ),
                                 SizedBox(height: 50.0),
-                                if (session != null)
+                                if (auth.Uid == session.tutorUid)
                                   _buildTutorButton(participants, session),
                               ],
                             )

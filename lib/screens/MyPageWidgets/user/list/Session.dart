@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:histutor/Chatting.dart';
+import 'package:histutor/screens/MyPageWidgets/user/list/Chatting.dart';
 import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
@@ -9,42 +9,36 @@ import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class Sessions extends StatefulWidget {
-  List<Session> sessions;
+class Sessions extends StatelessWidget {
+  const Sessions({Key key, @required this.idx, @required this.sessions})
+      : super(key: key);
+  final int idx;
+  final List<Session> sessions;
 
-  int idx;
-  Sessions({this.sessions, this.idx});
-  @override
-  _SessionsState createState() => _SessionsState();
-}
-
-class _SessionsState extends State<Sessions> {
   @override
   Widget build(BuildContext context) {
     User auth = Provider.of<User>(context);
 
     var outputFormat = DateFormat('yyyy-MM-dd');
-    var outputDate =
-        outputFormat.format(widget.sessions[widget.idx].sessionStart.toDate());
-    bool isAdmin = false;
+    var outputDate = outputFormat.format(sessions[idx].sessionStart.toDate());
 
     return Row(
       children: [
         Container(
           width: 100,
-          child: Text(widget.idx.toString()),
+          child: Text(idx.toString()),
         ),
         Container(
           width: 200,
-          child: Text(widget.sessions[widget.idx].category),
+          child: Text(sessions[idx].category),
         ),
         Container(
           width: 300,
-          child: Text(widget.sessions[widget.idx].sessionName),
+          child: Text(sessions[idx].sessionName),
         ),
         Container(
           width: 100,
-          child: Text(widget.sessions[widget.idx].tutorName),
+          child: Text(sessions[idx].tutorName),
         ),
         Container(
           width: 200,
@@ -56,11 +50,10 @@ class _SessionsState extends State<Sessions> {
               width: 100,
               child: ElevatedButton(
                 onPressed: () async {
-                  if (auth.Uid != widget.sessions[widget.idx].tutorUid)
+                  if (auth.Uid != sessions[idx].tutorUid)
                     await FirebaseFirestore.instance
                         .collection('Sessions')
-                        .doc(
-                            widget.sessions[widget.idx].sessionIndex.toString())
+                        .doc(sessions[idx].sessionIndex.toString())
                         .collection('Participants')
                         .doc(auth.studentId.toString())
                         .set({
@@ -75,18 +68,16 @@ class _SessionsState extends State<Sessions> {
                     return MultiProvider(
                       providers: [
                         StreamProvider<List<Chat>>.value(
-                            value: Database().getSessionChats(
-                                widget.sessions[widget.idx].sessionIndex)),
+                            value: Database()
+                                .getSessionChats(sessions[idx].sessionIndex)),
                         StreamProvider<Session>.value(
-                            value: Database().getSession(
-                                widget.sessions[widget.idx].sessionIndex)),
+                            value: Database()
+                                .getSession(sessions[idx].sessionIndex)),
                         StreamProvider<List<Participant>>.value(
                             value: Database().getSessionParticipants(
-                                widget.sessions[widget.idx].sessionIndex)),
+                                sessions[idx].sessionIndex)),
                       ],
-                      child: Chatting(
-                          sessionIndex:
-                              widget.sessions[widget.idx].sessionIndex),
+                      child: Chatting(sessionIndex: sessions[idx].sessionIndex),
                     );
                   }));
                 },

@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:histutor/state/ApplicationState.dart';
-import 'package:provider/provider.dart';
-import 'package:histutor/model/Tutee.dart' ;
+import 'package:histutor/model/Tutee.dart';
 
-class TuteeStatus extends StatefulWidget {
-  int idx;
-  List<Tutee> tuteeList;
-  TuteeStatus({
-    this.idx,
-    this.tuteeList,
+class TuteeStatus extends StatelessWidget {
+  const TuteeStatus({Key key, @required this.idx, @required this.tuteeList})
+      : super(key: key);
+  final int idx;
+  final List<Tutee> tuteeList;
 
-  });
-  @override
-  _TuteeStatusState createState() => _TuteeStatusState();
-}
-
-class _TuteeStatusState extends State<TuteeStatus> {
   @override
   Widget build(BuildContext context) {
-
-    if(widget.idx == 0){
+    if (idx == 0) {
       return Row(
         children: [
           Container(
@@ -41,15 +31,15 @@ class _TuteeStatusState extends State<TuteeStatus> {
       children: [
         Container(
           width: 100,
-          child: Text(widget.idx.toString()),
+          child: Text(idx.toString()),
         ),
         Container(
           width: 800,
-          child: Text(widget.tuteeList[widget.idx-1].name),
+          child: Text(tuteeList[idx - 1].name),
         ),
         Container(
           width: 100,
-          child: Text(widget.tuteeList[widget.idx-1].time.toString()),
+          child: Text(tuteeList[idx - 1].time.toString()),
         ),
       ],
     );

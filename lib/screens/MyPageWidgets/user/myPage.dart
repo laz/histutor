@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
-
 import 'package:histutor/state/ApplicationState.dart';
-import 'package:histutor/state/Authentication.dart';
 import 'package:provider/provider.dart';
-
 import 'myPageWidgets/nicknameChange.dart';
 import 'myPageWidgets/topButtons.dart';
 import 'package:histutor/screens/MyPageWidgets/user/myPageWidgets/listPage.dart';
 
-class MyPage extends StatefulWidget {
-  @override
-  _MyPageState createState() => _MyPageState();
-}
+class MyPage extends StatelessWidget {
+  const MyPage({Key key}) : super(key: key);
 
-class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
         padding: EdgeInsets.fromLTRB(125, 0, 145, 0),
-        child:  Column(
+        child: Column(
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child : TopButton(),
+              child: TopButton(),
             ),
             Consumer<ApplicationState>(
-              builder: (context, applicationState, _){
+              builder: (context, applicationState, _) {
                 return selectMyPage(applicationState.selectedMyPage);
               },
             )
-
           ],
         ),
       ),
     );
   }
 }
+
 Widget selectMyPage(int selectedNum) {
   switch (selectedNum) {
     case 0: // to session

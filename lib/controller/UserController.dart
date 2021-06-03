@@ -26,6 +26,4 @@ class UserController extends ChangeNotifier {
       "type": type,
     });
   }
-
 }
-// TODO: UserController

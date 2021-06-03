@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/controller/UserController.dart';
-import 'package:histutor/state/ApplicationState.dart';
-import 'package:provider/provider.dart';
-
-import 'package:histutor/controller/UserController.dart';
 import 'package:histutor/model/Tutor.dart';
-import 'package:histutor/model/User.dart';
 
-class TutorList extends StatefulWidget {
-  int idx;
-  List<Tutor> tutorList;
-  TutorList({
-    this.idx,
-    this.tutorList,
-  });
-  @override
-  _TutorListState createState() => _TutorListState();
-}
+class TutorList extends StatelessWidget {
+  const TutorList({Key key, @required this.idx, @required this.tutorList})
+      : super(key: key);
+  final int idx;
+  final List<Tutor> tutorList;
 
-class _TutorListState extends State<TutorList> {
   @override
   Widget build(BuildContext context) {
-
-    if(widget.idx == 0){
+    if (idx == 0) {
       return Row(
         children: [
           Container(
@@ -55,23 +43,24 @@ class _TutorListState extends State<TutorList> {
       children: [
         Container(
           width: 100,
-          child: Text(widget.idx.toString()),
+          child: Text(idx.toString()),
         ),
         Container(
           width: 200,
-          child: Text(widget.tutorList[widget.idx-1].name.toString()),
+          child: Text(tutorList[idx - 1].name.toString()),
         ),
         Container(
           width: 400,
-          child: Text(widget.tutorList[widget.idx-1].email.toString()),
+          child: Text(tutorList[idx - 1].email.toString()),
         ),
         Padding(
             padding: EdgeInsets.only(right: 100),
             child: Container(
               width: 100,
               child: ElevatedButton(
-                onPressed: (){
-                  UserController().changeUserType(widget.tutorList[widget.idx-1].studentId.toString(), "tutee");
+                onPressed: () {
+                  UserController().changeUserType(
+                      tutorList[idx - 1].studentId.toString(), "tutee");
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
@@ -80,13 +69,13 @@ class _TutorListState extends State<TutorList> {
                   "강등",
                 ),
               ),
-            )
-        ),
+            )),
         Container(
             width: 100,
             child: ElevatedButton(
-              onPressed: (){
-                UserController().changeUserType(widget.tutorList[widget.idx-1].studentId.toString(), "admin");
+              onPressed: () {
+                UserController().changeUserType(
+                    tutorList[idx - 1].studentId.toString(), "admin");
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
@@ -94,8 +83,7 @@ class _TutorListState extends State<TutorList> {
               child: Text(
                 "관리자 지정",
               ),
-            )
-        ),
+            )),
       ],
     );
   }

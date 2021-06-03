@@ -3,12 +3,8 @@ import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:histutor/controller/UserController.dart';
 
-class NicknameChangePage extends StatefulWidget {
-  @override
-  _NicknameChangePageState createState() => _NicknameChangePageState();
-}
-
-class _NicknameChangePageState extends State<NicknameChangePage> {
+class NicknameChangePage extends StatelessWidget {
+  const NicknameChangePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +19,19 @@ class _NicknameChangePageState extends State<NicknameChangePage> {
                 Text("닉네임: "),
                 Container(
                   width: 200,
-                    child: TextField(
-                      controller: nicknameController,
-                    ),
+                  child: TextField(
+                    controller: nicknameController,
+                  ),
                 ),
-              ] ,
+              ],
             ),
             FloatingActionButton(
-              child: Text("변경하기"),
-              onPressed: (){
-                UserController().chageUserName(user.studentId.toString(), nicknameController.text);
-              }
-            )
+                child: Text("변경하기"),
+                onPressed: () {
+                  UserController().chageUserName(
+                      user.studentId.toString(), nicknameController.text);
+                })
           ],
-        )
-    );
+        ));
   }
 }

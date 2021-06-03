@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:histutor/state/ApplicationState.dart';
-import 'package:provider/provider.dart';
-import 'package:histutor/model/Subsession.dart' ;
+import 'package:histutor/model/Subsession.dart';
 
-class TuteeSessionList extends StatefulWidget {
-  int idx;
-  List<Subsession> sessionList;
-  TuteeSessionList({
-    this.idx,
-    this.sessionList,
-  });
-  @override
-  TuteeSessionListState createState() => TuteeSessionListState();
-}
+class TuteeSessionList extends StatelessWidget {
+  const TuteeSessionList(
+      {Key key, @required this.idx, @required this.sessionList})
+      : super(key: key);
+  final int idx;
+  final List<Subsession> sessionList;
 
-class TuteeSessionListState extends State<TuteeSessionList> {
   @override
   Widget build(BuildContext context) {
-    if(widget.idx == 0){
+    if (idx == 0) {
       return Row(
         children: [
           Container(
@@ -43,19 +36,19 @@ class TuteeSessionListState extends State<TuteeSessionList> {
       children: [
         Container(
           width: 100,
-          child: Text(widget.idx.toString()),
+          child: Text(idx.toString()),
         ),
         Container(
           width: 800,
-          child: Text(widget.sessionList[widget.idx-1].sessionName),
+          child: Text(sessionList[idx - 1].sessionName),
         ),
         Container(
           width: 100,
-          child: Text(widget.sessionList[widget.idx-1].tutorName),
+          child: Text(sessionList[idx - 1].tutorName),
         ),
         Container(
           width: 100,
-          child: Text(widget.sessionList[widget.idx-1].date.toDate().toString()),
+          child: Text(sessionList[idx - 1].date.toDate().toString()),
         ),
       ],
     );

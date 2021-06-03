@@ -3,12 +3,9 @@ import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/state/Authentication.dart';
 import 'package:provider/provider.dart';
 
-class TopRightButton extends StatefulWidget {
-  @override
-  _TopButtonRightState createState() => _TopButtonRightState();
-}
+class TopRightButton extends StatelessWidget {
+  const TopRightButton({Key key}) : super(key: key);
 
-class _TopButtonRightState extends State<TopRightButton> {
   @override
   Widget build(BuildContext context) {
     final applicationState = Provider.of<ApplicationState>(context);
@@ -20,36 +17,32 @@ class _TopButtonRightState extends State<TopRightButton> {
       child: Row(
         children: [
           Padding(
-            padding:EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: TextButton(
-              onPressed: (){
+              onPressed: () {
                 applicationState.changeSelectedPage(1);
               },
-              child: Text(
-                  "To Session"
-              ),
+              child: Text("To Session"),
             ),
           ),
           Padding(
-              padding:EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: TextButton(
-                onPressed: (){
-                  applicationState.changeSelectedPage(0);
-                },
-                child: Text(
-                    "My Page"
-                ),
-              ),
-          ),
-          Padding(
-            padding:EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: TextButton(
-              child: Text(
-                  "Logout"
-              ),
+              onPressed: () {
+                applicationState.changeSelectedPage(0);
+              },
+              child: Text("My Page"),
             ),
           ),
-
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: TextButton(
+              child: Text("Logout"),
+              onPressed: () {
+                Authentication().signOut();
+              },
+            ),
+          ),
         ],
       ),
     );
