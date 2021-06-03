@@ -46,11 +46,11 @@ class Database {
         (users) => users.docs.map((user) => User.fromFirebase(user)).toList());
   }
   Stream<List<Tutor>> getTutors() {
-    return userReference.where("type", isEqualTo: "tutor").snapshots().map(
+    return userReference.where("type", isEqualTo: "tutor").orderBy("time", descending: true).snapshots().map(
             (users) => users.docs.map((user) => Tutor.fromFirebase(user)).toList());
   }
   Stream<List<Tutee>> getTutees() {
-    return userReference.where("type", isEqualTo: "tutee").snapshots().map(
+    return userReference.where("type", isEqualTo: "tutee").orderBy("time", descending: true).snapshots().map(
             (users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
   }
 
