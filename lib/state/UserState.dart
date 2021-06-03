@@ -20,5 +20,4 @@ class UserState {
     //     .doc(id)
 
   }
-  
 }

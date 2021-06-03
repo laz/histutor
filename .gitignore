@@ -23,6 +23,13 @@
 .pub-cache/
 .pub/
 /build/
+.firebase/
+.firebaserc
+.flutter-plugins-dependencies
+.github/
+GoogleService-Info.plist
+firebase.json
+public/
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
