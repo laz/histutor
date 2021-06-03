@@ -10,6 +10,7 @@ class Chat {
   Chat({
     @required this.text,
     @required this.from,
+    @required this.time,
   });
 
   factory Chat.fromFirebase(DocumentSnapshot snapshot) {
@@ -17,6 +18,7 @@ class Chat {
     return Chat(
       text: data['text'],
       from: data['from'],
+      time: data['time'],
     );
   }
 }

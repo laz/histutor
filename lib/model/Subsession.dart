@@ -16,6 +16,7 @@ class Subsession {
 
   factory Subsession.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
+    print(data['sessionName']);
     return Subsession(
       tutorName: data['tutorName'],
       sessionName: data['sessionName'],
