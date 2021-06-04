@@ -10,7 +10,7 @@ import 'package:histutor/state/Database.dart';
 
 class ApplicationState extends ChangeNotifier {
   bool isAdmin = false;
-  int selectedPage = 0;
+  int selectedPage = 1;
   int selectedAdminPage = 0;
   int selectedMyPage = 0;
 
