@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
-import 'package:provider/provider.dart';
 
 import '../model/Participant.dart';
 import '../model/Session.dart';
@@ -23,7 +20,9 @@ class SessionController extends ChangeNotifier {
       'name': auth.name,
       'studentId': auth.studentId,
       'uid': auth.Uid,
-      'startTime': FieldValue.serverTimestamp(),
+      'startTime': null,
+      'endTime': null,
+      'state': null,
     });
   }
 
@@ -38,24 +37,62 @@ class SessionController extends ChangeNotifier {
     });
   }
 
-  Future<void> deleteParticipants(User auth, String session) async {
+  Future<void> deleteParticipant(Participant p, Session session, User tutor) async {
+    updateTime(p, session, tutor);
+
     await FirebaseFirestore.instance
         .collection('Sessions')
-        .doc(session)
+        .doc(session.sessionIndex.toString())
         .collection('Participants')
-        .doc(auth.studentId.toString())
+        .doc(p.studentId.toString())
         .delete();
   }
 
-  Future<void> updateTime(User auth, Session session) async {
-    print('yee');
+  Future<void> updateTotalTime(Participant p, int time, User tutor) async {
+    int total = 0;
+
+    // 튜티의 기존에 있는 총시간 가져오기
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(p.studentId.toString())
+        .get()
+        .then((document) {
+      total = document.data()['time'];
+    });
+
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(p.studentId.toString())
+        .update({
+      'time': time + total,
+    });
+
+    total = 0;
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(tutor.studentId.toString())
+        .get()
+        .then((document) {
+      total = document.data()['time'];
+    });
+
+    await FirebaseFirestore.instance
+    .collection('Users')
+    .doc(tutor.studentId.toString())
+    .update({
+      'time': time + total,
+    });
+  }
+
+  Future<void> updateTime(Participant p, Session session, User tutor) async {
     int t = 0;
     Timestamp start;
     bool exist = false;
 
+    // 기존에 세션에 참가한 적이 있다면, 시간 가져오기
     await FirebaseFirestore.instance
         .collection('Users')
-        .doc(auth.studentId.toString())
+        .doc(p.studentId.toString())
         .collection('Sessions')
         .doc(session.sessionIndex.toString())
         .get()
@@ -64,45 +101,43 @@ class SessionController extends ChangeNotifier {
       if (exist) t = document.data()['time'];
     });
 
+    // 시작 시간 가져오기
     await FirebaseFirestore.instance
         .collection('Sessions')
         .doc(session.sessionIndex.toString())
         .collection('Participants')
-        .doc(auth.studentId.toString())
+        .doc(p.studentId.toString())
         .get()
         .then((value) {
       start = value.data()['startTime'];
     });
 
-    print('starttime: ' + start.toDate().toString());
-    print('diff: ' + start.toDate().difference(DateTime.now()).toString());
+    // 튜터링이 진행된 시간 계산하기
     Duration time = DateTime.now().difference(start.toDate());
-    print(time.inMinutes);
-
-    // 튜터 시작 & 종료 버튼으로 시간 재기
-    // 종료 버튼 누르면 튜티 참가자 목록에서 삭제 & 방에서 강퇴
-
+    t = t + time.inMinutes;
+    // 이미 세션이 존재한다면 튜터링이 진행된 시간 업데이트
     exist
         ? await FirebaseFirestore.instance
             .collection('Users')
-            .doc(auth.studentId.toString())
+            .doc(p.studentId.toString())
             .collection('Sessions')
             .doc(session.sessionIndex.toString())
             .update({
-            'time': t + time.inMinutes,
+            'time': t,
           })
+        // 세션이 존재하지 않는다면 새롭게 만들어 진행된 시간 추가
         : await FirebaseFirestore.instance
             .collection('Users')
-            .doc(auth.studentId.toString())
+            .doc(p.studentId.toString())
             .collection('Sessions')
             .doc(session.sessionIndex.toString())
             .set({
             'date': session.sessionStart,
             'sessionName': session.sessionName,
-            'time': time.inMinutes,
+            'time': t,
             'tutorName': session.tutorName,
           });
 
-    deleteParticipants(auth, session.sessionIndex.toString());
+    updateTotalTime(p, t, tutor);
   }
 }
