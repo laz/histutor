@@ -6,7 +6,7 @@ import 'package:histutor/model/Subsession.dart';
 import 'package:histutor/model/User.dart';
 import 'package:histutor/model/Tutor.dart';
 import 'package:histutor/model/Tutee.dart';
-import 'package:histutor/model/TutorApplying.dart';
+import 'package:histutor/model/ApplyingTutor.dart';
 
 class Database {
   CollectionReference sessionReference =
@@ -74,10 +74,10 @@ class Database {
             .toList());
   }
 
-  Stream<List<TutorApplying>> getTutorApplyingList(){
-    return FirebaseFirestore.instance.collection('Users').snapshots().map(
-        (tutorApplyingList) => tutorApplyingList.docs
-            .map((tutorApplying) => TutorApplying.fromFirebase(tutorApplying))
+  Stream<List<ApplyingTutor>> getApplyingTutorList(){
+    return FirebaseFirestore.instance.collection('ApplyingTutors').snapshots().map(
+        (applyingTutorList) => applyingTutorList.docs
+            .map((applyingTutor) => ApplyingTutor.fromFirebase(applyingTutor))
             .toList());
   }
 
