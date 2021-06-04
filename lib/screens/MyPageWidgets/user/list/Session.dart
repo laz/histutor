@@ -9,6 +9,9 @@ import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../controller/SessionController.dart';
+import '../../../../controller/SessionController.dart';
+
 class Sessions extends StatelessWidget {
   const Sessions({Key key, @required this.idx, @required this.sessions})
       : super(key: key);
@@ -51,17 +54,7 @@ class Sessions extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   if (auth.Uid != sessions[idx].tutorUid)
-                    await FirebaseFirestore.instance
-                        .collection('Sessions')
-                        .doc(sessions[idx].sessionIndex.toString())
-                        .collection('Participants')
-                        .doc(auth.studentId.toString())
-                        .set({
-                      'entrance': FieldValue.serverTimestamp(),
-                      'name': auth.name,
-                      'studentId': auth.studentId,
-                      'uid': auth.Uid,
-                    });
+                    SessionController().addParticipant(auth, sessions[idx].sessionIndex.toString());
 
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {

@@ -7,6 +7,10 @@ import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../controller/SessionController.dart';
+import '../../../../controller/SessionController.dart';
+import '../../../../controller/SessionController.dart';
+import '../../../../model/Participant.dart';
 import '../../../../model/Session.dart';
 
 class ChatMessage extends StatelessWidget {
@@ -87,24 +91,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   leading: IconButton(
                     onPressed: () async {
                       if (auth.Uid != session.tutorUid)
-                        await FirebaseFirestore.instance
-                            .collection('Sessions')
-                            .doc(sessionIndex.toString())
-                            .collection('Participants')
-                            .doc(auth.studentId.toString())
-                            .delete();
-
-                      if (auth.Uid != session.tutorUid)
-                        await FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(auth.studentId.toString())
-                            .collection('Sessions')
-                            .add({
-                          'date': FieldValue.serverTimestamp(),
-                          'sessionName': session.sessionName,
-                          'time': 0,
-                          'tutorName': session.tutorName,
-                        });
+                        SessionController().updateTime(auth, session);
 
                       Navigator.of(context).pop();
                     },
@@ -165,7 +152,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                   ],
                                 ),
                                 SizedBox(height: 50.0),
-                                if (auth.Uid == session.tutorUid)
+                                // if (auth.Uid == session.tutorUid)
                                   _buildTutorButton(participants, session),
                               ],
                             )
@@ -211,7 +198,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           child: ElevatedButton(
             onPressed: () {
               if (ps != null) if (ps.length > 0)
-                addChatMessage(ps[0].name + '님 차례입니다:)');
+                startSession(ps[0], session.sessionIndex.toString());
               else
                 addChatMessage('현재 진행할 튜티가 없습니다:(');
             },
@@ -220,26 +207,6 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
             ),
             child: Text(
               "시작",
-            ),
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Container(
-          width: 100,
-          child: ElevatedButton(
-            onPressed: () {
-              // Navigator.push(context,
-              //   MaterialPageRoute(
-              //     // fullscreenDialog: true,
-              //     builder: (context) => new timePage(),
-              //   ),
-              // );
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
-            ),
-            child: Text(
-              "시간 기록",
             ),
           ),
         ),
@@ -296,6 +263,11 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  void startSession(Participant p, String session){
+    addChatMessage(p.name + '님 차례입니다:)');
+    SessionController().updateStartTime(p, session);
   }
 
   void _handleSubmitted(String text) {

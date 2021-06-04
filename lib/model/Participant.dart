@@ -7,12 +7,14 @@ class Participant {
   final Timestamp entrance;
   final String name;
   final String uid;
+  final Timestamp startTime;
 
   Participant({
     @required this.studentId,
     @required this.entrance,
     @required this.name,
     @required this.uid,
+    @required this.startTime,
   });
 
   factory Participant.fromFirebase(DocumentSnapshot snapshot) {
@@ -22,6 +24,7 @@ class Participant {
       entrance: data['entrance'],
       name: data['name'],
       uid: data['uid'],
+      startTime: data['startTime'],
     );
   }
 }
