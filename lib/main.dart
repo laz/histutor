@@ -7,6 +7,7 @@ import 'package:histutor/model/Subsession.dart';
 import 'package:histutor/model/Tutor.dart';
 import 'package:histutor/model/Tutee.dart';
 import 'package:histutor/model/User.dart' as model;
+import 'package:histutor/model/ApplyingTutor.dart';
 
 import 'package:histutor/state/Authentication.dart';
 import 'package:histutor/state/Database.dart';
@@ -67,6 +68,10 @@ class LoginPage extends StatelessWidget {
             ),
             StreamProvider<List<Subsession>>.value(
               value: Database().getUserSessions(studentId),
+              catchError: (context, _) => null,
+            ),
+            StreamProvider<List<ApplyingTutor>>.value(
+              value: Database().getApplyingTutorList(),
               catchError: (context, _) => null,
             ),
             ChangeNotifierProvider<ApplicationState>(
