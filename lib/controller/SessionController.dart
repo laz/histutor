@@ -85,8 +85,10 @@ class SessionController extends ChangeNotifier {
 
   Future<void> updateTime(Participant p, Session session, User tutor) async {
     int t = 0;
+    int tutor_t = 0;
     Timestamp start;
     bool exist = false;
+    bool tutor_exist = false;
 
     // 기존에 세션에 참가한 적이 있다면, 시간 가져오기
     await FirebaseFirestore.instance
@@ -136,6 +138,45 @@ class SessionController extends ChangeNotifier {
             'time': time.inMinutes,
             'tutorName': session.tutorName,
           });
+
+
+    // 튜터의 세션 기록
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(tutor.studentId.toString())
+        .collection('Sessions')
+        .doc(session.sessionIndex.toString())
+        .get()
+        .then((document) {
+      tutor_exist = document.exists;
+      if (tutor_exist) tutor_t = document.data()['time'];
+    });
+
+    tutor_exist
+        ? await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(tutor.studentId.toString())
+        .collection('Sessions')
+        .doc(session.sessionIndex.toString())
+        .update({
+      'time': time.inMinutes + tutor_t,
+    })
+    // 세션이 존재하지 않는다면 새롭게 만들어 진행된 시간 추가
+        : await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(tutor.studentId.toString())
+        .collection('Sessions')
+        .doc(session.sessionIndex.toString())
+        .set({
+      'date': session.sessionStart,
+      'sessionName': session.sessionName,
+      'time': time.inMinutes,
+      'tutorName': session.tutorName,
+    });
+
+
+
+
 
     updateTotalTime(p, time.inMinutes, tutor);
   }
