@@ -262,12 +262,31 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           width: 100,
           child: ElevatedButton(
             onPressed: () async {
+
+              ps.isEmpty ?
               await FirebaseFirestore.instance
                   .collection('Sessions')
                   .doc(sessionIndex.toString())
                   .update({
                 'category': "종료",
-              });
+              })
+                  : showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    content: Text("아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        child: Text("확인"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
               // 나가지 않은 튜티가 있을 경우 세션 종료 불가
             },
             style: ButtonStyle(
