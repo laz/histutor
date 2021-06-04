@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
+import 'package:histutor/controller/ApplyingTutorController.dart';
 
 class TopButton extends StatelessWidget {
   const TopButton({Key key}) : super(key: key);
@@ -11,12 +12,12 @@ class TopButton extends StatelessWidget {
     final applicationState = Provider.of<ApplicationState>(context);
     final user = Provider.of<User>(context);
     return (user.type == "tutee")
-        ? tuteeButton(applicationState)
+        ? tuteeButton(applicationState, user)
         : tutorButton(applicationState);
   }
 }
 
-Widget tuteeButton(ApplicationState applicationState) {
+Widget tuteeButton(ApplicationState applicationState, User user) {
   return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Row(
@@ -55,6 +56,25 @@ Widget tuteeButton(ApplicationState applicationState) {
               ),
             ),
           ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.topRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  ApplyingTutorController().applyingTutor(user.studentId, user.name);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+                ),
+                child: Text(
+                  "튜터 신청하기",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ));
 }

@@ -9,25 +9,25 @@ import 'package:provider/provider.dart';
 
 class ApplyingTutorController extends ChangeNotifier {
 
-  void acceptTutorApplying(String userId, bool isAccept) {
+  void acceptTutorApplying(int userId, bool isAccept) {
     if(isAccept){
       FirebaseFirestore.instance
           .collection('Users')
-          .doc(userId)
+          .doc(userId.toString())
           .update({
         "type": "tutor",
       });
     }
     FirebaseFirestore.instance
           .collection('ApplyingTutors')
-          .doc(userId)
+          .doc(userId.toString())
           .delete();
   }
 
-  void applyingTutor(String userId, String name){
+  void applyingTutor(int userId, String name){
     FirebaseFirestore.instance
         .collection('ApplyingTutors')
-        .doc(userId)
+        .doc(userId.toString())
         .set({
       "name": name,
       "studentId" : userId,

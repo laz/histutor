@@ -23,7 +23,7 @@ class ApplyingTutorList extends StatelessWidget {
           ),
           Container(
             width: 400,
-            child: Text("이메일"),
+            child: Text("학번"),
           ),
           Padding(
             padding: EdgeInsets.only(right: 100),
@@ -60,28 +60,28 @@ class ApplyingTutorList extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   ApplyingTutorController().acceptTutorApplying(
-                      applyingTutorList[idx - 1].studentId.toString(), true);
+                      applyingTutorList[idx - 1].studentId, true);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
                 ),
                 child: Text(
-                  "강등",
+                  "허락",
                 ),
               ),
             )),
         Container(
             width: 100,
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: ()  {
                 ApplyingTutorController().acceptTutorApplying(
-                    applyingTutorList[idx - 1].studentId.toString(), false);
+                    applyingTutorList[idx - 1].studentId, false);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
               ),
               child: Text(
-                "불",
+                "불허",
               ),
             )),
       ],

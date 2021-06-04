@@ -90,7 +90,7 @@ Widget selectAdminPageType(int selectedNum, BuildContext context,
               child: CircularProgressIndicator(),
             );
     case 3: // tutor list
-      return (tutorList != null)
+      return (applyingTutorList != null)
           ? ListView.separated(
         itemBuilder: (_, int index) {
           return Padding(
