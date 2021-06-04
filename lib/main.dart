@@ -183,7 +183,7 @@ class LoginDialog extends StatelessWidget {
                                   ),
                                   onPressed: () async {
                                     await Authentication()
-                                        .signInWithGoogle();
+                                        .signInWithGoogle(context);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
