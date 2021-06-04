@@ -74,9 +74,13 @@ class SessionController extends ChangeNotifier {
       start = value.data()['startTime'];
     });
 
-    print(start.toDate().toString());
-    // Timestamp now = FieldValue.serverTimestamp() as Timestamp;
-    // Duration time = start.difference(now.toDate());
+    print('starttime: ' + start.toDate().toString());
+    print('diff: ' + start.toDate().difference(DateTime.now()).toString());
+    Duration time = DateTime.now().difference(start.toDate());
+    print(time.inMinutes);
+
+    // 튜터 시작 & 종료 버튼으로 시간 재기
+    // 종료 버튼 누르면 튜티 참가자 목록에서 삭제 & 방에서 강퇴
 
     exist
         ? await FirebaseFirestore.instance
@@ -85,7 +89,7 @@ class SessionController extends ChangeNotifier {
             .collection('Sessions')
             .doc(session.sessionIndex.toString())
             .update({
-            'time': 2,
+            'time': t + time.inMinutes,
           })
         : await FirebaseFirestore.instance
             .collection('Users')
@@ -95,7 +99,7 @@ class SessionController extends ChangeNotifier {
             .set({
             'date': session.sessionStart,
             'sessionName': session.sessionName,
-            'time': 1,
+            'time': time.inMinutes,
             'tutorName': session.tutorName,
           });
 
