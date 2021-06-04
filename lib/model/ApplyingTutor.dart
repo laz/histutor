@@ -13,7 +13,6 @@ class ApplyingTutor {
 
   factory ApplyingTutor.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
-    print(data['name']);
     return ApplyingTutor(
       name: data['name'],
       studentId: data['studentId'],
