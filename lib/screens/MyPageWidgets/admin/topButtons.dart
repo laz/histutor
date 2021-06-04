@@ -59,6 +59,23 @@ class TopButton extends StatelessWidget {
             ),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+          child: ElevatedButton(
+            onPressed: () {
+              applicationState.changeSelectedAdminPage(3);
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+            ),
+            child: Text(
+              "튜터 신청 목록",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

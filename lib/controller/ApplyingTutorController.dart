@@ -7,7 +7,7 @@ import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
 import 'package:provider/provider.dart';
 
-class TutorApplyingController extends ChangeNotifier {
+class ApplyingTutorController extends ChangeNotifier {
 
   void acceptTutorApplying(String userId, bool isAccept) {
     if(isAccept){
