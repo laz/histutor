@@ -21,8 +21,6 @@ class SessionController extends ChangeNotifier {
       'studentId': auth.studentId,
       'uid': auth.Uid,
       'startTime': null,
-      'endTime': null,
-      'state': null,
     });
   }
 
@@ -38,7 +36,8 @@ class SessionController extends ChangeNotifier {
   }
 
   Future<void> deleteParticipant(Participant p, Session session, User tutor) async {
-    updateTime(p, session, tutor);
+
+    await updateTime(p, session, tutor);
 
     await FirebaseFirestore.instance
         .collection('Sessions')
@@ -114,7 +113,7 @@ class SessionController extends ChangeNotifier {
 
     // 튜터링이 진행된 시간 계산하기
     Duration time = DateTime.now().difference(start.toDate());
-    t = t + time.inMinutes;
+
     // 이미 세션이 존재한다면 튜터링이 진행된 시간 업데이트
     exist
         ? await FirebaseFirestore.instance
@@ -123,7 +122,7 @@ class SessionController extends ChangeNotifier {
             .collection('Sessions')
             .doc(session.sessionIndex.toString())
             .update({
-            'time': t,
+            'time': time.inMinutes + t,
           })
         // 세션이 존재하지 않는다면 새롭게 만들어 진행된 시간 추가
         : await FirebaseFirestore.instance
@@ -134,10 +133,10 @@ class SessionController extends ChangeNotifier {
             .set({
             'date': session.sessionStart,
             'sessionName': session.sessionName,
-            'time': t,
+            'time': time.inMinutes,
             'tutorName': session.tutorName,
           });
 
-    updateTotalTime(p, t, tutor);
+    updateTotalTime(p, time.inMinutes, tutor);
   }
 }
