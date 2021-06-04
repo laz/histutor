@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:histutor/model/ApplyingTutor.dart';
 import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:histutor/controller/ApplyingTutorController.dart';
+import 'package:histutor/model/ApplyingTutor.dart';
 
 class TopButton extends StatelessWidget {
   const TopButton({Key key}) : super(key: key);
@@ -12,12 +14,12 @@ class TopButton extends StatelessWidget {
     final applicationState = Provider.of<ApplicationState>(context);
     final user = Provider.of<User>(context);
     return (user.type == "tutee")
-        ? tuteeButton(applicationState, user)
+        ? tuteeButton(applicationState, user, context)
         : tutorButton(applicationState);
   }
 }
 
-Widget tuteeButton(ApplicationState applicationState, User user) {
+Widget tuteeButton(ApplicationState applicationState, User user, BuildContext context) {
   return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Row(
@@ -62,6 +64,17 @@ Widget tuteeButton(ApplicationState applicationState, User user) {
               child: ElevatedButton(
                 onPressed: () {
                   ApplyingTutorController().applyingTutor(user.studentId, user.name);
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text('튜터 신청 완료!!'),
+                        content: Text('튜터 신청을 완료했습니다.'),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context,true),
+                              child: Text("나가기"))
+                        ],
+                      ));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
