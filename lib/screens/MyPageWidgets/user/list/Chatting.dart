@@ -93,6 +93,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       preferredSize: Size.fromHeight(80),
                       child: UserAppBar(
                         isAdmin: false,
+                        user: auth,
                       ),
                     ),
                     backgroundColor: Color(0xffffffff),
@@ -258,13 +259,26 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                                 children: [
                                                   Text('튜티: '),
                                                   participants != null
-                                                      ? Column(
-                                                          children: [
-                                                            for (var p
-                                                                in participants)
-                                                              Text(p.name)
-                                                          ],
-                                                        )
+                                                      ? participants.length > 5
+                                                          ? Column(
+                                                              children: [
+                                                                for (int i = 0;
+                                                                    i < 5;
+                                                                    i++)
+                                                                  Text(participants[
+                                                                          i]
+                                                                      .name, style: TextStyle(fontSize: 15.0),),
+                                                                Text('...'),
+                                                              ],
+                                                            )
+                                                          : Column(
+                                                              children: [
+                                                                for (var p
+                                                                    in participants)
+                                                                  Text(p.name,
+                                                                  style: TextStyle(fontSize: 15.0),)
+                                                              ],
+                                                            )
                                                       : CircularProgressIndicator(),
                                                 ],
                                               ),
