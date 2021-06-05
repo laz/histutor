@@ -5,6 +5,7 @@ import 'package:histutor/model/Chat.dart';
 import 'package:histutor/model/Participant.dart';
 import 'package:histutor/model/Session.dart';
 import 'package:histutor/model/User.dart';
+import 'package:histutor/screens/MyPageWidgets/userAppBar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../controller/SessionController.dart';
@@ -78,16 +79,11 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     )),
                   )
                 : Scaffold(
-                    appBar: AppBar(
-                      title: Text('Chats'),
-                      leading: IconButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(Icons.arrow_back),
-                      ),
+                    appBar: PreferredSize(
+                      preferredSize: Size.fromHeight(80),
+                      child: UserAppBar(isAdmin: false,),
                     ),
-                    backgroundColor: Color(0xffffffff),
+                    backgroundColor: Color(0xfffef2f2),
                     body: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
@@ -138,9 +134,13 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                                           height: 60.0);
                                                     return ListTile(
                                                       title: Text(
-                                                          chats[index].from),
+                                                          chats[index].from, style: TextStyle(
+                                                        fontSize: 14
+                                                      ),),
                                                       subtitle: Text(
-                                                          chats[index].text),
+                                                          chats[index].text, style: TextStyle(
+                                                        fontSize: 20
+                                                      ),),
                                                     );
                                                   },
                                                 )

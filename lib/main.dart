@@ -44,6 +44,9 @@ class LoginPage extends StatelessWidget {
 
     if (auth == null) {
       return MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'BMJUA'
+        ),
         home: Scaffold(
           backgroundColor: Color(0xff9BC7DA),
           body: LoginDialog(),
@@ -78,7 +81,12 @@ class LoginPage extends StatelessWidget {
               create: (context) => ApplicationState(),
             )
           ],
-          child: MaterialApp(home: HomePage()),
+          child: MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'BMJUA'
+            ),
+              home: HomePage()
+          ),
         );
       } else
         return Align(child: CircularProgressIndicator());
@@ -135,11 +143,7 @@ class LoginDialog extends StatelessWidget {
                           child: Text(
                             "HISTUTOR",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                                fontFamily: 'MontserratSubrayada'),
+
                           ),
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 11)),

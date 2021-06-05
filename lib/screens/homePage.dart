@@ -53,7 +53,8 @@ class _HomePageState extends State<HomePage> {
                       child: (user.type == "admin") ? AdminBody() : UserBody(),
                       //   ),
                       // ),
-                    ))
+                    )
+                )
               ],
             )
           : Align(
