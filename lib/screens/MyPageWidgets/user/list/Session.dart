@@ -42,11 +42,11 @@ class Sessions extends StatelessWidget {
           child: Text(idx.toString()),
         ),
         Container(
-          width: 200,
+          width: 100,
           child: Text(sessions[idx].category),
         ),
         Container(
-          width: 300,
+          width: 100,
           child: Text(sessions[idx].sessionName),
         ),
         Container(
@@ -54,7 +54,7 @@ class Sessions extends StatelessWidget {
           child: Text(sessions[idx].tutorName),
         ),
         Container(
-          width: 200,
+          width: 100,
           child: Text(outputDate_s+" "+output_hh_mm_s+" ~ "+output_hh_mm_e),
         ),
         Padding(
