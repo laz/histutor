@@ -8,49 +8,11 @@ import 'package:histutor/model/User.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../controller/SessionController.dart';
-import '../../../../controller/SessionController.dart';
-import '../../../../controller/SessionController.dart';
+import '../../../../model/Chat.dart';
+import '../../../../model/Participant.dart';
 import '../../../../model/Participant.dart';
 import '../../../../model/Session.dart';
-
-class ChatMessage extends StatelessWidget {
-  ChatMessage({this.name, this.text, this.animationController});
-  final String name;
-  final String text;
-  final AnimationController animationController;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor:
-          CurvedAnimation(parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      )),
-                  Container(
-                    margin: EdgeInsets.only(top: 5.0),
-                    child: Text(text),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:intl/intl.dart';
 
 class Chatting extends StatefulWidget {
   final int sessionIndex;
@@ -68,6 +30,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   int sessionIndex;
   String studentId;
   String name;
+  Participant cur;
+
+  ScrollController _scrollController = ScrollController();
 
   _ChattingState(int sessionIndex) {
     this.sessionIndex = sessionIndex;
@@ -122,68 +87,151 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         icon: Icon(Icons.arrow_back),
                       ),
                     ),
-                    body: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(150.0, 50.0, 0.0, 50.0),
-                          width: 500.0,
-                          height: 700.0,
-                          child: Column(
-                            children: [
-                              Flexible(
-                                child: chats != null
-                                    ? ListView.builder(
-                                        itemCount: chats.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            title: Text(chats[index].from),
-                                            subtitle: Text(chats[index].text),
-                                          );
-                                        },
-                                      )
-                                    : CircularProgressIndicator(),
-                              ),
-                              Divider(height: 1.0),
-                              Container(child: _buildTextComposer()),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 20.0),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(0.0, 50.0, 100.0, 50.0),
-                          width: 400.0,
-                          height: MediaQuery.of(context).size.height,
-                          child: session != null
-                              ? Column(
-                                  children: [
-                                    Text('세션 이름: ' + session.sessionName),
-                                    Text('튜터: ' + session.tutorName),
-                                    Text('오프라인 장소: ' + session.offline),
-                                    Text('시작 시간: ' +
-                                        '${session.sessionStart.toDate().toString()}'),
-                                    Text('줌링크: ' + session.zoomLink),
-                                    Row(
+                    backgroundColor: Color(0xffffffff),
+                    body: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
+                        color: Color(0xffffffff),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              height: MediaQuery.of(context).size.height * 0.8,
+                              color: Color(0xffebebeb),
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 15.0),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      height: 50.0,
+                                      color: Colors.grey,
+                                      child: Center(
+                                        child: Text(
+                                            '세션 이름 : ' + session.sessionName,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      )),
+                                  SizedBox(height: 20.0),
+                                  Container(
+                                    color: Colors.white,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    height:
+                                        (MediaQuery.of(context).size.height -
+                                                135.0) *
+                                            0.75,
+                                    child: Column(
                                       children: [
-                                        Text('튜티: '),
-                                        participants != null
-                                            ? Column(
-                                                children: [
-                                                  for (var p in participants)
-                                                    Text(p.name)
-                                                ],
-                                              )
-                                            : CircularProgressIndicator(),
+                                        Flexible(
+                                          child: chats != null
+                                              ? ListView.builder(
+                                                  controller: _scrollController,
+                                                  itemCount: chats.length + 1,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    if (index == chats.length)
+                                                      return Container(
+                                                          height: 60.0);
+                                                    return ListTile(
+                                                      title: Text(
+                                                          chats[index].from),
+                                                      subtitle: Text(
+                                                          chats[index].text),
+                                                    );
+                                                  },
+                                                )
+                                              : CircularProgressIndicator(),
+                                        ),
+                                        Divider(height: 1.0),
+                                        _buildTextComposer(),
                                       ],
                                     ),
-                                    SizedBox(height: 50.0),
-                                    if (auth.Uid == session.tutorUid)
-                                      _buildTutorButton(
-                                          participants, session, auth),
-                                  ],
-                                )
-                              : CircularProgressIndicator(),
-                        )
-                      ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 50.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(top: 20.0),
+                                    color: Color(0xffebebeb),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          Text('ZOOM LINK: ',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              )),
+                                        ],
+                                      ),
+                                    )),
+                                SizedBox(height: 20.0),
+                                Flexible(
+                                  child: Container(
+                                    color: Color(0xffebebeb),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height:
+                                        (MediaQuery.of(context).size.height -
+                                                70.0) *
+                                            0.6,
+                                    child: session != null
+                                        ? Column(
+                                            children: [
+                                              Text('튜터: ' + session.tutorName),
+                                              Text('오프라인 장소: ' +
+                                                  session.offline),
+                                              Text('시작 시간: ' +
+                                                  DateFormat('yyyy-MM-dd HH:mm')
+                                                      .format(session
+                                                          .sessionStart
+                                                          .toDate())
+                                                      .toString()),
+                                              Text('종료 시간: ' +
+                                                  DateFormat('yyyy-MM-dd HH:mm')
+                                                      .format(session.sessionEnd
+                                                          .toDate())
+                                                      .toString()),
+                                              Row(
+                                                children: [
+                                                  Text('튜티: '),
+                                                  participants != null
+                                                      ? Column(
+                                                          children: [
+                                                            for (var p
+                                                                in participants)
+                                                              Text(p.name)
+                                                          ],
+                                                        )
+                                                      : CircularProgressIndicator(),
+                                                ],
+                                              ),
+                                              // SizedBox(height: 50.0),
+                                            ],
+                                          )
+                                        : CircularProgressIndicator(),
+                                  ),
+                                ),
+                                if (auth.Uid == session.tutorUid)
+                                  _buildTutorButton(
+                                      participants, session, auth),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   )
             : Dialog(
@@ -218,86 +266,93 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   // 튜터 시작 & 종료 버튼으로 시간 재기
   // 종료 버튼 누르면 튜티 참가자 목록에서 삭제 & 방에서 강퇴
   Widget _buildTutorButton(List<Participant> ps, Session session, User auth) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (ps != null) if (ps.length > 0)
-                    startSession(ps[0], session.sessionIndex.toString());
-                  else
-                    addChatMessage('현재 진행할 튜티가 없습니다:(');
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
-                ),
-                child: Text(
-                  "시작",
-                ),
-              ),
-            ),
-            SizedBox(width: 20.0),
-            Container(
-              width: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (ps != null) if (ps.length > 0)
-                    SessionController().deleteParticipant(ps[0], session, auth);
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
-                ),
-                child: Text(
-                  "종료",
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 15.0),
+          if (cur != null) Text(cur.name + '님이 현재 튜터링 진행중입니다:)'),
+          Row(
+            children: [
+              Container(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (ps != null) if (ps.length > 0)
+                      startSession(ps[0], session.sessionIndex.toString());
+                    else
+                      addChatMessage('현재 진행할 튜티가 없습니다:(');
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xff9BC7DA)),
+                  ),
+                  child: Text(
+                    "시작",
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: 20.0),
-        Container(
-          width: 100,
-          child: ElevatedButton(
-            onPressed: () async {
-
-              ps.isEmpty ?
-              await FirebaseFirestore.instance
-                  .collection('Sessions')
-                  .doc(sessionIndex.toString())
-                  .update({
-                'category': "종료",
-              })
-                  : showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // return object of type Dialog
-                  return AlertDialog(
-                    content: Text("아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
-                    actions: <Widget>[
-                      ElevatedButton(
-                        child: Text("확인"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-              // 나가지 않은 튜티가 있을 경우 세션 종료 불가
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
-            ),
-            child: Text(
-              "세션 종료",
-            ),
+              SizedBox(width: 20.0),
+              Container(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (ps != null) if (ps.length > 0)
+                      SessionController()
+                          .deleteParticipant(ps[0], session, auth);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xff9BC7DA)),
+                  ),
+                  child: Text(
+                    "종료",
+                  ),
+                ),
+              ),
+            ],
           ),
-        )
-      ],
+          SizedBox(height: 20.0),
+          Container(
+            width: 100,
+            child: ElevatedButton(
+              onPressed: () async {
+                ps.isEmpty
+                    ? await FirebaseFirestore.instance
+                        .collection('Sessions')
+                        .doc(sessionIndex.toString())
+                        .update({
+                        'category': "종료",
+                      })
+                    : showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          // return object of type Dialog
+                          return AlertDialog(
+                            content: Text(
+                                "아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: Text("확인"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                // 나가지 않은 튜티가 있을 경우 세션 종료 불가
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+              ),
+              child: Text(
+                "세션 종료",
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -335,9 +390,11 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   void startSession(Participant p, String session) {
     addChatMessage(p.name + '님 차례입니다:)');
     SessionController().updateStartTime(p, session);
+    cur = p;
   }
 
-  bool checkParticipantsList(List<Participant> participants, User auth, Session session) {
+  bool checkParticipantsList(
+      List<Participant> participants, User auth, Session session) {
     bool exist = false;
 
     if (auth.Uid == session.tutorUid) return true;
@@ -358,26 +415,24 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
 
   void _handleSubmitted(String text) {
     _textController.clear();
+
     setState(() {
       _isComposing = false;
     });
-    var message = ChatMessage(
-      name: name,
-      text: text,
-      animationController: AnimationController(
-        duration: const Duration(milliseconds: 30),
-        vsync: this,
-      ),
-    );
+
     setState(() {
       addChatMessage(text);
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 5),
+        curve: Curves.easeOut,
+      );
     });
     _focusNode.requestFocus();
-    message.animationController.forward();
   }
 
-  Future<DocumentReference> addChatMessage(String text) {
-    return FirebaseFirestore.instance
+  Future<DocumentReference> addChatMessage(String text) async {
+    return await FirebaseFirestore.instance
         .collection('Sessions')
         .doc(sessionIndex.toString())
         .collection('Chats')
