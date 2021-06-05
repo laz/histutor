@@ -19,13 +19,13 @@ class _HomePageState extends State<HomePage> {
     double appHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xfffef2f2),
+      backgroundColor: Colors.white,
       appBar: user != null
           ? PreferredSize(
               preferredSize: Size.fromHeight(80),
               child: (user.type == "admin")
-                  ? UserAppBar(isAdmin: true)
-                  : UserAppBar(isAdmin: false),
+                  ? UserAppBar(isAdmin: true, user: user)
+                  : UserAppBar(isAdmin: false, user: user,),
             )
           : PreferredSize(
               preferredSize: Size.fromHeight(80),
@@ -33,9 +33,11 @@ class _HomePageState extends State<HomePage> {
             ),
       body: user != null
           ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, appWidth * 0.1, 0),
+                  padding: EdgeInsets.fromLTRB(0.0, 20, appWidth * 0.1, 0),
                   child: (user.type == "admin")
                       ? SizedBox(
                           height: 30,
@@ -47,14 +49,13 @@ class _HomePageState extends State<HomePage> {
                         appWidth * 0.02, (appHeight - 130) * 0.05),
                     child: Container(
                       alignment: Alignment.center,
-                      color: Color(0xff5a5959),
+                      color: Colors.grey.shade200,
                       width: appWidth * 0.9,
                       height: (appHeight - 130) * 0.95,
                       child: (user.type == "admin") ? AdminBody() : UserBody(),
                       //   ),
                       // ),
-                    )
-                )
+                    ))
               ],
             )
           : Align(

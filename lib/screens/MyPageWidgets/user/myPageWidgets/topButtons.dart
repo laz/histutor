@@ -32,7 +32,7 @@ Widget tuteeButton(
           },
           style: ButtonStyle(
             backgroundColor: applicationState.selectedMyPage == 0
-                ? MaterialStateProperty.all<Color>(Colors.pink)
+                ? MaterialStateProperty.all<Color>(Color(0xECBEE0FF))
                 : MaterialStateProperty.all<Color>(Colors.white),
           ),
           child: Text(
@@ -51,7 +51,7 @@ Widget tuteeButton(
           },
           style: ButtonStyle(
             backgroundColor: applicationState.selectedMyPage == 1
-                ? MaterialStateProperty.all<Color>(Colors.pink)
+                ? MaterialStateProperty.all<Color>(Color(0xECBEE0FF))
                 : MaterialStateProperty.all<Color>(Colors.white),
           ),
           child: Text(
@@ -105,7 +105,7 @@ Widget tutorButton(ApplicationState applicationState) {
           },
           style: ButtonStyle(
             backgroundColor: applicationState.selectedMyPage == 0
-                ? MaterialStateProperty.all<Color>(Colors.pink)
+                ? MaterialStateProperty.all<Color>(Color(0xECBEE0FF))
                 : MaterialStateProperty.all<Color>(Colors.white),
           ),
           child: Text(
@@ -124,7 +124,7 @@ Widget tutorButton(ApplicationState applicationState) {
           },
           style: ButtonStyle(
             backgroundColor: applicationState.selectedMyPage == 1
-                ? MaterialStateProperty.all<Color>(Colors.pink)
+                ? MaterialStateProperty.all<Color>(Color(0xECBEE0FF))
                 : MaterialStateProperty.all<Color>(Colors.white),
           ),
           child: Text(

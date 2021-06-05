@@ -11,6 +11,7 @@ class SessionListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Session> sessions = Provider.of<List<Session>>(context);
     return Container(
+      color: Colors.white,
         padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: sessions != null
             ? Consumer<ApplicationState>(
@@ -34,27 +35,47 @@ Widget selectSessionPage(List<Session> sessions) {
               alignment: Alignment.center,
               padding: EdgeInsets.only(left: 30),
               width: 80,
-              // child: Text("NO."),
+              child: Text("NO.",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
             ),
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.only(right: 30),
               width: 120,
-              child: Text("상태"),
+              child: Text("상태",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             Expanded(
               // width: 300,
-              child: Text("방 이름"),
+              child: Text("방 이름",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             Container(
               alignment: Alignment.center,
               width: 100,
-              child: Text("작성자"),
+              child: Text("작성자",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             Container(
               alignment: Alignment.center,
               width: 100,
-              child: Text("세션 시간"),
+              child: Text("세션 시간",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),

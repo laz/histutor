@@ -18,11 +18,19 @@ class TuteeSessionList extends StatelessWidget {
             alignment: Alignment.center,
             padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
             width: 110,
-            // child: Text("NO."),
+            child: Text("NO.",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Expanded(
             // width: 800,
-            child: Text("세션 이름"),
+            child: Text("세션 이름",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           // Container(
           //   alignment: Alignment.center,
@@ -33,7 +41,11 @@ class TuteeSessionList extends StatelessWidget {
             padding: EdgeInsets.only(right: 30),
             alignment: Alignment.center,
             width: 130,
-            child: Text("참여일"),
+            child: Text("참여일",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
           )
         ],
       );
@@ -44,11 +56,17 @@ class TuteeSessionList extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           width: 110,
-          child: Text(idx.toString()),
+          child: Text(idx.toString(),
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         Expanded(
           // width: 800,
-          child: Text(sessionList[idx - 1].sessionName),
+          child: Text(sessionList[idx - 1].sessionName,
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         // Container(
         //   width: 100,
@@ -60,7 +78,10 @@ class TuteeSessionList extends StatelessWidget {
           width: 130,
           child: Text(DateFormat('yyyy-MM-dd')
               .format(sessionList[idx - 1].date.toDate())
-              .toString()),
+              .toString(),
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
       ],
     );

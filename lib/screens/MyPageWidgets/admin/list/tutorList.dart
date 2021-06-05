@@ -15,26 +15,42 @@ class TutorList extends StatelessWidget {
         children: [
           Container(
             width: 100,
-            // child: Text("NO."),
+            child: Text("NO.",
+            style:TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+            )),
           ),
           Container(
             width: 200,
-            child: Text("튜터"),
+            child: Text("튜터",
+                style:TextStyle(
+                    fontSize: 18,
+                )),
           ),
           Container(
             width: 400,
-            child: Text("이메일"),
+            child: Text("이메일",
+                style:TextStyle(
+                    fontSize: 18,
+                )),
           ),
           Padding(
             padding: EdgeInsets.only(right: 100),
             child: Container(
               width: 100,
-              child: Text("튜터 강등"),
+              child: Text("튜터 강등",
+                  style:TextStyle(
+                      fontSize: 18,
+                  )),
             ),
           ),
           Container(
             width: 100,
-            child: Text("관리자 지정"),
+            child: Text("관리자 지정",
+                style:TextStyle(
+                    fontSize: 18,
+                )),
           )
         ],
       );
@@ -66,7 +82,7 @@ class TutorList extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
                 ),
                 child: Text(
-                  "강등",
+                  "강  등",
                 ),
               ),
             )),

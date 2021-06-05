@@ -14,15 +14,24 @@ class TutorStatus extends StatelessWidget {
         children: [
           Container(
             width: 100,
-            child: Text("NO."),
+            child: Text("NO.",
+                style:TextStyle(
+                  fontSize: 18,
+                )),
           ),
           Container(
             width: 800,
-            child: Text("튜터"),
+            child: Text("튜터",
+                style:TextStyle(
+                  fontSize: 18,
+                )),
           ),
           Container(
             width: 100,
-            child: Text("시간"),
+            child: Text("시간",
+                style:TextStyle(
+                  fontSize: 18,
+                )),
           )
         ],
       );

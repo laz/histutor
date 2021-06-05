@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
           fontFamily: 'BMJUA'
         ),
         home: Scaffold(
-          backgroundColor: Color(0xff9BC7DA),
+          backgroundColor: Color(0xECBEE0FF),
           body: LoginDialog(),
         ),
       );
@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
           ],
           child: MaterialApp(
             theme: ThemeData(
-              fontFamily: 'BMJUA'
+              fontFamily: 'BMJUA',
             ),
               home: HomePage()
           ),
@@ -138,13 +138,16 @@ class LoginDialog extends StatelessWidget {
                       children: [
                         Container(
                           alignment: Alignment(0.0, 0.0),
-                          width: 223,
+                          width: 250,
                           height: 92,
                           child: Text(
                             "HISTUTOR",
                             textAlign: TextAlign.center,
-
+                            style: TextStyle(fontSize: 50.0),
                           ),
+                        ),
+                        SizedBox(
+                          height: 30,
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 11)),
                         Container(
@@ -204,9 +207,7 @@ class LoginDialog extends StatelessWidget {
                                               'Sign in with Google',
                                               style: TextStyle(
                                                   fontSize: 20,
-                                                  color: Colors.black,
-                                                  fontFamily:
-                                                      'Quicksand')),
+                                                  color: Colors.black,)),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.only(

@@ -18,7 +18,7 @@ class TopButton extends StatelessWidget {
               },
               style: ButtonStyle(
                 backgroundColor: applicationState.selectedAdminPage == 0
-                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    ? MaterialStateProperty.all<Color>(Color(0xffe4c2c1))
                     : MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text(
@@ -36,7 +36,7 @@ class TopButton extends StatelessWidget {
               },
               style: ButtonStyle(
                 backgroundColor: applicationState.selectedAdminPage == 1
-                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    ? MaterialStateProperty.all<Color>(Color(0xffe4c2c1))
                     : MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text(
@@ -54,7 +54,7 @@ class TopButton extends StatelessWidget {
             },
             style: ButtonStyle(
               backgroundColor: applicationState.selectedAdminPage == 2
-                  ? MaterialStateProperty.all<Color>(Colors.pink)
+                  ? MaterialStateProperty.all<Color>(Color(0xffe4c2c1))
                   : MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: Text(
@@ -73,7 +73,7 @@ class TopButton extends StatelessWidget {
             },
             style: ButtonStyle(
               backgroundColor: applicationState.selectedAdminPage == 3
-                  ? MaterialStateProperty.all<Color>(Colors.pink)
+                  ? MaterialStateProperty.all<Color>(Color(0xffe4c2c1))
                   : MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: Text(

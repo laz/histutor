@@ -39,23 +39,35 @@ class Sessions extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 30),
           width: 80,
-          child: Text(sessions[idx].sessionIndex.toString()),
+          child: Text(sessions[idx].sessionIndex.toString(),
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(right: 30),
           width: 120,
-          child: Text(sessions[idx].category),
+          child: Text(sessions[idx].category,
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         Expanded(
           // padding: EdgeInsets.only(left: 50),
-          child: Text(sessions[idx].sessionName),
+          child: Text(sessions[idx].sessionName,
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         Container(
           alignment: Alignment.center,
           width: 100,
           // padding: EdgeInsets.only(left: 50),
-          child: Text(sessions[idx].tutorName),
+          child: Text(sessions[idx].tutorName,
+              style: TextStyle(
+                fontSize: 15,
+              )),
         ),
         Container(
           alignment: Alignment.center,
@@ -98,7 +110,10 @@ class Sessions extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                 ),
                 child: Text(
-                  "입장",
+                  "입  장",
+                    style: TextStyle(
+                      fontSize: 15,
+                    )
                 ),
               ),
             )),
