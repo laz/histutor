@@ -32,7 +32,7 @@ Widget myPageSessionList(int selectedNum, BuildContext context,
   if (user.type == "tutor") {
     return (sessions != null)
         ? (sessions.isEmpty)
-            ? (Text("No Session"))
+            ? (Text("생성한 세션이 없습니다"))
             : ListView.separated(
                 itemBuilder: (_, int index) {
                   return Padding(
@@ -50,7 +50,7 @@ Widget myPageSessionList(int selectedNum, BuildContext context,
   } else {
     return (sessions != null)
         ? (sessions.isEmpty)
-            ? (Text("No Session"))
+            ? (Text("참여한 세션이 없습니다"))
             : ListView.separated(
                 itemBuilder: (_, int index) {
                   print(sessions[0].sessionName);

@@ -29,28 +29,43 @@ Widget selectSessionPage(List<Session> sessions) {
           child: Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
         child: Row(
-        children: [
-        Container(
-        width: 100,
-        child: Text("NO."),
-        ),
-        Container(
-        width: 200,
-        child: Text("상태"),
-        ),
-        Container(
-        width: 300,
-        child: Text("방 이름"),
-        ),
-        Container(
-        width: 100,
-        child: Text("작성자"),
-        ),
-        Container(
-        width: 200,
-        child: Text("세션 시간"),
-        ),
-        ],
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: 30),
+              width: 80,
+              // child: Text("NO."),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(right: 30),
+              width: 120,
+              child: Text("상태"),
+            ),
+            Expanded(
+              // width: 300,
+              child: Text("방 이름"),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 100,
+              child: Text("작성자"),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 100,
+              child: Text("세션 시간"),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Container(
+                width: 100,
+                // child: ElevatedButton(
+                //   child: Text('입장'),
+                // ),
+              ),
+            )
+          ],
         ),
       )),
       Divider(),

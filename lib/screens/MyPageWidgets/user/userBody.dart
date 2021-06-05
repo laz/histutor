@@ -14,7 +14,9 @@ class _UserBodyState extends State<UserBody> {
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
       builder: (context, applicationState, _) {
-        return selectBody(applicationState.selectedPage);
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+            child: selectBody(applicationState.selectedPage));
       },
     );
   }

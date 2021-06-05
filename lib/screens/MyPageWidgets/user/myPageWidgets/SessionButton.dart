@@ -29,10 +29,10 @@ Widget tutorButton(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+        padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
         child: RaisedButton(
           color: Colors.white,
-          child: Text('Create'),
+          child: Text('세션 생성하기'),
           onPressed: () => _createButtonPressed(context), //만드는 창 만들기
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),

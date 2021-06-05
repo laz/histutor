@@ -15,7 +15,7 @@ class TutorList extends StatelessWidget {
         children: [
           Container(
             width: 100,
-            child: Text("NO."),
+            // child: Text("NO."),
           ),
           Container(
             width: 200,

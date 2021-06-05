@@ -8,8 +8,6 @@ import 'package:histutor/model/User.dart';
 import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../controller/SessionController.dart';
 import '../../../../controller/SessionController.dart';
 
 class Sessions extends StatelessWidget {
@@ -38,27 +36,39 @@ class Sessions extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 100,
-          child: Text(idx.toString()),
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 30),
+          width: 80,
+          child: Text(sessions[idx].sessionIndex.toString()),
         ),
         Container(
-          width: 200,
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(right: 30),
+          width: 120,
           child: Text(sessions[idx].category),
         ),
-        Container(
-          width: 300,
+        Expanded(
+          // padding: EdgeInsets.only(left: 50),
           child: Text(sessions[idx].sessionName),
         ),
         Container(
+          alignment: Alignment.center,
           width: 100,
+          // padding: EdgeInsets.only(left: 50),
           child: Text(sessions[idx].tutorName),
         ),
         Container(
-          width: 200,
-          child: Text(outputDate_s+" "+output_hh_mm_s+" ~ "+output_hh_mm_e),
+          alignment: Alignment.center,
+          width: 100,
+          child: Column(
+            children: [
+              Text(outputDate_s),
+              Text(output_hh_mm_s + '-' + output_hh_mm_e, style: TextStyle(color: Colors.grey),)
+            ],
+          ),
         ),
         Padding(
-            padding: EdgeInsets.only(right: 100),
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
             child: Container(
               width: 100,
               child: ElevatedButton(

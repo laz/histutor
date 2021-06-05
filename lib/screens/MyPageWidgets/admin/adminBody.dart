@@ -7,27 +7,31 @@ class AdminBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(125, 0, 145, 0),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: TopButton(),
-            ),
-            bodyPage(),
-          ],
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: TopButton(),
+                ),
+              ),
+              bodyPage(context),
+            ],
+          ),
       ),
     );
   }
 }
 
-Widget bodyPage() {
+Widget bodyPage(BuildContext context) {
   return Container(
     width: 1167,
-    height: 534,
+    height: (MediaQuery.of(context).size.height-180)*0.9,
     alignment: Alignment.topLeft,
     color: Color(0xffFFFFFF),
     child: ListPage(),

@@ -17,35 +17,42 @@ class _HomePageState extends State<HomePage> {
     User user = Provider.of<User>(context);
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Color(0xfffef2f2),
       appBar: user != null
           ? PreferredSize(
-              preferredSize: Size.fromHeight(appHeight*0.1),
-              child: (user.type == "admin") ? UserAppBar(isAdmin: true) : UserAppBar(isAdmin: false),
+              preferredSize: Size.fromHeight(80),
+              child: (user.type == "admin")
+                  ? UserAppBar(isAdmin: true)
+                  : UserAppBar(isAdmin: false),
             )
           : PreferredSize(
-              preferredSize: Size.fromHeight(60.0),
+              preferredSize: Size.fromHeight(80),
               child: Align(child: Text("Loading Page")),
             ),
       body: user != null
           ? Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, appWidth*0.1, 0),
+                  padding: EdgeInsets.fromLTRB(0, 20, appWidth * 0.1, 0),
                   child: (user.type == "admin")
                       ? SizedBox(
-                          height: 25,
+                          height: 30,
                         )
                       : TopRightButton(),
                 ),
                 Padding(
-                    padding: EdgeInsets.fromLTRB(appWidth*0.1, 0, appWidth*0.1, 0),
+                    padding: EdgeInsets.fromLTRB(appWidth * 0.02, 0,
+                        appWidth * 0.02, (appHeight - 130) * 0.05),
                     child: Container(
-                      color: Color(0xffEBEBEB),
-                      width: appWidth * 0.8,
-                      height: appHeight * 0.8,
+                      alignment: Alignment.center,
+                      color: Color(0xff5a5959),
+                      width: appWidth * 0.9,
+                      height: (appHeight - 130) * 0.95,
                       child: (user.type == "admin") ? AdminBody() : UserBody(),
+                      //   ),
+                      // ),
                     ))
               ],
             )

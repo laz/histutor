@@ -10,33 +10,37 @@ class SessionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(125, 0, 145, 0),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: SessionButton(),
-            ),
-            Consumer<ApplicationState>(
-              builder: (context, applicationState, _) {
-                return selectMyPage();
-              },
-            )
-          ],
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: SessionButton(),
+                ),
+              ),
+              Consumer<ApplicationState>(
+                builder: (context, applicationState, _) {
+                  return selectMyPage(context);
+                },
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    // );
   }
 }
 
-Widget selectMyPage() {
+Widget selectMyPage(BuildContext context) {
   // to session
   return Container(
     width: 1167,
-    height: 534,
-    alignment: Alignment.topLeft,
-    color: Color(0xffFFFFFF),
+    height: (MediaQuery.of(context).size.height-180)*0.9,
+    // alignment: Alignment.center,
+    color: Color(0xff7cee5a),
     child: SessionListPage(), //Session list 넣기
   );
 }

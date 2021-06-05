@@ -11,32 +11,33 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(125, 0, 145, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: TopButton(),
+            Container(
+              height: 50,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: TopButton(),
+              ),
             ),
             Consumer<ApplicationState>(
               builder: (context, applicationState, _) {
-                return selectMyPage(applicationState.selectedMyPage);
+                return selectMyPage(applicationState.selectedMyPage, context);
               },
             )
           ],
         ),
-      ),
     );
   }
 }
 
-Widget selectMyPage(int selectedNum) {
+Widget selectMyPage(int selectedNum, BuildContext context) {
   switch (selectedNum) {
     case 0: // to session
       return Container(
         width: 1167,
-        height: 534,
+        height: (MediaQuery.of(context).size.height-180)*0.9,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
         child: ListPage(),
@@ -44,7 +45,7 @@ Widget selectMyPage(int selectedNum) {
     case 1: // my page
       return Container(
         width: 1167,
-        height: 534,
+        height: (MediaQuery.of(context).size.height-180)*0.9,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
         child: NicknameChangePage(),

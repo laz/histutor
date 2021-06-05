@@ -12,32 +12,42 @@ class TopRightButton extends StatelessWidget {
     return Container(
       alignment: Alignment.topRight,
       width: 240,
-      //height: 100,
-      color: Colors.grey,
+      height: 30,
+      color: Colors.white,
       child: Row(
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: applicationState.selectedPage == 1
+                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    : MaterialStateProperty.all<Color>(Colors.white),
+              ),
               onPressed: () {
                 applicationState.changeSelectedPage(1);
               },
-              child: Text("To Session"),
+              child: Text("세션 목록"),
             ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: applicationState.selectedPage == 0
+                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    : MaterialStateProperty.all<Color>(Colors.white),
+              ),
               onPressed: () {
                 applicationState.changeSelectedPage(0);
               },
-              child: Text("My Page"),
+              child: Text("마이페이지"),
             ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: TextButton(
-              child: Text("Logout"),
+              child: Text("로그아웃"),
               onPressed: () {
                 Authentication().signOut();
               },

@@ -11,29 +11,33 @@ class TopButton extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
           child: ElevatedButton(
               onPressed: () {
                 applicationState.changeSelectedAdminPage(0);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+                backgroundColor: applicationState.selectedAdminPage == 0
+                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    : MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text(
-                "튜터 현황",
+                "튜터 목록",
                 style: TextStyle(
                   color: Colors.black,
                 ),
               )),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
           child: ElevatedButton(
               onPressed: () {
                 applicationState.changeSelectedAdminPage(1);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+                backgroundColor: applicationState.selectedAdminPage == 1
+                    ? MaterialStateProperty.all<Color>(Colors.pink)
+                    : MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text(
                 "튜티 현황",
@@ -43,16 +47,18 @@ class TopButton extends StatelessWidget {
               )),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
           child: ElevatedButton(
             onPressed: () {
               applicationState.changeSelectedAdminPage(2);
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+              backgroundColor: applicationState.selectedAdminPage == 2
+                  ? MaterialStateProperty.all<Color>(Colors.pink)
+                  : MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: Text(
-              "튜터 목록",
+              "튜터 현황",
               style: TextStyle(
                 color: Colors.black,
               ),
@@ -60,13 +66,15 @@ class TopButton extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 5.0),
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
           child: ElevatedButton(
             onPressed: () {
               applicationState.changeSelectedAdminPage(3);
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+              backgroundColor: applicationState.selectedAdminPage == 3
+                  ? MaterialStateProperty.all<Color>(Colors.pink)
+                  : MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: Text(
               "튜터 신청 목록",

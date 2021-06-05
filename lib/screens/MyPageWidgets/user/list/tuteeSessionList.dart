@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/model/Subsession.dart';
+import 'package:intl/intl.dart';
 
 class TuteeSessionList extends StatelessWidget {
   const TuteeSessionList(
@@ -14,19 +15,24 @@ class TuteeSessionList extends StatelessWidget {
       return Row(
         children: [
           Container(
-            width: 100,
-            child: Text("NO."),
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+            width: 110,
+            // child: Text("NO."),
           ),
-          Container(
-            width: 800,
-            child: Text("방_이름"),
+          Expanded(
+            // width: 800,
+            child: Text("세션 이름"),
           ),
+          // Container(
+          //   alignment: Alignment.center,
+          //   width: 100,
+          //   child: Text("튜터"),
+          // ),
           Container(
-            width: 100,
-            child: Text("튜터"),
-          ),
-          Container(
-            width: 100,
+            padding: EdgeInsets.only(right: 30),
+            alignment: Alignment.center,
+            width: 130,
             child: Text("참여일"),
           )
         ],
@@ -35,20 +41,26 @@ class TuteeSessionList extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 100,
+          alignment: Alignment.center,
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          width: 110,
           child: Text(idx.toString()),
         ),
-        Container(
-          width: 800,
+        Expanded(
+          // width: 800,
           child: Text(sessionList[idx - 1].sessionName),
         ),
+        // Container(
+        //   width: 100,
+        //   child: Text(sessionList[idx - 1].tutorName),
+        // ),
         Container(
-          width: 100,
-          child: Text(sessionList[idx - 1].tutorName),
-        ),
-        Container(
-          width: 100,
-          child: Text(sessionList[idx - 1].date.toDate().toString()),
+          padding: EdgeInsets.only(right: 15),
+          alignment: Alignment.center,
+          width: 130,
+          child: Text(DateFormat('yyyy-MM-dd')
+              .format(sessionList[idx - 1].date.toDate())
+              .toString()),
         ),
       ],
     );
