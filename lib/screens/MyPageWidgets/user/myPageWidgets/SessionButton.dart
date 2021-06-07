@@ -236,17 +236,6 @@ class _roomMakerState extends State<roomMaker> {
                                         'Uid': user.Uid,
                                         'sessionIndex': sessions.length,
                                       });
-                                      firestore
-                                          .collection('Users')
-                                          .doc((user.email.split('@')[0])
-                                              .toString())
-                                          .collection('Sessions')
-                                          .add({
-                                        'tutorName': tutor_name,
-                                        'sessionName': _sessionName.text,
-                                        'date': t_start,
-                                        'time': 0,
-                                      });
                                     }
                                     Navigator.of(context).pop();
                                   },

@@ -21,17 +21,19 @@ class Sessions extends StatelessWidget {
     User auth = Provider.of<User>(context);
 
     var outputFormat_s = DateFormat('yyyy-MM-dd');
-    var outputDate_s = outputFormat_s.format(sessions[idx].sessionStart.toDate());
+    var outputDate_s =
+        outputFormat_s.format(sessions[idx].sessionStart.toDate());
 
-    var dateToTimeStamp_s = DateTime.fromMillisecondsSinceEpoch(sessions[idx].sessionStart.millisecondsSinceEpoch * 1000);
-    var output_hh_mm_s =  DateFormat('HH:mm').format(dateToTimeStamp_s);
-
+    var dateToTimeStamp_s = DateTime.fromMillisecondsSinceEpoch(
+        sessions[idx].sessionStart.millisecondsSinceEpoch * 1000);
+    var output_hh_mm_s = DateFormat('HH:mm').format(dateToTimeStamp_s);
 
     var outputFormat_e = DateFormat('yyyy-MM-dd');
     var outputDate_e = outputFormat_e.format(sessions[idx].sessionEnd.toDate());
 
-    var dateToTimeStamp_e = DateTime.fromMillisecondsSinceEpoch(sessions[idx].sessionEnd.millisecondsSinceEpoch * 1000);
-    var output_hh_mm_e =  DateFormat('HH:mm').format(dateToTimeStamp_e);
+    var dateToTimeStamp_e = DateTime.fromMillisecondsSinceEpoch(
+        sessions[idx].sessionEnd.millisecondsSinceEpoch * 1000);
+    var output_hh_mm_e = DateFormat('HH:mm').format(dateToTimeStamp_e);
 
     return Row(
       children: [
@@ -74,8 +76,21 @@ class Sessions extends StatelessWidget {
           width: 100,
           child: Column(
             children: [
-              Text(outputDate_s),
-              Text(output_hh_mm_s + '-' + output_hh_mm_e, style: TextStyle(color: Colors.grey),)
+              Text(DateFormat('yyyy-MM-dd')
+                  .format(sessions[idx].sessionStart.toDate())
+                  .toString()),
+              Text(
+                DateFormat('HH:mm')
+                        .format(sessions[idx].sessionStart.toDate())
+                        .toString() +
+                    '-' +
+                    DateFormat('HH:mm')
+                        .format(sessions[idx].sessionEnd.toDate())
+                        .toString(),
+                style: TextStyle(color: Colors.grey),
+              ),
+              // Text(outputDate_s),
+              // Text(output_hh_mm_s + '-' + output_hh_mm_e, style: TextStyle(color: Colors.grey),)
             ],
           ),
         ),
@@ -86,7 +101,8 @@ class Sessions extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   if (auth.Uid != sessions[idx].tutorUid)
-                    SessionController().addParticipant(auth, sessions[idx].sessionIndex.toString());
+                    SessionController().addParticipant(
+                        auth, sessions[idx].sessionIndex.toString());
 
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
@@ -109,12 +125,10 @@ class Sessions extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                 ),
-                child: Text(
-                  "입  장",
+                child: Text("입  장",
                     style: TextStyle(
                       fontSize: 15,
-                    )
-                ),
+                    )),
               ),
             )),
       ],
