@@ -9,24 +9,20 @@ import 'package:histutor/model/Tutee.dart';
 import 'package:histutor/model/ApplyingTutor.dart';
 
 class Database {
-  CollectionReference sessionReference =
-      FirebaseFirestore.instance.collection('Sessions');
+  CollectionReference sessionReference = FirebaseFirestore.instance.collection('Sessions');
 
-  CollectionReference userReference =
-      FirebaseFirestore.instance.collection('Users');
-
+  CollectionReference userReference = FirebaseFirestore.instance.collection('Users');
 
   Stream<Session> getSession(int sessionIndex) {
-    return sessionReference
-        .doc(sessionIndex.toString())
-        .snapshots()
-        .map((session) => Session.fromFirebase(session));
+    return sessionReference.doc(sessionIndex.toString()).snapshots().map((session) => Session.fromFirebase(session));
   }
 
   // order by?
   Stream<List<Session>> getSessions() {
-    return sessionReference.snapshots().map((sessions) =>
-        sessions.docs.map((session) => Session.fromFirebase(session)).toList());
+    return sessionReference
+        .orderBy('sessionIndex', descending: true)
+        .snapshots()
+        .map((sessions) => sessions.docs.map((session) => Session.fromFirebase(session)).toList());
   }
 
   // dispose?
@@ -36,9 +32,7 @@ class Database {
         .collection('Participants')
         .orderBy('entrance')
         .snapshots()
-        .map((participants) => participants.docs
-            .map((participant) => Participant.fromFirebase(participant))
-            .toList());
+        .map((participants) => participants.docs.map((participant) => Participant.fromFirebase(participant)).toList());
   }
 
   Stream<List<Chat>> getSessionChats(int sessionIndex) {
@@ -47,38 +41,34 @@ class Database {
         .collection('Chats')
         .orderBy('time')
         .snapshots()
-        .map((chats) =>
-            chats.docs.map((chat) => Chat.fromFirebase(chat)).toList());
+        .map((chats) => chats.docs.map((chat) => Chat.fromFirebase(chat)).toList());
   }
 
   // Use when logged in as admin
   Stream<List<User>> getUsers() {
-    return userReference.snapshots().map(
-        (users) => users.docs.map((user) => User.fromFirebase(user)).toList());
+    return userReference.snapshots().map((users) => users.docs.map((user) => User.fromFirebase(user)).toList());
   }
 
   Stream<List<Tutor>> getTutors() {
-    return userReference.where("type", isEqualTo: "tutor").snapshots().map(
-        (users) => users.docs.map((user) => Tutor.fromFirebase(user)).toList());
+    return userReference.where("type", isEqualTo: "tutor").snapshots().map((users) => users.docs.map((user) => Tutor.fromFirebase(user)).toList());
   }
 
   Stream<List<Tutee>> getTutees() {
-    return userReference.where("type", isEqualTo: "tutee").snapshots().map(
-        (users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
+    return userReference.where("type", isEqualTo: "tutee").snapshots().map((users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
   }
 
   Stream<List<Subsession>> getUserSessions(String studentId) {
-    return userReference.doc(studentId).collection('Sessions').snapshots().map(
-        (sessions) => sessions.docs
-            .map((session) => Subsession.fromFirebase(session))
-            .toList());
+    return userReference
+        .doc(studentId)
+        .collection('Sessions')
+        .snapshots()
+        .map((sessions) => sessions.docs.map((session) => Subsession.fromFirebase(session)).toList());
   }
 
-  Stream<List<ApplyingTutor>> getApplyingTutorList(){
-    return FirebaseFirestore.instance.collection('ApplyingTutors').snapshots().map(
-        (applyingTutorList) => applyingTutorList.docs
-            .map((applyingTutor) => ApplyingTutor.fromFirebase(applyingTutor))
-            .toList());
+  Stream<List<ApplyingTutor>> getApplyingTutorList() {
+    return FirebaseFirestore.instance
+        .collection('ApplyingTutors')
+        .snapshots()
+        .map((applyingTutorList) => applyingTutorList.docs.map((applyingTutor) => ApplyingTutor.fromFirebase(applyingTutor)).toList());
   }
-
 }
