@@ -8,6 +8,7 @@ class User {
   final int time;
   final String type;
   final String Uid;
+  final bool isNew;
 
   User({
     @required this.name,
@@ -16,6 +17,7 @@ class User {
     @required this.time,
     @required this.type,
     @required this.Uid,
+    @required this.isNew,
   });
 
   factory User.fromFirebase(DocumentSnapshot snapshot) {
@@ -27,6 +29,7 @@ class User {
       time: data['time'],
       type: data['type'],
       Uid: data['Uid'],
+      isNew: data['isNew'],
     );
   }
 }

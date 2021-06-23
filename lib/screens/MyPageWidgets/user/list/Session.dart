@@ -20,21 +20,6 @@ class Sessions extends StatelessWidget {
   Widget build(BuildContext context) {
     User auth = Provider.of<User>(context);
 
-    var outputFormat_s = DateFormat('yyyy-MM-dd');
-    var outputDate_s =
-        outputFormat_s.format(sessions[idx].sessionStart.toDate());
-
-    var dateToTimeStamp_s = DateTime.fromMillisecondsSinceEpoch(
-        sessions[idx].sessionStart.millisecondsSinceEpoch * 1000);
-    var output_hh_mm_s = DateFormat('HH:mm').format(dateToTimeStamp_s);
-
-    var outputFormat_e = DateFormat('yyyy-MM-dd');
-    var outputDate_e = outputFormat_e.format(sessions[idx].sessionEnd.toDate());
-
-    var dateToTimeStamp_e = DateTime.fromMillisecondsSinceEpoch(
-        sessions[idx].sessionEnd.millisecondsSinceEpoch * 1000);
-    var output_hh_mm_e = DateFormat('HH:mm').format(dateToTimeStamp_e);
-
     return Row(
       children: [
         Container(
@@ -89,8 +74,6 @@ class Sessions extends StatelessWidget {
                         .toString(),
                 style: TextStyle(color: Colors.grey),
               ),
-              // Text(outputDate_s),
-              // Text(output_hh_mm_s + '-' + output_hh_mm_e, style: TextStyle(color: Colors.grey),)
             ],
           ),
         ),

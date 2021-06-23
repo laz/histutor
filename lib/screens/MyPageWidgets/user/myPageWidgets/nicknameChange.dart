@@ -17,13 +17,12 @@ class NicknameChangePage extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  width:100,
+                  width: 100,
                 ),
                 Text("닉네임: ",
                     style: TextStyle(
                       fontSize: 18,
-                    )
-                ),
+                    )),
                 Container(
                   width: 200,
                   child: TextField(
@@ -33,15 +32,13 @@ class NicknameChangePage extends StatelessWidget {
                 FloatingActionButton(
                     child: Text("변경하기"),
                     onPressed: () {
-                      UserController().chageUserName(
-                          user.studentId.toString(), nicknameController.text);
+                      UserController().changeUserName(user.studentId.toString(), nicknameController.text);
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           // return object of type Dialog
                           return AlertDialog(
-                            content: Text(
-                                "닉네임이 변경되었습니다:)"),
+                            content: Text("닉네임이 변경되었습니다:)"),
                             actions: <Widget>[
                               ElevatedButton(
                                 child: Text("확인"),
@@ -55,9 +52,7 @@ class NicknameChangePage extends StatelessWidget {
                       );
                     })
               ],
-
             ),
-
           ],
         ));
   }
