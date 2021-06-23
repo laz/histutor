@@ -66,7 +66,7 @@ Widget tuteeButton(
         // alignment: Alignment.topRight,
         child: ElevatedButton(
           onPressed: () {
-            ApplyingTutorController().applyingTutor(user.studentId, user.name);
+            ApplyingTutorController().applyingTutor(user.id, user.nickname, user.studentId);
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(

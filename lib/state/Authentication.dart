@@ -33,17 +33,18 @@ class Authentication extends ChangeNotifier {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
       _auth = userCredential.user;
-      String studentId = _auth.email.split('@')[0];
+      String id = _auth.email.split('@')[0];
 
-      final snapshot = await FirebaseFirestore.instance.collection('Users').doc(studentId).get();
+      final snapshot = await FirebaseFirestore.instance.collection('Users').doc(id).get();
 
       // first time login
       if (!snapshot.exists) {
-        await FirebaseFirestore.instance.collection('Users').doc(studentId).set({
-          'Uid': _auth.uid,
+        await FirebaseFirestore.instance.collection('Users').doc(id).set({
+          'uid': _auth.uid,
           'email': _auth.email,
-          'name': studentId,
-          'studentId': int.parse(studentId),
+          'nickname': id,
+          'id': id,
+          'studentId': 0,
           'time': 0,
           'type': 'tutee',
           'isNew': true,

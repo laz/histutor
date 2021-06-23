@@ -13,16 +13,19 @@ class UserAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: false,
       actions: [
         Row(
-
           children: [
             Container(
                 padding: EdgeInsets.fromLTRB(5, 27, 10, 0),
-                child: Text(user.type,
-                style: TextStyle(fontSize: 20),)),
+                child: Text(
+                  user.type,
+                  style: TextStyle(fontSize: 20),
+                )),
             Container(
-              padding: EdgeInsets.fromLTRB(5, 17, 30, 0),
-                child: Text(user.name, style: TextStyle(fontSize: 32),)
-            ),
+                padding: EdgeInsets.fromLTRB(5, 17, 30, 0),
+                child: Text(
+                  user.nickname,
+                  style: TextStyle(fontSize: 32),
+                )),
           ],
         )
       ],
@@ -30,13 +33,10 @@ class UserAppBar extends StatelessWidget with PreferredSizeWidget {
         padding: EdgeInsets.fromLTRB(30.0, 13.0, 0.0, 0.0),
         child: Row(children: [
           Padding(
-           padding: EdgeInsets.only(right: 10.0),
-            child:
-            Container(
+            padding: EdgeInsets.only(right: 10.0),
+            child: Container(
               padding: EdgeInsets.all(4.0),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.white, width: 2.0)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), border: Border.all(color: Colors.white, width: 2.0)),
               child: Text(
                 'HISTUTOR',
                 style: TextStyle(fontSize: 32, color: Colors.black),

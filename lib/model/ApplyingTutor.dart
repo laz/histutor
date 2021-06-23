@@ -2,20 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ApplyingTutor {
-  final String name;
+  final String nickname;
   final int studentId;
-
+  final String id;
 
   ApplyingTutor({
-    @required this.name,
+    @required this.nickname,
     @required this.studentId,
+    @required this.id,
   });
 
   factory ApplyingTutor.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
     return ApplyingTutor(
-      name: data['name'],
+      nickname: data['nickname'],
       studentId: data['studentId'],
+      id: data['id'],
     );
   }
 }

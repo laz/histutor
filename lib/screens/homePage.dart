@@ -18,7 +18,8 @@ class _HomePageState extends State<HomePage> {
     User user = Provider.of<User>(context);
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
-    final nameController = TextEditingController();
+    final nicknameController = TextEditingController();
+    final studentIdController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -42,22 +43,32 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('학번 이름 형태로 닉네임을 입력해주세요!'),
-                    Text('예시: 21 김개똥'),
+                    Text('닉네임은 학번 이름 형태로 입력해주세요!'),
+                    Text('예시: 21김개똥'),
                     Padding(
                       padding: EdgeInsets.fromLTRB((appWidth - 200) * 0.5, 0, (appWidth - 200) * 0.5, (appHeight - 130) * 0.05),
                       child: Container(
                         width: 200,
                         child: TextFormField(
-                          controller: nameController,
+                          controller: nicknameController,
                           decoration: InputDecoration(labelText: '닉네임'),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB((appWidth - 200) * 0.5, 0, (appWidth - 200) * 0.5, (appHeight - 130) * 0.05),
+                      child: Container(
+                        width: 200,
+                        child: TextFormField(
+                          controller: studentIdController,
+                          decoration: InputDecoration(labelText: '학번'),
                         ),
                       ),
                     ),
                     ElevatedButton(
                       child: Text('등록'),
                       onPressed: () {
-                        UserController().changeUserName(user.studentId.toString(), nameController.text);
+                        UserController().updateNewUser(user.id, nicknameController.text, int.parse(studentIdController.text));
                       },
                     )
                   ],

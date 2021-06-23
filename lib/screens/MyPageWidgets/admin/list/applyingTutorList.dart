@@ -62,7 +62,7 @@ class ApplyingTutorList extends StatelessWidget {
         ),
         Container(
           width: 200,
-          child: Text(applyingTutorList[idx - 1].name.toString()),
+          child: Text(applyingTutorList[idx - 1].nickname.toString()),
         ),
         Container(
           width: 400,
@@ -75,7 +75,7 @@ class ApplyingTutorList extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   ApplyingTutorController().acceptTutorApplying(
-                      applyingTutorList[idx - 1].studentId, true);
+                      applyingTutorList[idx - 1].id, true);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
@@ -90,7 +90,7 @@ class ApplyingTutorList extends StatelessWidget {
             child: ElevatedButton(
               onPressed: ()  {
                 ApplyingTutorController().acceptTutorApplying(
-                    applyingTutorList[idx - 1].studentId, false);
+                    applyingTutorList[idx - 1].id, false);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),

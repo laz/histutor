@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 
 class Participant {
   final int studentId;
+  final String id;
   final Timestamp entrance;
-  final String name;
+  final String nickname;
   final String uid;
   final Timestamp startTime;
 
   Participant({
     @required this.studentId,
+    @required this.id,
     @required this.entrance,
-    @required this.name,
+    @required this.nickname,
     @required this.uid,
     @required this.startTime,
   });
@@ -21,8 +23,9 @@ class Participant {
     Map data = snapshot.data();
     return Participant(
       studentId: data['studentId'],
+      id: data['id'],
       entrance: data['entrance'],
-      name: data['name'],
+      nickname: data['nickname'],
       uid: data['uid'],
       startTime: data['startTime'],
     );

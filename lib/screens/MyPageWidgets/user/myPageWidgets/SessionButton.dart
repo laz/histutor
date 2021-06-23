@@ -15,7 +15,7 @@ class SessionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
     bool isTutee = user.type == "tutee";
-    tutor_name = user.name;
+    tutor_name = user.nickname;
     return (isTutee) ? tuteeButton() : tutorButton(context);
   }
 }
@@ -233,7 +233,7 @@ class _roomMakerState extends State<roomMaker> {
                                         'tutorName': tutor_name,
                                         'zoomLink': _zoomlink.text,
                                         'offline': _offsession.text,
-                                        'Uid': user.Uid,
+                                        'tutorId': user.id,
                                         'sessionIndex': sessions.length,
                                       });
                                     }

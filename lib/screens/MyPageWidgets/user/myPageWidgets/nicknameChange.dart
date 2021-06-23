@@ -9,7 +9,7 @@ class NicknameChangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    var nicknameController = TextEditingController(text: user.name);
+    var nicknameController = TextEditingController(text: user.nickname);
     return Padding(
         padding: EdgeInsets.fromLTRB(50, 70, 0, 0),
         child: Column(
@@ -32,7 +32,7 @@ class NicknameChangePage extends StatelessWidget {
                 FloatingActionButton(
                     child: Text("변경하기"),
                     onPressed: () {
-                      UserController().changeUserName(user.studentId.toString(), nicknameController.text);
+                      UserController().changeUserName(user.id, nicknameController.text);
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {

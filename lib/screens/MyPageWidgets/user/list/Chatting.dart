@@ -47,14 +47,14 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     List<Chat> chats = Provider.of<List<Chat>>(context);
     List<Participant> participants = Provider.of<List<Participant>>(context);
     Session session = Provider.of<Session>(context);
-    User auth = Provider.of<User>(context);
+    User user = Provider.of<User>(context);
 
-    if (auth != null) studentId = auth.studentId.toString();
-    if (auth != null) name = auth.name;
+    if (user != null) studentId = user.studentId.toString();
+    if (user != null) name = user.nickname;
 
     return session != null
         ? session.category.compareTo('종료') == 1
-            ? !checkParticipantsList(participants, auth, session)
+            ? !checkParticipantsList(participants, user, session)
                 ? Dialog(
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.3,
@@ -76,8 +76,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                   Navigator.of(context).pop();
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Color(0xff9BC7DA)),
+                                  backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                                 ),
                                 child: Text("세션 목록으로 돌아가기",
                                     style: TextStyle(
@@ -93,7 +92,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       preferredSize: Size.fromHeight(80),
                       child: UserAppBar(
                         isAdmin: false,
-                        user: auth,
+                        user: user,
                       ),
                     ),
                     backgroundColor: Color(0xffffffff),
@@ -112,27 +111,18 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                 children: [
                                   SizedBox(height: 15.0),
                                   Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
+                                      width: MediaQuery.of(context).size.width * 0.3,
                                       height: 50.0,
                                       color: Colors.grey,
                                       child: Center(
-                                        child: Text(
-                                            '세션 이름 : ' + session.sessionName,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 18)),
+                                        child: Text('세션 이름 : ' + session.sessionName,
+                                            textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
                                       )),
                                   SizedBox(height: 20.0),
                                   Container(
                                     color: Colors.white,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    height:
-                                        (MediaQuery.of(context).size.height -
-                                                135.0) *
-                                            0.75,
+                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    height: (MediaQuery.of(context).size.height - 135.0) * 0.75,
                                     child: Column(
                                       children: [
                                         Flexible(
@@ -140,21 +130,16 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                               ? ListView.builder(
                                                   controller: _scrollController,
                                                   itemCount: chats.length + 1,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    if (index == chats.length)
-                                                      return Container(
-                                                          height: 60.0);
+                                                  itemBuilder: (context, index) {
+                                                    if (index == chats.length) return Container(height: 60.0);
                                                     return ListTile(
                                                       title: Text(
                                                         chats[index].from,
-                                                        style: TextStyle(
-                                                            fontSize: 14),
+                                                        style: TextStyle(fontSize: 14),
                                                       ),
                                                       subtitle: Text(
                                                         chats[index].text,
-                                                        style: TextStyle(
-                                                            fontSize: 20),
+                                                        style: TextStyle(fontSize: 20),
                                                       ),
                                                     );
                                                   },
@@ -183,8 +168,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        window.open(
-                                            session.zoomLink, 'new tab');
+                                        window.open(session.zoomLink, 'new tab');
                                       },
                                       child: Text('Zoom Link',
                                           style: TextStyle(
@@ -197,15 +181,10 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                 SizedBox(height: 20.0),
                                 SingleChildScrollView(
                                   child: Container(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 50.0, 0.0, 0.0),
+                                    padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
                                     color: Color(0xffebebeb),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    height:
-                                        (MediaQuery.of(context).size.height -
-                                                70.0) *
-                                            0.4,
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    height: (MediaQuery.of(context).size.height - 70.0) * 0.4,
                                     child: session != null
                                         ? Column(
                                             children: [
@@ -216,22 +195,14 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                               SizedBox(
                                                 height: 10.0,
                                               ),
-                                              Text(
-                                                  '오프라인 장소: ' + session.offline,
+                                              Text('오프라인 장소: ' + session.offline,
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                   )),
                                               SizedBox(
                                                 height: 10.0,
                                               ),
-                                              Text(
-                                                  '시작 시간: ' +
-                                                      DateFormat(
-                                                              'yyyy-MM-dd HH:mm')
-                                                          .format(session
-                                                              .sessionStart
-                                                              .toDate())
-                                                          .toString(),
+                                              Text('시작 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionStart.toDate()).toString(),
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                   )),
@@ -239,14 +210,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                                 height: 10.0,
                                               ),
 
-                                              Text(
-                                                  '종료 시간: ' +
-                                                      DateFormat(
-                                                              'yyyy-MM-dd HH:mm')
-                                                          .format(session
-                                                              .sessionEnd
-                                                              .toDate())
-                                                          .toString(),
+                                              Text('종료 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionEnd.toDate()).toString(),
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                   )),
@@ -254,29 +218,28 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                                 height: 10.0,
                                               ),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Text('튜티: '),
                                                   participants != null
                                                       ? participants.length > 5
                                                           ? Column(
                                                               children: [
-                                                                for (int i = 0;
-                                                                    i < 5;
-                                                                    i++)
-                                                                  Text(participants[
-                                                                          i]
-                                                                      .name, style: TextStyle(fontSize: 15.0),),
+                                                                for (int i = 0; i < 5; i++)
+                                                                  Text(
+                                                                    participants[i].nickname,
+                                                                    style: TextStyle(fontSize: 15.0),
+                                                                  ),
                                                                 Text('...'),
                                                               ],
                                                             )
                                                           : Column(
                                                               children: [
-                                                                for (var p
-                                                                    in participants)
-                                                                  Text(p.name,
-                                                                  style: TextStyle(fontSize: 15.0),)
+                                                                for (var p in participants)
+                                                                  Text(
+                                                                    p.nickname,
+                                                                    style: TextStyle(fontSize: 15.0),
+                                                                  )
                                                               ],
                                                             )
                                                       : CircularProgressIndicator(),
@@ -316,9 +279,8 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                         : CircularProgressIndicator(),
                                   ),
                                 ),
-                                if (auth.Uid == session.tutorUid)
-                                  _buildTutorButton(
-                                      participants, session, auth),
+                                //TODO: tutor id로 하기
+                                if (user.id == session.tutorId) _buildTutorButton(participants, session, user),
                               ],
                             ),
                           ],
@@ -347,8 +309,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                               Navigator.of(context).pop();
                             },
                             style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Color(0xff9BC7DA)),
+                              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                             ),
                             child: Text("세션 목록으로 돌아가기",
                                 style: TextStyle(
@@ -364,7 +325,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
 
   // 튜터 시작 & 종료 버튼으로 시간 재기
   // 종료 버튼 누르면 튜티 참가자 목록에서 삭제 & 방에서 강퇴
-  Widget _buildTutorButton(List<Participant> ps, Session session, User auth) {
+  Widget _buildTutorButton(List<Participant> ps, Session session, User user) {
     return Container(
       child: Column(
         children: [
@@ -384,8 +345,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       addChatMessage('현재 진행할 튜티가 없습니다:(');
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xff9BC7DA)),
+                    backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                   ),
                   child: Text("시  작",
                       style: TextStyle(
@@ -399,15 +359,12 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                 height: 50.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (ps != null) if (ps.length > 0)
-                      SessionController()
-                          .deleteParticipant(ps[0], session, auth);
+                    if (ps != null) if (ps.length > 0) SessionController().deleteParticipant(ps[0], session, user);
 
                     ingParticipants = "";
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xff9BC7DA)),
+                    backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
                   ),
                   child: Text("종  료",
                       style: TextStyle(
@@ -424,10 +381,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
             child: ElevatedButton(
               onPressed: () async {
                 ps.isEmpty
-                    ? await FirebaseFirestore.instance
-                        .collection('Sessions')
-                        .doc(sessionIndex.toString())
-                        .update({
+                    ? await FirebaseFirestore.instance.collection('Sessions').doc(sessionIndex.toString()).update({
                         'category': "종료",
                       })
                     : showDialog(
@@ -435,8 +389,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         builder: (BuildContext context) {
                           // return object of type Dialog
                           return AlertDialog(
-                            content: Text(
-                                "아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
+                            content: Text("아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
                             actions: <Widget>[
                               ElevatedButton(
                                 child: Text("확인"),
@@ -485,9 +438,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           Container(
               margin: EdgeInsets.symmetric(horizontal: 4.0),
               child: CupertinoButton(
-                onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
-                    : null,
+                onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
                 child: Icon(Icons.send),
               ))
         ],
@@ -496,22 +447,21 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   }
 
   void startSession(Participant p, String session) {
-    addChatMessage(p.name + '님 차례입니다:)');
+    addChatMessage(p.nickname + '님 차례입니다:)');
     SessionController().updateStartTime(p, session);
     cur = p;
-    if (cur != null) ingParticipants = cur.name + '님이 현재 튜터링 진행중입니다:)';
+    if (cur != null) ingParticipants = cur.nickname + '님이 현재 튜터링 진행중입니다:)';
   }
 
-  bool checkParticipantsList(
-      List<Participant> participants, User auth, Session session) {
+  bool checkParticipantsList(List<Participant> participants, User user, Session session) {
     bool exist = false;
 
-    if (auth.Uid == session.tutorUid) return true;
+    if (user.id == session.tutorId) return true;
 
     Participant me;
     if (participants != null)
       for (Participant participant in participants) {
-        if (participant.studentId == auth.studentId) {
+        if (participant.studentId == user.studentId) {
           me = participant;
           break;
         }
@@ -541,11 +491,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   }
 
   Future<DocumentReference> addChatMessage(String text) async {
-    return await FirebaseFirestore.instance
-        .collection('Sessions')
-        .doc(sessionIndex.toString())
-        .collection('Chats')
-        .add({
+    return await FirebaseFirestore.instance.collection('Sessions').doc(sessionIndex.toString()).collection('Chats').add({
       'from': name,
       'text': text,
       'time': FieldValue.serverTimestamp(),

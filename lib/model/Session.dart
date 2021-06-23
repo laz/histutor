@@ -1,9 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Session {
-  final String tutorUid;
+  final String tutorId;
   final int sessionIndex;
   final String tutorName;
   final String sessionName;
@@ -15,7 +14,7 @@ class Session {
   Timestamp createdTime;
 
   Session({
-    @required this.tutorUid,
+    @required this.tutorId,
     @required this.sessionIndex,
     @required this.tutorName,
     @required this.sessionName,
@@ -30,7 +29,7 @@ class Session {
   factory Session.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
     return Session(
-      tutorUid: data['Uid'],
+      tutorId: data['tutorId'],
       sessionIndex: data['sessionIndex'],
       tutorName: data['tutorName'],
       sessionName: data['sessionName'],

@@ -11,14 +11,13 @@ import 'package:intl/intl.dart';
 import '../../../../controller/SessionController.dart';
 
 class Sessions extends StatelessWidget {
-  const Sessions({Key key, @required this.idx, @required this.sessions})
-      : super(key: key);
+  const Sessions({Key key, @required this.idx, @required this.sessions}) : super(key: key);
   final int idx;
   final List<Session> sessions;
 
   @override
   Widget build(BuildContext context) {
-    User auth = Provider.of<User>(context);
+    User user = Provider.of<User>(context);
 
     return Row(
       children: [
@@ -61,17 +60,11 @@ class Sessions extends StatelessWidget {
           width: 100,
           child: Column(
             children: [
-              Text(DateFormat('yyyy-MM-dd')
-                  .format(sessions[idx].sessionStart.toDate())
-                  .toString()),
+              Text(DateFormat('yyyy-MM-dd').format(sessions[idx].sessionStart.toDate()).toString()),
               Text(
-                DateFormat('HH:mm')
-                        .format(sessions[idx].sessionStart.toDate())
-                        .toString() +
+                DateFormat('HH:mm').format(sessions[idx].sessionStart.toDate()).toString() +
                     '-' +
-                    DateFormat('HH:mm')
-                        .format(sessions[idx].sessionEnd.toDate())
-                        .toString(),
+                    DateFormat('HH:mm').format(sessions[idx].sessionEnd.toDate()).toString(),
                 style: TextStyle(color: Colors.grey),
               ),
             ],
@@ -83,23 +76,14 @@ class Sessions extends StatelessWidget {
               width: 100,
               child: ElevatedButton(
                 onPressed: () async {
-                  if (auth.Uid != sessions[idx].tutorUid)
-                    SessionController().addParticipant(
-                        auth, sessions[idx].sessionIndex.toString());
+                  if (user.id != sessions[idx].tutorId) SessionController().addParticipant(user, sessions[idx].sessionIndex.toString());
 
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                     return MultiProvider(
                       providers: [
-                        StreamProvider<List<Chat>>.value(
-                            value: Database()
-                                .getSessionChats(sessions[idx].sessionIndex)),
-                        StreamProvider<Session>.value(
-                            value: Database()
-                                .getSession(sessions[idx].sessionIndex)),
-                        StreamProvider<List<Participant>>.value(
-                            value: Database().getSessionParticipants(
-                                sessions[idx].sessionIndex)),
+                        StreamProvider<List<Chat>>.value(value: Database().getSessionChats(sessions[idx].sessionIndex)),
+                        StreamProvider<Session>.value(value: Database().getSession(sessions[idx].sessionIndex)),
+                        StreamProvider<List<Participant>>.value(value: Database().getSessionParticipants(sessions[idx].sessionIndex)),
                       ],
                       child: Chatting(sessionIndex: sessions[idx].sessionIndex),
                     );
