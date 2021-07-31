@@ -55,7 +55,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
 
     return session != null
         ? session.category.compareTo('종료') == 1
-            ? !checkParticipantsList(participants, user, session)
+            ? session.participants.contains(user.id) == false
                 ? Dialog(
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.3,
@@ -430,6 +430,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                 ),
               ),
               SizedBox(width: 20.0),
+              // delete top of tutee list
               Container(
                 width: 100,
                 height: 50.0,
@@ -538,25 +539,25 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     if (cur != null) ingParticipants = cur.nickname + '님이 현재 튜터링 진행중입니다:)';
   }
 
-  bool checkParticipantsList(
-      List<Participant> participants, User user, Session session) {
-    bool exist = false;
-
-    if (user.id == session.tutorId) return true;
-
-    Participant me;
-    if (participants != null)
-      for (Participant participant in participants) {
-        if (participant.studentId == user.studentId) {
-          me = participant;
-          break;
-        }
-      }
-
-    exist = participants.contains(me);
-
-    return exist;
-  }
+  // bool checkParticipantsList(
+  //     List<Participant> participants, User user, Session session) {
+  //   bool exist = false;
+  //
+  //   if (user.id == session.tutorId) return true;
+  //
+  //   Participant me;
+  //   if (participants != null)
+  //     for (Participant participant in participants) {
+  //       if (participant.studentId == user.studentId) {
+  //         me = participant;
+  //         break;
+  //       }
+  //     }
+  //
+  //   // exist = participants.contains(me);
+  // exist = true;
+  //   return exist;
+  // }
 
   void _handleSubmitted(String text) {
     _textController.clear();

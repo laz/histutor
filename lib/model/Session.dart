@@ -11,6 +11,8 @@ class Session {
   final Timestamp sessionEnd;
   final String offline;
   final String zoomLink;
+  final List<dynamic> participants;
+  final String studentBeingTutored;
   Timestamp createdTime;
 
   Session({
@@ -23,6 +25,8 @@ class Session {
     @required this.category,
     @required this.createdTime,
     @required this.offline,
+    @required this.participants,
+    @required this.studentBeingTutored,
     @required this.zoomLink,
   });
 
@@ -38,6 +42,8 @@ class Session {
       category: data['category'],
       createdTime: data['createdTime'],
       offline: data['offline'],
+      participants: data['participants'],
+      studentBeingTutored: data['studentBeingTutored'],
       zoomLink: data['zoomLink'],
     );
   }

@@ -78,7 +78,30 @@ class Sessions extends StatelessWidget {
               width: 100,
               child: ElevatedButton(
                 onPressed: () async {
-                  if (user.id != sessions[idx].tutorId) SessionController().addParticipant(user, sessions[idx].sessionIndex.toString());
+
+                  print(sessions[idx].participants.contains(user.id));
+
+                  for(String id in sessions[idx].participants) {
+                    print(id);
+                  }
+
+                  if(sessions[idx].participants.contains(user.id)) {
+                    // if tutoring
+                    if(sessions[idx].studentBeingTutored == user.id) {
+                      // do nothing
+                    }
+                    else {
+                      SessionController().updateEntranceTime(user, sessions[idx].sessionIndex.toString());
+                    }
+                  }
+                  else {
+
+                    if(user.id != sessions[idx].tutorId) {
+                      // 넣기
+                      SessionController().addParticipant(user, sessions[idx].sessionIndex.toString());
+                      SessionController().addSessionParticipant(user, sessions[idx].sessionIndex.toString());
+                    }
+                  }
 
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                     return MultiProvider(

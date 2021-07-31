@@ -235,6 +235,7 @@ class _roomMakerState extends State<roomMaker> {
                                         'offline': _offsession.text,
                                         'tutorId': user.id,
                                         'sessionIndex': sessions.length,
+                                        'participants': [],
                                       });
                                     }
                                     Navigator.of(context).pop();

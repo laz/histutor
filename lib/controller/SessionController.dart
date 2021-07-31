@@ -22,14 +22,20 @@ class SessionController extends ChangeNotifier {
     });
   }
 
+  Future<void> addSessionParticipant(User user, String session) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).update({
+      'participants': FieldValue.arrayUnion([user.id]),
+    });
+  }
+
   Future<void> updateTurn(Participant p, String session, bool t) async {
     await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(p.id).update({
       'turn': t,
     });
   }
 
-  Future<void> updateEntranceTime(Participant p, String session) async {
-    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(p.id).update({
+  Future<void> updateEntranceTime(User user, String session) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(user.id).update({
       'entrance': FieldValue.serverTimestamp(),
     });
   }
