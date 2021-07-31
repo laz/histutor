@@ -7,8 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:histutor/histutor.dart';
-
 import 'package:histutor/main.dart';
 
 void main() {

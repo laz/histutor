@@ -9,6 +9,7 @@ import '../model/Session.dart';
 import '../model/User.dart';
 
 class SessionController extends ChangeNotifier {
+
   Future<void> addParticipant(User user, String session) async {
     await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(user.id).set({
       'entrance': FieldValue.serverTimestamp(),
@@ -17,6 +18,19 @@ class SessionController extends ChangeNotifier {
       'studentId': user.studentId,
       'uid': user.uid,
       'startTime': null,
+      'turn': false,
+    });
+  }
+
+  Future<void> updateTurn(Participant p, String session, bool t) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(p.id).update({
+      'turn': t,
+    });
+  }
+
+  Future<void> updateEntranceTime(Participant p, String session) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(p.id).update({
+      'entrance': FieldValue.serverTimestamp(),
     });
   }
 

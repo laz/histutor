@@ -10,7 +10,8 @@ class MyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,6 +29,7 @@ class MyPage extends StatelessWidget {
             )
           ],
         ),
+      ),
     );
   }
 }
@@ -37,7 +39,7 @@ Widget selectMyPage(int selectedNum, BuildContext context) {
     case 0: // to session
       return Container(
         width: 1167,
-        height: (MediaQuery.of(context).size.height-180)*0.9,
+        height: (MediaQuery.of(context).size.height - 180) * 0.9,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
         child: ListPage(),
@@ -45,7 +47,7 @@ Widget selectMyPage(int selectedNum, BuildContext context) {
     case 1: // my page
       return Container(
         width: 1167,
-        height: (MediaQuery.of(context).size.height-180)*0.9,
+        height: (MediaQuery.of(context).size.height - 180) * 0.9,
         alignment: Alignment.topLeft,
         color: Color(0xffFFFFFF),
         child: NicknameChangePage(),

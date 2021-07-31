@@ -9,6 +9,8 @@ import 'package:histutor/state/Database.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../../controller/SessionController.dart';
+import '../../../../model/Participant.dart';
+import '../../../../state/Database.dart';
 
 class Sessions extends StatelessWidget {
   const Sessions({Key key, @required this.idx, @required this.sessions}) : super(key: key);
