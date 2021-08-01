@@ -18,7 +18,9 @@ class Authentication extends ChangeNotifier {
 
   Future<void> signInWithGoogle(BuildContext context) async {
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    if (googleUser.email.split('@')[1] != 'handong.edu') {
+    bool test = true;
+    if(test == false) {
+    // if (googleUser.email.split('@')[1] != 'handong.edu') {
       handong(context);
       GoogleSignIn().signOut();
       await FirebaseAuth.instance.signOut();

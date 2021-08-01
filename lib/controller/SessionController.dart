@@ -9,7 +9,6 @@ import '../model/Session.dart';
 import '../model/User.dart';
 
 class SessionController extends ChangeNotifier {
-
   Future<void> addParticipant(User user, String session) async {
     await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(user.id).set({
       'entrance': FieldValue.serverTimestamp(),
@@ -48,7 +47,9 @@ class SessionController extends ChangeNotifier {
 
   Future<void> deleteParticipant(Participant p, Session session, User tutor) async {
     await updateTime(p, session, tutor);
-
+    await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).update({
+      'participants': FieldValue.arrayRemove([p.id]),
+    });
     await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).collection('Participants').doc(p.id).delete();
   }
 
