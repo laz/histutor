@@ -9,6 +9,7 @@ class Participant {
   final String nickname;
   final String uid;
   final Timestamp startTime;
+  final bool alert;
 
   Participant({
     @required this.studentId,
@@ -17,6 +18,7 @@ class Participant {
     @required this.nickname,
     @required this.uid,
     @required this.startTime,
+    @required this.alert,
   });
 
   factory Participant.fromFirebase(DocumentSnapshot snapshot) {
@@ -28,6 +30,7 @@ class Participant {
       nickname: data['nickname'],
       uid: data['uid'],
       startTime: data['startTime'],
+      alert: data['alert'],
     );
   }
 }

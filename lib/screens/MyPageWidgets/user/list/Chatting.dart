@@ -15,6 +15,7 @@ import '../../../../model/Chat.dart';
 import '../../../../model/Participant.dart';
 import '../../../../model/Session.dart';
 import 'package:intl/intl.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class Chatting extends StatefulWidget {
   final int sessionIndex;
@@ -28,6 +29,7 @@ class Chatting extends StatefulWidget {
 class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final player = AssetsAudioPlayer();
   bool _isComposing = false;
   int sessionIndex;
   String studentId;
@@ -48,6 +50,16 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     List<Participant> participants = Provider.of<List<Participant>>(context);
     Session session = Provider.of<Session>(context);
     User user = Provider.of<User>(context);
+
+
+    if(participants != null) {
+      for(Participant participant in participants) {
+        if(participant.id == user.id && participant.alert == true) {
+          player.open(Audio("assets/notification.mp3"));
+          SessionController().alertParticipant(participant, session.sessionIndex.toString(), false);
+        }
+      }
+    }
 
     if (user != null) studentId = user.studentId.toString();
     if (user != null) name = user.nickname;
@@ -340,6 +352,12 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     });
                   }),
               IconButton(
+                icon: Icon(Icons.notifications_none),
+                onPressed: () {
+                  SessionController().alertParticipant(p, s.sessionIndex.toString(), true);
+                },
+              ),
+              IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
                   if (studentBeingTutored == null || studentBeingTutored.id != p.id) {
@@ -364,7 +382,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     );
                   }
                 },
-              )
+              ),
             ],
           ),
           SizedBox(height: 3.0),

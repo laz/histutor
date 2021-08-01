@@ -81,7 +81,6 @@ class Sessions extends StatelessWidget {
 
                   if(sessions[idx].participants.contains(user.id)) {
                     // if tutoring
-                    print(sessions[idx].actualStudentBeingTutored);
                     if(sessions[idx].actualStudentBeingTutored == user.id) {
                       // do nothing
                     }

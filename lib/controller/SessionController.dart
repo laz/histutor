@@ -17,6 +17,13 @@ class SessionController extends ChangeNotifier {
       'studentId': user.studentId,
       'uid': user.uid,
       'startTime': null,
+      'alert': false,
+    });
+  }
+
+  Future<void> alertParticipant(Participant participant, String session, bool status) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(participant.id).update({
+      'alert': status,
     });
   }
 
