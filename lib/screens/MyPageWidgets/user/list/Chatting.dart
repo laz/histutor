@@ -52,39 +52,25 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     Session session = Provider.of<Session>(context);
     User user = Provider.of<User>(context);
 
+    Participant currentParticipant;
+
     if (participants != null) {
       for (Participant participant in participants) {
-        if (participant.id == user.id && participant.alert == true) {
-          alert = true;
-          player.open(Audio("assets/notification.mp3"));
-          SessionController().alertParticipant(participant, session.sessionIndex.toString(), false);
+        if (participant.id == user.id) {
+          currentParticipant = participant;
+          if (participant.alert == true) {
+            alert = true;
+            player.open(Audio("assets/notification.mp3"));
+            // SessionController().alertParticipant(participant, session.sessionIndex.toString(), false);
+          } else
+            alert = false;
+          break;
         }
       }
     }
 
     if (user != null) studentId = user.studentId.toString();
     if (user != null) name = user.nickname;
-
-    //   if(alert) {
-    //     showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) {
-    //         // return object of type Dialog
-    //         return AlertDialog(
-    //           content: Text("튜티를 목록에서 제거하려면 체크박스를 해제해주세요."),
-    //           actions: <Widget>[
-    //             ElevatedButton(
-    //               child: Text("확인"),
-    //               onPressed: () {
-    //                 Navigator.pop(context);
-    //               },
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-    //   }
-    // else
 
     return session != null
         ? session.category.compareTo('종료') == 1
@@ -294,14 +280,14 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         ),
                         if (alert == true)
                           AlertDialog(
-                            content: Text("튜티를 목록에서 제거하려면 체크박스를 해제해주세요."),
+                            content: Text("${user.nickname}님 차례입니다. 지금 튜터링을 받으시려면 채팅을 남겨주세요."),
                             actions: <Widget>[
                               ElevatedButton(
                                 child: Text("확인"),
                                 onPressed: () {
-                                  // Navigator.pop(context);
                                   setState(() {
                                     alert = false;
+                                    SessionController().alertParticipant(currentParticipant, session.sessionIndex.toString(), false);
                                   });
                                 },
                               ),
@@ -387,7 +373,10 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         studentBeingTutored = p;
                       else {
                         if (actualStudentBeingTutored == null) {
-                          studentBeingTutored = p;
+                          if (studentBeingTutored.id == p.id)
+                            studentBeingTutored = null;
+                          else
+                            studentBeingTutored = p;
                         }
                       }
                     });
@@ -396,6 +385,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                 icon: Icon(Icons.notifications_none),
                 onPressed: () {
                   SessionController().alertParticipant(p, s.sessionIndex.toString(), true);
+                  Future.delayed(const Duration(seconds: 15), () {
+                    SessionController().alertParticipant(p, s.sessionIndex.toString(), false);
+                  });
                 },
               ),
               IconButton(
