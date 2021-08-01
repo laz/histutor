@@ -34,6 +34,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   int sessionIndex;
   String studentId;
   String name;
+  bool alert = false;
 
   Participant studentBeingTutored = null;
   Participant actualStudentBeingTutored = null;
@@ -51,10 +52,10 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     Session session = Provider.of<Session>(context);
     User user = Provider.of<User>(context);
 
-
-    if(participants != null) {
-      for(Participant participant in participants) {
-        if(participant.id == user.id && participant.alert == true) {
+    if (participants != null) {
+      for (Participant participant in participants) {
+        if (participant.id == user.id && participant.alert == true) {
+          alert = true;
           player.open(Audio("assets/notification.mp3"));
           SessionController().alertParticipant(participant, session.sessionIndex.toString(), false);
         }
@@ -63,6 +64,27 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
 
     if (user != null) studentId = user.studentId.toString();
     if (user != null) name = user.nickname;
+
+    //   if(alert) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (BuildContext context) {
+    //         // return object of type Dialog
+    //         return AlertDialog(
+    //           content: Text("튜티를 목록에서 제거하려면 체크박스를 해제해주세요."),
+    //           actions: <Widget>[
+    //             ElevatedButton(
+    //               child: Text("확인"),
+    //               onPressed: () {
+    //                 Navigator.pop(context);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   }
+    // else
 
     return session != null
         ? session.category.compareTo('종료') == 1
@@ -108,165 +130,184 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       ),
                     ),
                     backgroundColor: Color(0xffffffff),
-                    body: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
-                        color: Color(0xffffffff),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.height * 0.8,
-                              color: Color(0xffebebeb),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 15.0),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width * 0.3,
-                                      height: 50.0,
-                                      color: Colors.grey,
-                                      child: Center(
-                                        child: Text('세션 이름 : ' + session.sessionName,
-                                            textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
-                                      )),
-                                  SizedBox(height: 20.0),
-                                  Container(
-                                    color: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.4,
-                                    height: (MediaQuery.of(context).size.height - 135.0) * 0.75,
-                                    child: Column(
-                                      children: [
-                                        Flexible(
-                                          child: chats != null
-                                              ? ListView.builder(
-                                                  controller: _scrollController,
-                                                  itemCount: chats.length + 1,
-                                                  itemBuilder: (context, index) {
-                                                    if (index == chats.length) return Container(height: 60.0);
-                                                    return ListTile(
-                                                      title: Text(
-                                                        chats[index].from,
-                                                        style: TextStyle(fontSize: 14),
-                                                      ),
-                                                      subtitle: Text(
-                                                        chats[index].text,
-                                                        style: TextStyle(fontSize: 20),
-                                                      ),
-                                                    );
-                                                  },
-                                                )
-                                              : CircularProgressIndicator(),
+                    body: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
+                            color: Color(0xffffffff),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  height: MediaQuery.of(context).size.height * 0.8,
+                                  color: Color(0xffebebeb),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 15.0),
+                                      Container(
+                                          width: MediaQuery.of(context).size.width * 0.3,
+                                          height: 50.0,
+                                          color: Colors.grey,
+                                          child: Center(
+                                            child: Text('세션 이름 : ' + session.sessionName,
+                                                textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
+                                          )),
+                                      SizedBox(height: 20.0),
+                                      Container(
+                                        color: Colors.white,
+                                        width: MediaQuery.of(context).size.width * 0.4,
+                                        height: (MediaQuery.of(context).size.height - 135.0) * 0.75,
+                                        child: Column(
+                                          children: [
+                                            Flexible(
+                                              child: chats != null
+                                                  ? ListView.builder(
+                                                      controller: _scrollController,
+                                                      itemCount: chats.length + 1,
+                                                      itemBuilder: (context, index) {
+                                                        if (index == chats.length) return Container(height: 60.0);
+                                                        return ListTile(
+                                                          title: Text(
+                                                            chats[index].from,
+                                                            style: TextStyle(fontSize: 14),
+                                                          ),
+                                                          subtitle: Text(
+                                                            chats[index].text,
+                                                            style: TextStyle(fontSize: 20),
+                                                          ),
+                                                        );
+                                                      },
+                                                    )
+                                                  : CircularProgressIndicator(),
+                                            ),
+                                            Divider(height: 1.0),
+                                            _buildTextComposer(),
+                                          ],
                                         ),
-                                        Divider(height: 1.0),
-                                        _buildTextComposer(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 50.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/zoomicon.png',
+                                          width: 50,
+                                          height: 50,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            window.open(session.zoomLink, 'new tab');
+                                          },
+                                          child: Text('Zoom Link',
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 50.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/zoomicon.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        window.open(session.zoomLink, 'new tab');
-                                      },
-                                      child: Text('Zoom Link',
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 20.0),
-                                SingleChildScrollView(
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
-                                    color: Color(0xffebebeb),
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: (MediaQuery.of(context).size.height - 70.0) * 0.4,
-                                    child: session != null
-                                        ? Column(
-                                            children: [
-                                              Text('튜터: ' + session.tutorName,
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  )),
-                                              SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text('오프라인 장소: ' + session.offline,
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  )),
-                                              SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text('시작 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionStart.toDate()).toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  )),
-                                              SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text('종료 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionEnd.toDate()).toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  )),
-                                              SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                    SizedBox(height: 20.0),
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+                                        color: Color(0xffebebeb),
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: (MediaQuery.of(context).size.height - 70.0) * 0.4,
+                                        child: session != null
+                                            ? Column(
                                                 children: [
-                                                  Text('튜티: ',
+                                                  Text('튜터: ' + session.tutorName,
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                       )),
-                                                  participants != null
-                                                      ? participants.length > 5
-                                                          ? Column(
-                                                              children: [
-                                                                for (int i = 0; i < 5; i++)
-                                                                  user.id == session.tutorId
-                                                                      ? _buildTuteesList(participants[i], session)
-                                                                      : _buildForTuteeList(participants[i]),
-                                                                Text('...'),
-                                                              ],
-                                                            )
-                                                          : Column(
-                                                              children: [
-                                                                for (var p in participants)
-                                                                  user.id == session.tutorId ? _buildTuteesList(p, session) : _buildForTuteeList(p),
-                                                              ],
-                                                            )
-                                                      : CircularProgressIndicator(),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text('오프라인 장소: ' + session.offline,
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text('시작 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionStart.toDate()).toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text('종료 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionEnd.toDate()).toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text('튜티: ',
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                          )),
+                                                      participants != null
+                                                          ? participants.length > 5
+                                                              ? Column(
+                                                                  children: [
+                                                                    for (int i = 0; i < 5; i++)
+                                                                      user.id == session.tutorId
+                                                                          ? _buildTuteesList(participants[i], session)
+                                                                          : _buildForTuteeList(participants[i]),
+                                                                    Text('...'),
+                                                                  ],
+                                                                )
+                                                              : Column(
+                                                                  children: [
+                                                                    for (var p in participants)
+                                                                      user.id == session.tutorId ? _buildTuteesList(p, session) : _buildForTuteeList(p),
+                                                                  ],
+                                                                )
+                                                          : CircularProgressIndicator(),
+                                                    ],
+                                                  ),
                                                 ],
-                                              ),
-                                            ],
-                                          )
-                                        : CircularProgressIndicator(),
-                                  ),
+                                              )
+                                            : CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                    //TODO: tutor id로 하기
+                                    if (user.id == session.tutorId) _buildTutorButton(participants, session, user),
+                                  ],
                                 ),
-                                //TODO: tutor id로 하기
-                                if (user.id == session.tutorId) _buildTutorButton(participants, session, user),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        if (alert == true)
+                          AlertDialog(
+                            content: Text("튜티를 목록에서 제거하려면 체크박스를 해제해주세요."),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: Text("확인"),
+                                onPressed: () {
+                                  // Navigator.pop(context);
+                                  setState(() {
+                                    alert = false;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                      ],
                     ),
                   )
             : Dialog(
@@ -345,7 +386,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       if (studentBeingTutored == null)
                         studentBeingTutored = p;
                       else {
-                        if(actualStudentBeingTutored == null) {
+                        if (actualStudentBeingTutored == null) {
                           studentBeingTutored = p;
                         }
                       }
@@ -431,7 +472,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   onPressed: () {
                     // session.studentBeingTutored가 있으면 종료하고
                     // 없으면 시작 안하고 체크만 누른거니까 아무것도 안해
-                    if(actualStudentBeingTutored != null) {
+                    if (actualStudentBeingTutored != null) {
                       SessionController().deleteParticipant(actualStudentBeingTutored, session, user);
                       studentBeingTutored = null;
                       actualStudentBeingTutored = null;
