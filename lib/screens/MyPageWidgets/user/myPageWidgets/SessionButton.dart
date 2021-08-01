@@ -236,6 +236,7 @@ class _roomMakerState extends State<roomMaker> {
                                         'tutorId': user.id,
                                         'sessionIndex': sessions.length,
                                         'participants': [],
+                                        'actualStudentBeingTutored': null,
                                       });
                                     }
                                     Navigator.of(context).pop();

@@ -32,10 +32,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   int sessionIndex;
   String studentId;
   String name;
-  Participant cur;
-  String ingParticipants = "";
 
   Participant studentBeingTutored = null;
+  Participant actualStudentBeingTutored = null;
 
   ScrollController _scrollController = ScrollController();
 
@@ -333,10 +332,39 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     setState(() {
                       if (studentBeingTutored == null)
                         studentBeingTutored = p;
-                      else
-                        studentBeingTutored.id == p.id ? studentBeingTutored = null : studentBeingTutored = p;
+                      else {
+                        if(actualStudentBeingTutored == null) {
+                          studentBeingTutored = p;
+                        }
+                      }
                     });
                   }),
+              IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  if (studentBeingTutored == null || studentBeingTutored.id != p.id) {
+                    SessionController().deleteParticipant(p, s, null);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          content: Text("튜티를 목록에서 제거하려면 체크박스를 해제해주세요."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: Text("확인"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+              )
             ],
           ),
           SizedBox(height: 3.0),
@@ -352,7 +380,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
       child: Column(
         children: [
           SizedBox(height: 15.0),
-          Text(ingParticipants),
+          Text(actualStudentBeingTutored == null ? "" : actualStudentBeingTutored.nickname + '님이 현재 튜터링 진행중입니다:)'),
           SizedBox(height: 15.0),
           Row(
             children: [
@@ -385,12 +413,11 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   onPressed: () {
                     // session.studentBeingTutored가 있으면 종료하고
                     // 없으면 시작 안하고 체크만 누른거니까 아무것도 안해
-                    if (studentBeingTutored != null) {
-                      SessionController().deleteParticipant(studentBeingTutored, session, user);
+                    if(actualStudentBeingTutored != null) {
+                      SessionController().deleteParticipant(actualStudentBeingTutored, session, user);
                       studentBeingTutored = null;
+                      actualStudentBeingTutored = null;
                     }
-
-                    ingParticipants = "";
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
@@ -476,10 +503,10 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   }
 
   void startSession(Participant p, String session) {
-    addChatMessage(p.nickname + '님 차례입다:)');
+    addChatMessage(p.nickname + '님 차례입니다:)');
     SessionController().updateStartTime(p, session);
-    cur = p;
-    if (cur != null) ingParticipants = cur.nickname + '님이 현재 튜터링 진행중입니다:)';
+    SessionController().updateActualStudentBeingTutored(p.id, session);
+    actualStudentBeingTutored = p;
   }
 
   void _handleSubmitted(String text) {

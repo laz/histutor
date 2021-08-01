@@ -17,7 +17,6 @@ class SessionController extends ChangeNotifier {
       'studentId': user.studentId,
       'uid': user.uid,
       'startTime': null,
-      'turn': false,
     });
   }
 
@@ -27,9 +26,9 @@ class SessionController extends ChangeNotifier {
     });
   }
 
-  Future<void> updateTurn(Participant p, String session, bool t) async {
-    await FirebaseFirestore.instance.collection('Sessions').doc(session).collection('Participants').doc(p.id).update({
-      'turn': t,
+  Future<void> updateActualStudentBeingTutored(String actualStudentBeingTutored, String session) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session).update({
+      'actualStudentBeingTutored': actualStudentBeingTutored,
     });
   }
 
@@ -46,9 +45,10 @@ class SessionController extends ChangeNotifier {
   }
 
   Future<void> deleteParticipant(Participant p, Session session, User tutor) async {
-    await updateTime(p, session, tutor);
+    if(tutor != null) await updateTime(p, session, tutor);
     await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).update({
       'participants': FieldValue.arrayRemove([p.id]),
+      'actualStudentBeingTutored': null,
     });
     await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).collection('Participants').doc(p.id).delete();
   }

@@ -79,15 +79,10 @@ class Sessions extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
 
-                  print(sessions[idx].participants.contains(user.id));
-
-                  for(String id in sessions[idx].participants) {
-                    print(id);
-                  }
-
                   if(sessions[idx].participants.contains(user.id)) {
                     // if tutoring
-                    if(sessions[idx].studentBeingTutored == user.id) {
+                    print(sessions[idx].actualStudentBeingTutored);
+                    if(sessions[idx].actualStudentBeingTutored == user.id) {
                       // do nothing
                     }
                     else {
