@@ -48,7 +48,7 @@ class TutorStatus extends StatelessWidget {
         ),
         Container(
           width: 100,
-          child: Text(tutorList[idx - 1].time.toString()),
+          child: Text(tutorList[idx - 1].tutorTime.toString()),
         ),
       ],
     );

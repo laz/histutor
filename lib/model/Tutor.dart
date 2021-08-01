@@ -3,27 +3,26 @@ import 'package:flutter/material.dart';
 
 class Tutor {
   final String name;
-  final int studentId;
+  final String id;
   final String email;
-  final int time;
+  final int tutorTime;
   final String type;
 
   Tutor({
     @required this.name,
-    @required this.studentId,
+    @required this.id,
     @required this.email,
-    @required this.time,
+    @required this.tutorTime,
     @required this.type,
   });
 
   factory Tutor.fromFirebase(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
-    print("tutor " + data['email']);
     return Tutor(
-      name: data['name'],
+      name: data['nickname'],
       email: data['email'],
-      studentId: data['studentId'],
-      time: data['time'],
+      id: data['id'],
+      tutorTime: data['tutorTime'],
       type: data['type'],
     );
   }

@@ -4,8 +4,9 @@ import 'package:histutor/model/Tutee.dart';
 class TuteeStatus extends StatelessWidget {
   const TuteeStatus({Key key, @required this.idx, @required this.tuteeList})
       : super(key: key);
-  final int idx;
+
   final List<Tutee> tuteeList;
+  final int idx;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class TuteeStatus extends StatelessWidget {
         ],
       );
     }
+    else
     return Row(
       children: [
         Container(
@@ -48,7 +50,7 @@ class TuteeStatus extends StatelessWidget {
         ),
         Container(
           width: 100,
-          child: Text(tuteeList[idx - 1].time.toString()),
+          child: Text(tuteeList[idx - 1].tuteeTime.toString()),
         ),
       ],
     );

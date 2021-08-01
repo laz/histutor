@@ -76,7 +76,7 @@ class TutorList extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   UserController().changeUserType(
-                      tutorList[idx - 1].studentId.toString(), "tutee");
+                      tutorList[idx - 1].id, "tutee");
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),
@@ -91,7 +91,7 @@ class TutorList extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 UserController().changeUserType(
-                    tutorList[idx - 1].studentId.toString(), "admin");
+                    tutorList[idx - 1].id, "admin");
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xffe4c2c1)),

@@ -65,20 +65,20 @@ class SessionController extends ChangeNotifier {
 
     // 튜티의 기존에 있는 총시간 가져오기
     await FirebaseFirestore.instance.collection('Users').doc(p.id).get().then((document) {
-      total = document.data()['time'];
+      total = document.data()['tuteeTime'];
     });
 
     await FirebaseFirestore.instance.collection('Users').doc(p.id).update({
-      'time': time + total,
+      'tuteeTime': time + total,
     });
 
     total = 0;
     await FirebaseFirestore.instance.collection('Users').doc(tutor.id).get().then((document) {
-      total = document.data()['time'];
+      total = document.data()['tutorTime'];
     });
 
     await FirebaseFirestore.instance.collection('Users').doc(tutor.id).update({
-      'time': time + total,
+      'tutorTime': time + total,
     });
   }
 
@@ -92,7 +92,7 @@ class SessionController extends ChangeNotifier {
     // 기존에 세션에 참가한 적이 있다면, 시간 가져오기
     await FirebaseFirestore.instance.collection('Users').doc(p.id).collection('Sessions').doc(session.sessionIndex.toString()).get().then((document) {
       exist = document.exists;
-      if (exist) t = document.data()['time'];
+      if (exist) t = document.data()['tuteeTime'];
     });
 
     // 시작 시간 가져오기
@@ -108,31 +108,31 @@ class SessionController extends ChangeNotifier {
     // 이미 세션이 존재한다면 튜터링이 진행된 시간 업데이트
     exist
         ? await FirebaseFirestore.instance.collection('Users').doc(p.id).collection('Sessions').doc(session.sessionIndex.toString()).update({
-            'time': time.inMinutes + t,
+            'tuteeTime': time.inMinutes + t,
           })
         // 세션이 존재하지 않는다면 새롭게 만들어 진행된 시간 추가
         : await FirebaseFirestore.instance.collection('Users').doc(p.id).collection('Sessions').doc(session.sessionIndex.toString()).set({
             'date': session.sessionStart,
             'sessionName': session.sessionName,
-            'time': time.inMinutes,
+            'tuteeTime': time.inMinutes,
             'tutorName': session.tutorName,
           });
 
     // 튜터의 세션 기록
     await FirebaseFirestore.instance.collection('Users').doc(tutor.id).collection('Sessions').doc(session.sessionIndex.toString()).get().then((document) {
       tutorExist = document.exists;
-      if (tutorExist) tutorT = document.data()['time'];
+      if (tutorExist) tutorT = document.data()['tutorTime'];
     });
 
     tutorExist
         ? await FirebaseFirestore.instance.collection('Users').doc(tutor.id).collection('Sessions').doc(session.sessionIndex.toString()).update({
-            'time': time.inMinutes + tutorT,
+            'tutorTime': time.inMinutes + tutorT,
           })
         // 세션이 존재하지 않는다면 새롭게 만들어 진행된 시간 추가
         : await FirebaseFirestore.instance.collection('Users').doc(tutor.id).collection('Sessions').doc(session.sessionIndex.toString()).set({
             'date': session.sessionStart,
             'sessionName': session.sessionName,
-            'time': time.inMinutes,
+            'tutorTime': time.inMinutes,
             'tutorName': session.tutorName,
           });
 
