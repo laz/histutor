@@ -211,9 +211,19 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                         child: session != null
                                             ? Column(
                                                 children: [
+                                                  //Color(0xffe4c2c1) : Color(0xECBEE0FF),
                                                   Text('튜터: ' + session.tutorName,
                                                       style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 24,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text('진행중인 튜티: ' + (session.actualStudentBeingTutored == null ? '없음' : session.actualStudentBeingTutored),
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 24,
                                                       )),
                                                   SizedBox(
                                                     height: 10.0,
@@ -242,7 +252,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Text('튜티: ',
+                                                      Text('대기중인 튜티: ',
                                                           style: TextStyle(
                                                             fontSize: 18,
                                                           )),
@@ -379,6 +389,25 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                           else
                             studentBeingTutored = p;
                         }
+                        else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // return object of type Dialog
+                              return AlertDialog(
+                                content: Text("튜터링이 진행중일 때는 체크박스를 변경할 수 없습니다."),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    child: Text("확인"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       }
                     });
                   }),
@@ -465,6 +494,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   onPressed: () {
                     // session.studentBeingTutored가 있으면 종료하고
                     // 없으면 시작 안하고 체크만 누른거니까 아무것도 안해
+                    print(actualStudentBeingTutored.id);
                     if (actualStudentBeingTutored != null) {
                       SessionController().deleteParticipant(actualStudentBeingTutored, session, user);
                       studentBeingTutored = null;
@@ -532,6 +562,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
         children: [
           Flexible(
             child: TextField(
+              style: TextStyle(fontSize: 24),
               controller: _textController,
               onSubmitted: _isComposing ? _handleSubmitted : null,
               onChanged: (String text) {
