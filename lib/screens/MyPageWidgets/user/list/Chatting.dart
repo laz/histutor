@@ -150,6 +150,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                             Flexible(
                                               child: chats != null
                                                   ? ListView.builder(
+                                                reverse: true,
                                                       controller: _scrollController,
                                                       itemCount: chats.length + 1,
                                                       itemBuilder: (context, index) {

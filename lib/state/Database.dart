@@ -39,7 +39,7 @@ class Database {
     return sessionReference
         .doc(sessionIndex.toString())
         .collection('Chats')
-        .orderBy('time')
+        .orderBy('time', descending: true)
         .snapshots()
         .map((chats) => chats.docs.map((chat) => Chat.fromFirebase(chat)).toList());
   }
