@@ -1,21 +1,10 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:histutor/model/Chat.dart';
-import 'package:histutor/model/Participant.dart';
-import 'package:histutor/model/Session.dart';
-import 'package:histutor/model/User.dart';
-import 'package:histutor/model/User.dart' as model;
-import 'package:histutor/state/Database.dart';
 
 class ApplicationState extends ChangeNotifier {
   bool isAdmin = false;
   int selectedPage = 1;
   int selectedAdminPage = 0;
   int selectedMyPage = 0;
-
-  DateTime start;
-  DateTime end;
 
   // function prototypes
   void changeSelectedPage(int num){
@@ -28,11 +17,6 @@ class ApplicationState extends ChangeNotifier {
   }
   void changeSelectedMyPage(int num){
     selectedMyPage = num;
-    notifyListeners();
-  }
-  void changeSelectedTime(DateTime s, DateTime e){
-    start = s;
-    end = e;
     notifyListeners();
   }
 }

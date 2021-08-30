@@ -60,7 +60,7 @@ class SessionController extends ChangeNotifier {
     await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).collection('Participants').doc(p.id).delete();
   }
 
-  Future<void> updateTotalTime(Participant p, int time, User tutor) async {
+  Future<void> updateTotalTime(Participant p, Session session, int time, User tutor) async {
     int total = 0;
 
     // 튜티의 기존에 있는 총시간 가져오기
@@ -136,6 +136,6 @@ class SessionController extends ChangeNotifier {
             'tutorName': session.tutorName,
           });
 
-    updateTotalTime(p, time.inMinutes, tutor);
+    updateTotalTime(p, session, time.inMinutes, tutor);
   }
 }

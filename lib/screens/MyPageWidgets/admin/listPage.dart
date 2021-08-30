@@ -36,21 +36,11 @@ class ListPage extends StatelessWidget {
             return selectAdminPageType(
                 applicationState.selectedAdminPage,
                 context,
-                applicationState.start != null && applicationState.end != null
-                    ? tutorList
-                    : selectTutor(
-                        applicationState.start, applicationState.end),
+                tutorList,
                 tuteeList,
                 applyingTutorList);
           },
         ));
-  }
-
-  List<Tutor> selectTutor(DateTime start, DateTime end) {
-    List<Tutor> lst;
-
-
-    return lst;
   }
 }
 

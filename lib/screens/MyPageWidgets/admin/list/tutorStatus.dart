@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/model/Tutor.dart';
 
+import 'excelFile.dart';
+
 class TutorStatus extends StatelessWidget {
   const TutorStatus({Key key, @required this.idx, @required this.tutorList})
       : super(key: key);
@@ -32,6 +34,23 @@ class TutorStatus extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                 )),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 2,
+                )),
+            width: 100,
+            child: TextButton(
+                onPressed: (){
+                  makeExcelFile().createExcelTutor(tutorList);
+                },
+                child: Text("Make File",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ))),
           )
         ],
       );

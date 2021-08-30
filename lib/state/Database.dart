@@ -54,7 +54,7 @@ class Database {
   }
 
   Stream<List<Tutee>> getTutees() {
-    return userReference.where("type", isEqualTo: "tutee").snapshots().map((users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
+    return userReference.snapshots().map((users) => users.docs.map((user) => Tutee.fromFirebase(user)).toList());
   }
 
   Stream<List<Subsession>> getUserSessions(String studentId) {

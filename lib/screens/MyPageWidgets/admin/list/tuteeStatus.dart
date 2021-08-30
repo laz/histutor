@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/model/Tutee.dart';
+import 'package:histutor/screens/MyPageWidgets/admin/list/excelFile.dart';
 
 class TuteeStatus extends StatelessWidget {
   const TuteeStatus({Key key, @required this.idx, @required this.tuteeList})
@@ -33,6 +34,23 @@ class TuteeStatus extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                 )),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(
+                color: Colors.grey,
+                width: 2,
+            )),
+            width: 100,
+            child: TextButton(
+              onPressed: (){
+                makeExcelFile().createExcelTutee(tuteeList);
+              },
+                child: Text("Make File",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ))),
           )
         ],
       );
