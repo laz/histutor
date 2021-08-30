@@ -15,21 +15,21 @@ class TutorStatus extends StatelessWidget {
           Container(
             width: 100,
             child: Text("NO.",
-                style:TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                 )),
           ),
           Container(
             width: 800,
             child: Text("튜터",
-                style:TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                 )),
           ),
           Container(
             width: 100,
-            child: Text("시간",
-                style:TextStyle(
+            child: Text("시간(분)",
+                style: TextStyle(
                   fontSize: 18,
                 )),
           )
@@ -37,20 +37,22 @@ class TutorStatus extends StatelessWidget {
       );
     }
     return Row(
-      children: [
-        Container(
-          width: 100,
-          child: Text(idx.toString()),
-        ),
-        Container(
-          width: 800,
-          child: Text(tutorList[idx - 1].name),
-        ),
-        Container(
-          width: 100,
-          child: Text(tutorList[idx - 1].tutorTime.toString()),
-        ),
-      ],
+      children: tutorList[idx - 1].tutorTime > 0
+          ? [
+              Container(
+                width: 100,
+                child: Text(idx.toString()),
+              ),
+              Container(
+                width: 800,
+                child: Text(tutorList[idx - 1].name),
+              ),
+              Container(
+                width: 100,
+                child: Text(tutorList[idx - 1].tutorTime.toString()),
+              ),
+            ]
+          : [],
     );
   }
 }

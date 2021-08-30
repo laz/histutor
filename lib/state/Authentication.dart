@@ -48,7 +48,6 @@ class Authentication extends ChangeNotifier {
           'id': id,
           'studentId': 0,
           'tuteeTime': 0,
-          'tutorTime': 0,
           'type': 'tutee',
           'isNew': true,
         });

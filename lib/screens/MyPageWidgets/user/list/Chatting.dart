@@ -61,7 +61,6 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           if (participant.alert == true) {
             alert = true;
             player.open(Audio("assets/notification.mp3"));
-            // SessionController().alertParticipant(participant, session.sessionIndex.toString(), false);
           } else
             alert = false;
           break;
@@ -72,9 +71,19 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     if (user != null) studentId = user.studentId.toString();
     if (user != null) name = user.nickname;
 
+    if (participants != null && session.actualStudentBeingTutored != null) {
+      for (Participant participant in participants){
+        if(participant.id == session.actualStudentBeingTutored){
+          studentBeingTutored = participant;
+          actualStudentBeingTutored = participant;
+        }
+      }
+    }
+
     return session != null
         ? session.category.compareTo('종료') == 1
-            ? session.tutorId != user.id && session.participants.contains(user.id) == false
+            ? session.tutorId != user.id &&
+                    session.participants.contains(user.id) == false
                 ? Dialog(
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.3,
@@ -96,7 +105,8 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                   Navigator.of(context).pop();
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color(0xff9BC7DA)),
                                 ),
                                 child: Text("세션 목록으로 돌아가기",
                                     style: TextStyle(
@@ -126,43 +136,67 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                             child: Row(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.5,
-                                  height: MediaQuery.of(context).size.height * 0.8,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.8,
                                   color: Color(0xffebebeb),
                                   child: Column(
                                     children: [
                                       SizedBox(height: 15.0),
                                       Container(
-                                          width: MediaQuery.of(context).size.width * 0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
                                           height: 50.0,
                                           color: Colors.grey,
                                           child: Center(
-                                            child: Text('세션 이름 : ' + session.sessionName,
-                                                textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
+                                            child: Text(
+                                                '세션 이름 : ' +
+                                                    session.sessionName,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 18)),
                                           )),
                                       SizedBox(height: 20.0),
                                       Container(
                                         color: Colors.white,
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        height: (MediaQuery.of(context).size.height - 135.0) * 0.75,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        height: (MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                135.0) *
+                                            0.75,
                                         child: Column(
                                           children: [
                                             Flexible(
                                               child: chats != null
                                                   ? ListView.builder(
-                                                reverse: true,
-                                                      controller: _scrollController,
-                                                      itemCount: chats.length + 1,
-                                                      itemBuilder: (context, index) {
-                                                        if (index == chats.length) return Container(height: 60.0);
+                                                      reverse: true,
+                                                      controller:
+                                                          _scrollController,
+                                                      itemCount:
+                                                          chats.length + 1,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        if (index ==
+                                                            chats.length)
+                                                          return Container(
+                                                              height: 60.0);
                                                         return ListTile(
                                                           title: Text(
                                                             chats[index].from,
-                                                            style: TextStyle(fontSize: 14),
+                                                            style: TextStyle(
+                                                                fontSize: 14),
                                                           ),
                                                           subtitle: Text(
                                                             chats[index].text,
-                                                            style: TextStyle(fontSize: 20),
+                                                            style: TextStyle(
+                                                                fontSize: 20),
                                                           ),
                                                         );
                                                       },
@@ -177,7 +211,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 50.0),
+                                SizedBox(width: 150.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +225,8 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            window.open(session.zoomLink, 'new tab');
+                                            window.open(
+                                                session.zoomLink, 'new tab');
                                           },
                                           child: Text('Zoom Link',
                                               style: TextStyle(
@@ -202,77 +237,109 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                       ],
                                     ),
                                     SizedBox(height: 20.0),
-                                    SingleChildScrollView(
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
-                                        color: Color(0xffebebeb),
-                                        width: MediaQuery.of(context).size.width * 0.3,
-                                        height: (MediaQuery.of(context).size.height - 70.0) * 0.4,
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(
+                                          40.0, 30.0, 40.0, 30.0),
+                                      color: Color(0xffebebeb),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      height:
+                                          (MediaQuery.of(context).size.height -
+                                                  70.0) *
+                                              0.5,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
                                         child: session != null
                                             ? Column(
                                                 children: [
-                                                  //Color(0xffe4c2c1) : Color(0xECBEE0FF),
-                                                  Text('튜터: ' + session.tutorName,
+                                                  Text(
+                                                      '튜터: ' +
+                                                          session.tutorName,
                                                       style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 21,
                                                       )),
                                                   SizedBox(
                                                     height: 10.0,
                                                   ),
-                                                  Text('진행중인 튜티: ' + (session.actualStudentBeingTutored == null ? '없음' : session.actualStudentBeingTutored),
+                                                  Text(
+                                                      '진행중인 튜티: ' +
+                                                          (session.actualStudentBeingTutored ==
+                                                                  null
+                                                              ? '없음'
+                                                              : session
+                                                                  .actualStudentBeingTutored),
                                                       style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 21,
                                                       )),
                                                   SizedBox(
                                                     height: 10.0,
                                                   ),
-                                                  Text('오프라인 장소: ' + session.offline,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      )),
-                                                  SizedBox(
-                                                    height: 10.0,
-                                                  ),
-                                                  Text('시작 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionStart.toDate()).toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      )),
-                                                  SizedBox(
-                                                    height: 10.0,
-                                                  ),
-                                                  Text('종료 시간: ' + DateFormat('yyyy-MM-dd HH:mm').format(session.sessionEnd.toDate()).toString(),
+                                                  Text(
+                                                      '오프라인 장소: ' +
+                                                          session.offline,
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                       )),
                                                   SizedBox(
                                                     height: 10.0,
                                                   ),
+                                                  Text(
+                                                      '시작 시간: ' +
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd HH:mm')
+                                                              .format(session
+                                                                  .sessionStart
+                                                                  .toDate())
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text(
+                                                      '종료 시간: ' +
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd HH:mm')
+                                                              .format(session
+                                                                  .sessionEnd
+                                                                  .toDate())
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text('대기중인 튜티: ',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      )),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
-                                                      Text('대기중인 튜티: ',
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                          )),
+
                                                       participants != null
-                                                          ? participants.length > 5
-                                                              ? Column(
-                                                                  children: [
-                                                                    for (int i = 0; i < 5; i++)
-                                                                      user.id == session.tutorId
-                                                                          ? _buildTuteesList(participants[i], session)
-                                                                          : _buildForTuteeList(participants[i]),
-                                                                    Text('...'),
-                                                                  ],
-                                                                )
-                                                              : Column(
-                                                                  children: [
-                                                                    for (var p in participants)
-                                                                      user.id == session.tutorId ? _buildTuteesList(p, session) : _buildForTuteeList(p),
-                                                                  ],
-                                                                )
+                                                          ? Column(
+                                                              children: [
+                                                                for (var p
+                                                                    in participants)
+                                                                  user.id ==
+                                                                          session
+                                                                              .tutorId
+                                                                      ? _buildTuteesList(
+                                                                          p,
+                                                                          session)
+                                                                      : _buildForTuteeList(
+                                                                          p),
+                                                              ],
+                                                            )
                                                           : CircularProgressIndicator(),
                                                     ],
                                                   ),
@@ -282,7 +349,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     //TODO: tutor id로 하기
-                                    if (user.id == session.tutorId) _buildTutorButton(participants, session, user),
+                                    if (user.id == session.tutorId)
+                                      _buildTutorButton(
+                                          participants, session, user),
                                   ],
                                 ),
                               ],
@@ -291,14 +360,18 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         ),
                         if (alert == true)
                           AlertDialog(
-                            content: Text("${user.nickname}님 차례입니다. 지금 튜터링을 받으시려면 채팅을 남겨주세요."),
+                            content: Text(
+                                "${user.nickname}님 차례입니다. 지금 튜터링을 받으시려면 채팅을 남겨주세요."),
                             actions: <Widget>[
                               ElevatedButton(
                                 child: Text("확인"),
                                 onPressed: () {
                                   setState(() {
                                     alert = false;
-                                    SessionController().alertParticipant(currentParticipant, session.sessionIndex.toString(), false);
+                                    SessionController().alertParticipant(
+                                        currentParticipant,
+                                        session.sessionIndex.toString(),
+                                        false);
                                   });
                                 },
                               ),
@@ -328,7 +401,8 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                               Navigator.of(context).pop();
                             },
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Color(0xff9BC7DA)),
                             ),
                             child: Text("세션 목록으로 돌아가기",
                                 style: TextStyle(
@@ -388,8 +462,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                             studentBeingTutored = null;
                           else
                             studentBeingTutored = p;
-                        }
-                        else {
+                        } else {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -414,16 +487,19 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
               IconButton(
                 icon: Icon(Icons.notifications_none),
                 onPressed: () {
-                  SessionController().alertParticipant(p, s.sessionIndex.toString(), true);
+                  SessionController()
+                      .alertParticipant(p, s.sessionIndex.toString(), true);
                   Future.delayed(const Duration(seconds: 15), () {
-                    SessionController().alertParticipant(p, s.sessionIndex.toString(), false);
+                    SessionController()
+                        .alertParticipant(p, s.sessionIndex.toString(), false);
                   });
                 },
               ),
               IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
-                  if (studentBeingTutored == null || studentBeingTutored.id != p.id) {
+                  if (studentBeingTutored == null ||
+                      studentBeingTutored.id != p.id) {
                     SessionController().deleteParticipant(p, s, null);
                   } else {
                     showDialog(
@@ -461,7 +537,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
       child: Column(
         children: [
           SizedBox(height: 15.0),
-          Text(actualStudentBeingTutored == null ? "" : actualStudentBeingTutored.nickname + '님이 현재 튜터링 진행중입니다:)'),
+          Text(actualStudentBeingTutored == null
+              ? ""
+              : actualStudentBeingTutored.nickname + '님이 현재 튜터링 진행중입니다:)'),
           SizedBox(height: 15.0),
           Row(
             children: [
@@ -472,12 +550,14 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                   onPressed: () {
                     // firebase에 studentBeingTutored 정보 update
                     if (studentBeingTutored != null) {
-                      startSession(studentBeingTutored, session.sessionIndex.toString());
+                      startSession(
+                          studentBeingTutored, session.sessionIndex.toString());
                     } else
                       addChatMessage('현재 진행할 튜티가 없습니다:(');
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xff9BC7DA)),
                   ),
                   child: Text("시  작",
                       style: TextStyle(
@@ -496,13 +576,15 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     // 없으면 시작 안하고 체크만 누른거니까 아무것도 안해
                     print(actualStudentBeingTutored.id);
                     if (actualStudentBeingTutored != null) {
-                      SessionController().deleteParticipant(actualStudentBeingTutored, session, user);
+                      SessionController().deleteParticipant(
+                          actualStudentBeingTutored, session, user);
                       studentBeingTutored = null;
                       actualStudentBeingTutored = null;
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color(0xff9BC7DA)),
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xff9BC7DA)),
                   ),
                   child: Text("종  료",
                       style: TextStyle(
@@ -519,7 +601,10 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
             child: ElevatedButton(
               onPressed: () async {
                 ps.isEmpty
-                    ? await FirebaseFirestore.instance.collection('Sessions').doc(sessionIndex.toString()).update({
+                    ? await FirebaseFirestore.instance
+                        .collection('Sessions')
+                        .doc(sessionIndex.toString())
+                        .update({
                         'category': "종료",
                       })
                     : showDialog(
@@ -527,7 +612,8 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                         builder: (BuildContext context) {
                           // return object of type Dialog
                           return AlertDialog(
-                            content: Text("아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
+                            content: Text(
+                                "아직 종료되지 않은 튜티가 남아있습니다.\n모든 튜티의 튜터링이 종료된 후 세션을 종료해주세요:)"),
                             actions: <Widget>[
                               ElevatedButton(
                                 child: Text("확인"),
@@ -577,7 +663,9 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
           Container(
               margin: EdgeInsets.symmetric(horizontal: 4.0),
               child: CupertinoButton(
-                onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
+                onPressed: _isComposing
+                    ? () => _handleSubmitted(_textController.text)
+                    : null,
                 child: Icon(Icons.send),
               ))
         ],
@@ -611,7 +699,11 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
   }
 
   Future<DocumentReference> addChatMessage(String text) async {
-    return await FirebaseFirestore.instance.collection('Sessions').doc(sessionIndex.toString()).collection('Chats').add({
+    return await FirebaseFirestore.instance
+        .collection('Sessions')
+        .doc(sessionIndex.toString())
+        .collection('Chats')
+        .add({
       'from': name,
       'text': text,
       'time': FieldValue.serverTimestamp(),

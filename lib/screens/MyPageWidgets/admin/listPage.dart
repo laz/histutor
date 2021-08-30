@@ -7,7 +7,6 @@ import 'package:histutor/screens/MyPageWidgets/admin/list/tutorList.dart';
 import 'package:histutor/screens/MyPageWidgets/admin/list/tuteeStatus.dart';
 import 'package:histutor/screens/MyPageWidgets/admin/list/applyingTutorList.dart';
 
-
 import 'package:histutor/state/ApplicationState.dart';
 import 'package:histutor/model/Tutor.dart';
 import 'package:histutor/model/Tutee.dart';
@@ -19,21 +18,48 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Tutee> tuteeList = Provider.of<List<Tutee>>(context);
     List<Tutor> tutorList = Provider.of<List<Tutor>>(context);
-    List<ApplyingTutor> applyingTutorList = Provider.of<List<ApplyingTutor>>(context);
+    List<ApplyingTutor> applyingTutorList =
+        Provider.of<List<ApplyingTutor>>(context);
+
+    if (tuteeList != null) {
+      tuteeList.sort((a, b) => b.tuteeTime.compareTo(a.tuteeTime));
+    }
+
+    if (tutorList != null) {
+      tutorList.sort((a, b) => b.tutorTime.compareTo(a.tutorTime));
+    }
 
     return Container(
         padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: Consumer<ApplicationState>(
           builder: (context, applicationState, _) {
-            return selectAdminPageType(applicationState.selectedAdminPage,
-                context, tutorList, tuteeList, applyingTutorList);
+            return selectAdminPageType(
+                applicationState.selectedAdminPage,
+                context,
+                applicationState.start != null && applicationState.end != null
+                    ? tutorList
+                    : selectTutor(
+                        applicationState.start, applicationState.end),
+                tuteeList,
+                applyingTutorList);
           },
         ));
   }
+
+  List<Tutor> selectTutor(DateTime start, DateTime end) {
+    List<Tutor> lst;
+
+
+    return lst;
+  }
 }
 
-Widget selectAdminPageType(int selectedNum, BuildContext context,
-    List<Tutor> tutorList, List<Tutee> tuteeList, List<ApplyingTutor> applyingTutorList) {
+Widget selectAdminPageType(
+    int selectedNum,
+    BuildContext context,
+    List<Tutor> tutorList,
+    List<Tutee> tuteeList,
+    List<ApplyingTutor> applyingTutorList) {
   switch (selectedNum) {
     case 0: // tutor status
       return (tutorList != null)
@@ -65,7 +91,9 @@ Widget selectAdminPageType(int selectedNum, BuildContext context,
                   ),
                 );
               },
-              separatorBuilder: (_, int index) => const Divider(),
+              separatorBuilder: (_, int index) => tuteeList[index].tuteeTime > 0
+                  ? const Divider()
+                  : Divider(color: Colors.white),
               itemCount: tuteeList.length + 1,
             )
           : Align(
@@ -83,7 +111,9 @@ Widget selectAdminPageType(int selectedNum, BuildContext context,
                   ),
                 );
               },
-              separatorBuilder: (_, int index) => const Divider(),
+              separatorBuilder: (_, int index) => tutorList[index].tutorTime > 0
+                  ? const Divider()
+                  : Divider(color: Colors.white),
               itemCount: tutorList.length + 1,
             )
           : Align(
@@ -92,20 +122,20 @@ Widget selectAdminPageType(int selectedNum, BuildContext context,
     case 3: // tutor list
       return (applyingTutorList != null)
           ? ListView.separated(
-        itemBuilder: (_, int index) {
-          return Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: ApplyingTutorList(
-              idx: index,
-              applyingTutorList: applyingTutorList,
-            ),
-          );
-        },
-        separatorBuilder: (_, int index) => const Divider(),
-        itemCount: applyingTutorList.length + 1,
-      )
+              itemBuilder: (_, int index) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: ApplyingTutorList(
+                    idx: index,
+                    applyingTutorList: applyingTutorList,
+                  ),
+                );
+              },
+              separatorBuilder: (_, int index) => const Divider(),
+              itemCount: applyingTutorList.length + 1,
+            )
           : Align(
-        child: CircularProgressIndicator(),
-      );
+              child: CircularProgressIndicator(),
+            );
   }
 }

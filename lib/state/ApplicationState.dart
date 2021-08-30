@@ -14,6 +14,9 @@ class ApplicationState extends ChangeNotifier {
   int selectedAdminPage = 0;
   int selectedMyPage = 0;
 
+  DateTime start;
+  DateTime end;
+
   // function prototypes
   void changeSelectedPage(int num){
     selectedPage = num;
@@ -25,6 +28,11 @@ class ApplicationState extends ChangeNotifier {
   }
   void changeSelectedMyPage(int num){
     selectedMyPage = num;
+    notifyListeners();
+  }
+  void changeSelectedTime(DateTime s, DateTime e){
+    start = s;
+    end = e;
     notifyListeners();
   }
 }
