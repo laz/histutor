@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:histutor/state/ApplicationState.dart';
+import 'package:histutor/state/Authentication.dart';
 import 'package:provider/provider.dart';
 
 class TopButton extends StatefulWidget {
@@ -10,7 +11,6 @@ class TopButton extends StatefulWidget {
 }
 
 class _TopButtonState extends State<TopButton> {
-
   @override
   Widget build(BuildContext context) {
     ApplicationState applicationState = Provider.of<ApplicationState>(context);
@@ -91,8 +91,24 @@ class _TopButtonState extends State<TopButton> {
             ),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 10.0, 0),
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            ),
+            child: Text(
+              "로그아웃",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            onPressed: () {
+              Authentication().signOut();
+            },
+          ),
+        ),
       ],
     );
   }
-
 }
