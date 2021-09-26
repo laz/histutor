@@ -40,7 +40,7 @@ class Session {
       sessionStart: data['sessionStart'],
       sessionEnd: data['sessionEnd'],
       category: data['category'],
-      createdTime: data['createdTime'],
+      createdTime: data['createTime'],
       offline: data['offline'],
       participants: data['participants'],
       actualStudentBeingTutored: data['actualStudentBeingTutored'],

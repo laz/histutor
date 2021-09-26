@@ -211,8 +211,6 @@ class _roomMakerState extends State<roomMaker> {
                                 RaisedButton(
                                   child: Text("생 성"),
                                   onPressed: () async {
-                                    print(user);
-                                    print(sessions);
                                     if (_sessionName.text != "") {
                                       Timestamp t_start =
                                           Timestamp.fromDate(_starttime);
