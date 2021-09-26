@@ -254,39 +254,48 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                                         child: session != null
                                             ? Column(
                                                 children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(bottom: 10),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          ElevatedButton(
-                                                              onPressed: () {
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                  context) {
-                                                                    return SessionEditDialog(
-                                                                      session:
-                                                                      session,
-                                                                    );
-                                                                  },
-                                                                );
-                                                              },
-                                                              style: ButtonStyle(
-                                                                backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all(Colors.grey),
-                                                              ),
-                                                              child: Text(
-                                                                "수 정",
-                                                                style: TextStyle(
-                                                                  fontSize: 18,
+                                                  if (user.id ==
+                                                      session.tutorId)
+                                                    Container(
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 10),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            ElevatedButton(
+                                                                onPressed: () {
+                                                                  showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                      return SessionEditDialog(
+                                                                        session:
+                                                                            session,
+                                                                      );
+                                                                    },
+                                                                  );
+                                                                },
+                                                                style:
+                                                                    ButtonStyle(
+                                                                  backgroundColor:
+                                                                      MaterialStateProperty.all(
+                                                                          Colors
+                                                                              .grey),
                                                                 ),
-                                                              )),
-                                                        ],
-
-                                                      )),
+                                                                child: Text(
+                                                                  "수 정",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                  ),
+                                                                )),
+                                                          ],
+                                                        )),
                                                   Text(
                                                       '튜터: ' +
                                                           session.tutorName,
