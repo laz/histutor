@@ -209,7 +209,7 @@ class _roomMakerState extends State<roomMaker> {
                                   height: 30,
                                 ),
                                 RaisedButton(
-                                  child: Text("Submit"),
+                                  child: Text("생 성"),
                                   onPressed: () async {
                                     print(user);
                                     print(sessions);
