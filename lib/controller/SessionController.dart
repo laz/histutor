@@ -51,8 +51,15 @@ class SessionController extends ChangeNotifier {
     });
   }
 
-  Future<void> deleteParticipant(Participant p, Session session, User tutor) async {
-    if(tutor != null) await updateTime(p, session, tutor);
+  Future<void> deleteParticipant(Participant p, Session session) async {
+    await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).update({
+      'participants': FieldValue.arrayRemove([p.id]),
+    });
+    await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).collection('Participants').doc(p.id).delete();
+  }
+
+  Future<void> deleteActualStudentBeingTutored(Participant p, Session session, User tutor) async {
+    await updateTime(p, session, tutor);
     await FirebaseFirestore.instance.collection('Sessions').doc(session.sessionIndex.toString()).update({
       'participants': FieldValue.arrayRemove([p.id]),
       'actualStudentBeingTutored': null,

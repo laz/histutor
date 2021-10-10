@@ -543,7 +543,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                 onPressed: () {
                   if (studentBeingTutored == null ||
                       studentBeingTutored.id != p.id) {
-                    SessionController().deleteParticipant(p, s, null);
+                    SessionController().deleteParticipant(p, s);
                   } else {
                     showDialog(
                       context: context,
@@ -619,7 +619,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                     // 없으면 시작 안하고 체크만 누른거니까 아무것도 안해
                     print(actualStudentBeingTutored.id);
                     if (actualStudentBeingTutored != null) {
-                      SessionController().deleteParticipant(
+                      SessionController().deleteActualStudentBeingTutored(
                           actualStudentBeingTutored, session, user);
                       studentBeingTutored = null;
                       actualStudentBeingTutored = null;
